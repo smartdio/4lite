@@ -13,6 +13,10 @@ const requiredFiles=[
   '.gitattributes','.gitignore','.github/workflows/public-build.yml',
   'README.md','README.zh-CN.md','LICENSE','ASSET_LICENSES.md','package.json','package-lock.json',
   'scripts/public/verify-public-repo.mjs',
+  'docs/screenshots/readme/old-textbook-viewer.png',
+  'docs/screenshots/readme/comic-book-viewer.png',
+  'docs/screenshots/readme/octopus-handheld-game.png',
+  'docs/screenshots/readme/slingshot-aiming.png',
 ]
 
 const approvedAuthorAssets=new Set([
@@ -27,6 +31,12 @@ const approvedHelpAssets=new Set([
   'tests/performance/baselines/courtyard.png',
   'tests/performance/baselines/activityBasketball.png',
   'tests/performance/baselines/pingPongMatch.png',
+])
+const approvedReadmeScreenshots=new Set([
+  'docs/screenshots/readme/old-textbook-viewer.png',
+  'docs/screenshots/readme/comic-book-viewer.png',
+  'docs/screenshots/readme/octopus-handheld-game.png',
+  'docs/screenshots/readme/slingshot-aiming.png',
 ])
 const approvedPublicAssets=new Set([
   'public/assets/fonts/pixel/4lite-fusion-pixel-12px-ui-v02.woff2',
@@ -68,6 +78,7 @@ for(const path of tracked){
   if(/^\.env(?:\.|$)/.test(path))errors.push(`environment file is tracked: ${path}`)
   if(/^deploy(?:-|\.)/i.test(path))errors.push(`deployment script is tracked: ${path}`)
   if(path.startsWith('assets/')&&!approvedAuthorAssets.has(path))errors.push(`unapproved author asset: ${path}`)
+  if(path.startsWith('docs/screenshots/')&&!approvedReadmeScreenshots.has(path))errors.push(`unapproved README screenshot: ${path}`)
   if(path.startsWith('docs/references/')&&!approvedHelpAssets.has(path))errors.push(`private reference is tracked: ${path}`)
   if(path.startsWith('tests/performance/baselines/')&&!approvedHelpAssets.has(path))errors.push(`unapproved visual baseline: ${path}`)
   if(path.startsWith('public/assets/')&&!isApprovedPublicAsset(path))errors.push(`public asset is absent from the authorization allowlist: ${path}`)

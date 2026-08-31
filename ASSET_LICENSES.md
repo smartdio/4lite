@@ -9,6 +9,7 @@
 | 4Lite Logo、入口水彩图、视频号二维码 | `assets/branding/4lite-logo-approved.svg`、`assets/ui/` 中明确放行的 3 个文件 | 项目自有内容；版权所有，保留全部权利 |
 | 校园手绘平面草图 | `docs/references/001-campus-plan-sketch.jpg` | 用户提供的项目参考资料；版权所有，保留全部权利 |
 | 帮助页四张运行截图 | `tests/performance/baselines/{gate,courtyard,activityBasketball,pingPongMatch}.png` | 项目运行画面；仅随本公开快照展示，保留全部权利 |
+| README 四张补充运行截图 | `docs/screenshots/readme/` | 用户确认的项目运行画面；仅作为项目功能展示。画面中出现的课本、连环画和掌机品牌／作品仍归各自权利人所有，不因截图收录而获得再分发许可 |
 | Fusion Pixel Font 12px 简体中文子集 | `public/assets/fonts/pixel/` | Copyright © 2022 TakWolf；SIL Open Font License 1.1，详见同目录 `OFL-Fusion-Pixel.txt` 和 `README.md` |
 | 篮球运行模型 | `public/assets/models/basketball/` | DigitalN8m4r3 的 *Basketballs*，CC0 1.0；详见同目录 `README.md` |
 | 非环境、非音乐短音效 | `public/assets/audio/{ui,footsteps,doors,furniture,blackboard,chalk,basketball,ping-pong,long-jump}/` | 来自 Kenney RPG Audio、Interface Sounds 和 Impact Sounds，CC0；详见 `public/assets/audio/SOURCES.md` |
@@ -19,7 +20,7 @@
 以下内容保留在完整本地工作区，不进入 GitHub：
 
 - `assets/source*`、`assets/generated`、`docs/previews`、`docs/references` 中未单独放行的资料、`docs/concepts`、`docs/reports`、`GLB`、`archive`、`artifacts`。
-- 乒乓球拍 GLB、Pixabay 环境音、AI 音乐、LCD 掌机图、连环画、角色印花、零食包装，以及其余未完成公开再分发审计的模型、贴图、音频和字体。
+- 除上方明确列出的四张 README 运行截图外，乒乓球拍 GLB、Pixabay 环境音、AI 音乐、LCD 掌机原图与运行贴图、连环画原图与运行贴图、课本原图与运行贴图、角色印花、零食包装，以及其余未完成公开再分发审计的模型、贴图、音频和字体。
 - `public/assets/audio/ambient/`、`public/assets/audio/music/`和未被运行清单采用的 `public/assets/audio/footstep09.ogg`。
 - 本地部署配置、环境变量、测试产物、协作交接文档和旧 Git 历史。
 

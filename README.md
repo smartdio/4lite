@@ -45,6 +45,14 @@ The complete experience includes:
 | --- | --- |
 | ![Basketball gameplay and arcade-comic score feedback](tests/performance/baselines/activityBasketball.png) | ![Table-tennis match gameplay](tests/performance/baselines/pingPongMatch.png) |
 
+| Open textbook | Comic-book viewer |
+| --- | --- |
+| ![Opening an old textbook inside a classroom](docs/screenshots/readme/old-textbook-viewer.png) | ![Opening a comic book found in a classroom desk](docs/screenshots/readme/comic-book-viewer.png) |
+
+| LCD handheld game | Slingshot aiming |
+| --- | --- |
+| ![Playing the Octopus-inspired LCD handheld game](docs/screenshots/readme/octopus-handheld-game.png) | ![Aiming the wooden slingshot from the ten-metre line](docs/screenshots/readme/slingshot-aiming.png) |
+
 ## Controls and platforms
 
 - Desktop exploration supports keyboard movement, mouse look, point-to-walk navigation, and contextual interaction.

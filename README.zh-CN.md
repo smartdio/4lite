@@ -45,6 +45,14 @@
 | --- | --- |
 | ![篮球玩法与漫画式得分反馈](tests/performance/baselines/activityBasketball.png) | ![乒乓球比赛玩法](tests/performance/baselines/pingPongMatch.png) |
 
+| 打开的旧课本 | 连环画阅读 |
+| --- | --- |
+| ![在教室里打开一本旧课本](docs/screenshots/readme/old-textbook-viewer.png) | ![打开从课桌中找到的连环画](docs/screenshots/readme/comic-book-viewer.png) |
+
+| LCD 掌机游戏 | 弹弓瞄准 |
+| --- | --- |
+| ![正在游玩 Octopus 主题 LCD 掌机](docs/screenshots/readme/octopus-handheld-game.png) | ![在十米线上使用木弹弓蓄力瞄准](docs/screenshots/readme/slingshot-aiming.png) |
+
 ## 操作方式与平台
 
 - 桌面端支持键盘移动、鼠标视角、点按行走和情境互动。

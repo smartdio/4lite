@@ -39,6 +39,12 @@ playwright-report/
 !/docs/references/001-campus-plan-sketch.jpg
 /docs/concepts/
 /docs/reports/
+/docs/screenshots/**
+!/docs/screenshots/readme/
+!/docs/screenshots/readme/old-textbook-viewer.png
+!/docs/screenshots/readme/comic-book-viewer.png
+!/docs/screenshots/readme/octopus-handheld-game.png
+!/docs/screenshots/readme/slingshot-aiming.png
 
 # The complete visual-regression set remains local. Four approved captures are
 # required by the public help page.
