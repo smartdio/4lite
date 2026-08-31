@@ -7141,7 +7141,7 @@ const loadSlingshotPlayCorner=async()=>{
     const {createSlingshotGame}=await import('./interactions/slingshot-game.js')
     slingshotGame=createSlingshotGame({
       scene,camera,renderer,config:CAMPUS.facilities.slingshotCorner,parts:slingshotPlayCorner.gameParts(),
-      isActiveMode:()=>mode==='slingshot',onEnter:beginSlingshotMode,onExit:finishSlingshotMode,onEvent:event=>{trackPersonalGameEvent(event);announceSlingshotEvent(event)},
+      isTouchMode:()=>touchModePreferred,isActiveMode:()=>mode==='slingshot',onEnter:beginSlingshotMode,onExit:finishSlingshotMode,onEvent:event=>{trackPersonalGameEvent(event);announceSlingshotEvent(event)},
     })
   }
   return result
@@ -7785,7 +7785,7 @@ function finishSlingshotMode() {
 function announceSlingshotEvent(event) {
   if(event.type==='slingshot-enter'){
     webglHud.prepareArcadeComicGame('slingshot')
-    if(!slingshotTutorialShown){slingshotTutorialShown=true;webglHud.showMinigameTutorial(touchModePreferred?'slingshot-mobile':'slingshot-desktop',7200)}
+    if(touchModePreferred||!slingshotTutorialShown){slingshotTutorialShown=true;webglHud.showMinigameTutorial(touchModePreferred?'slingshot-mobile':'slingshot-desktop',7200)}
   }
   else if(event.type==='slingshot-charge-start'||event.type==='slingshot-game-charge-start')gameAudio.play('uiClick',{volume:.16,rate:.72})
   else if(event.type==='slingshot-shot')gameAudio.play('basketballBounce',{volume:.52,rate:1.2+(event.pullRatio??0)*.08})
@@ -8516,7 +8516,16 @@ touchJoystick.addEventListener('pointerup',finishTouchJoystick)
 touchJoystick.addEventListener('pointercancel',finishTouchJoystick)
 
 renderer.domElement.addEventListener('pointerdown',event=>{
-  if(!touchModePreferred||mode!=='slingshot'||!webglHud.hitSlingshotDistance(event.clientX,event.clientY))return
+  if(!touchModePreferred||mode!=='slingshot')return
+  if(webglHud.hitSlingshotExit(event.clientX,event.clientY)){
+    slingshotGame?.exit();gameAudio.play('uiClick',{volume:.22,rate:.94})
+    event.preventDefault();event.stopImmediatePropagation();return
+  }
+  if(webglHud.hitSlingshotHelp(event.clientX,event.clientY)){
+    webglHud.showMinigameTutorial('slingshot-mobile',9000);gameAudio.play('uiClick',{volume:.18,rate:1.02})
+    event.preventDefault();event.stopImmediatePropagation();return
+  }
+  if(!webglHud.hitSlingshotDistance(event.clientX,event.clientY))return
   slingshotGame?.toggleStation();event.preventDefault();event.stopImmediatePropagation()
 },{capture:true})
 

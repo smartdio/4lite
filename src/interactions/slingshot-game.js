@@ -42,9 +42,16 @@ export function applyGroundBounce(velocity,restitution=.42,friction=.72,directio
   return impactSpeed
 }
 
+export function pointInEllipse(x,y,bounds) {
+  if(!bounds)return false
+  const radiusX=Math.max((bounds.right-bounds.left)/2,1),radiusY=Math.max((bounds.bottom-bounds.top)/2,1)
+  const centerX=(bounds.left+bounds.right)/2,centerY=(bounds.top+bounds.bottom)/2
+  return ((x-centerX)/radiusX)**2+((y-centerY)/radiusY)**2<=1
+}
+
 export function createSlingshotGame({
   scene,camera,renderer,config,parts,
-  isActiveMode=()=>false,onEnter=()=>true,onExit=()=>{},onEvent=()=>{},
+  isTouchMode=()=>false,isActiveMode=()=>false,onEnter=()=>true,onExit=()=>{},onEvent=()=>{},
 }) {
   const game=config.game
   if(!game)throw new Error('Slingshot game config is required')
@@ -94,7 +101,7 @@ export function createSlingshotGame({
   const platform=parts.stonePlatform
 
   let phase='idle',selectedId=game.defaultSlingshot,distance=game.defaultDistance
-  let baseYaw=0,pointerId=null,nextChargeAt=0,shots=0,hits=0,lastHit=null
+  let baseYaw=0,pointerId=null,touchAimPointerId=null,touchAimLastX=0,touchAimLastY=0,nextChargeAt=0,shots=0,hits=0,lastHit=null
   let appliedAimYaw=0,appliedAimPitch=0
 
   const active=()=>phase!=='idle'
@@ -189,7 +196,7 @@ export function createSlingshotGame({
     if(active())return snapshot()
     const requestedStation=stationFor(stationDistance)
     if(onEnter({id,distance:requestedStation.distance})===false)return null
-    phase='ready';shots=0;hits=0;accumulator=0;nextChargeAt=0;pointerId=null
+    phase='ready';shots=0;hits=0;accumulator=0;nextChargeAt=0;pointerId=null;touchAimPointerId=null
     resetProjectiles();resetTargets();heldRoot.visible=true
     configureHeldModel(id);setStation(requestedStation.distance)
     onEvent({type:'slingshot-enter',id:selectedId,distance});return snapshot()
@@ -202,7 +209,8 @@ export function createSlingshotGame({
   }
   const exit=()=>{
     if(!active())return null
-    phase='idle';pointerId=null;heldRoot.visible=false;heldRoot.rotation.set(0,0,0)
+    releaseCapturedPointer(pointerId);releaseCapturedPointer(touchAimPointerId)
+    phase='idle';pointerId=null;touchAimPointerId=null;heldRoot.visible=false;heldRoot.rotation.set(0,0,0)
     elasticRig?.reset();resetProjectiles();resetTargets();restoreWorldModels();onExit();onEvent({type:'slingshot-exit'});return snapshot()
   }
 
@@ -339,18 +347,61 @@ export function createSlingshotGame({
     return releaseCharge()
   }
 
+  const releaseCapturedPointer=id=>{
+    if(id!=null&&renderer.domElement.hasPointerCapture?.(id))renderer.domElement.releasePointerCapture(id)
+  }
+  const pouchTouchBounds=()=>{
+    if(!active()||!elasticRig?.pouch)return null
+    syncHeldTransform();heldRoot.updateWorldMatrix(true,true)
+    const rect=renderer.domElement.getBoundingClientRect(),heldConfig=game.held[selectedId]
+    const center=elasticRig.pouch.getWorldPosition(tempVector).project(camera)
+    const horizontal=elasticRig.pouch.localToWorld(tempVector2.set(heldConfig.pouchSize[0]/2,0,0)).project(camera)
+    const vertical=elasticRig.pouch.localToWorld(shotDirection.set(0,heldConfig.pouchSize[1]/2,0)).project(camera)
+    const centerX=rect.left+(center.x+1)*rect.width/2,centerY=rect.top+(1-center.y)*rect.height/2
+    const halfWidth=Math.abs(horizontal.x-center.x)*rect.width/2,halfHeight=Math.abs(vertical.y-center.y)*rect.height/2
+    const padding=game.touchPouchPaddingPx??12,minRadius=game.touchPouchMinRadiusPx??28
+    const radiusX=Math.max(minRadius,halfWidth+padding),radiusY=Math.max(minRadius,halfHeight+padding)
+    return {left:centerX-radiusX,right:centerX+radiusX,top:centerY-radiusY,bottom:centerY+radiusY,centerX,centerY,radiusX,radiusY}
+  }
+  const beginTouchAim=event=>{
+    if(phase!=='ready'||pointerId!=null||touchAimPointerId!=null)return false
+    touchAimPointerId=event.pointerId;touchAimLastX=event.clientX;touchAimLastY=event.clientY
+    renderer.domElement.setPointerCapture?.(event.pointerId);return true
+  }
+
   const pointerDown=event=>{
     if(!active()||event.button!==0)return false
+    if(isTouchMode()){
+      if(pointerId!=null||touchAimPointerId!=null)return true
+      if(!pointInEllipse(event.clientX,event.clientY,pouchTouchBounds()))return beginTouchAim(event)
+      if(!beginCharge())return true
+      pointerId=event.pointerId;renderer.domElement.setPointerCapture?.(event.pointerId);return true
+    }
     if(!beginCharge())return phase==='charging'
     pointerId=event.pointerId;renderer.domElement.setPointerCapture?.(event.pointerId);return true
   }
+  const pointerMove=event=>{
+    if(!active()||!isTouchMode())return false
+    if(event.pointerId===pointerId)return true
+    if(event.pointerId!==touchAimPointerId)return false
+    const dx=event.clientX-touchAimLastX,dy=event.clientY-touchAimLastY
+    touchAimLastX=event.clientX;touchAimLastY=event.clientY
+    const sensitivity=game.touchAimSensitivity??.0038
+    camera.rotation.order='YXZ';camera.rotation.y-=dx*sensitivity;camera.rotation.x-=dy*sensitivity;camera.rotation.z=0
+    clampAim();return true
+  }
   const pointerUp=event=>{
-    if(!active()||event.button!==0||pointerId!=null&&event.pointerId!==pointerId)return false
-    if(renderer.domElement.hasPointerCapture?.(event.pointerId))renderer.domElement.releasePointerCapture(event.pointerId)
+    if(!active()||event.button!==0)return false
+    if(event.pointerId===touchAimPointerId){releaseCapturedPointer(event.pointerId);touchAimPointerId=null;return true}
+    if(pointerId!=null&&event.pointerId!==pointerId)return false
+    releaseCapturedPointer(event.pointerId)
     if(phase==='charging')releaseCharge();pointerId=null;return true
   }
   const pointerCancel=event=>{
-    if(!active()||pointerId!=null&&event.pointerId!==pointerId)return false
+    if(!active())return false
+    if(event.pointerId===touchAimPointerId){releaseCapturedPointer(event.pointerId);touchAimPointerId=null;return true}
+    if(pointerId!=null&&event.pointerId!==pointerId)return false
+    releaseCapturedPointer(event.pointerId)
     cancelCharge();pointerId=null;return true
   }
   const handleKey=(code,down=true,repeat=false)=>{
@@ -366,6 +417,7 @@ export function createSlingshotGame({
     return false
   }
   renderer.domElement.addEventListener('pointerdown',event=>{if(isActiveMode()&&pointerDown(event)){event.preventDefault();event.stopPropagation()}})
+  renderer.domElement.addEventListener('pointermove',event=>{if(isActiveMode()&&pointerMove(event)){event.preventDefault();event.stopPropagation()}})
   renderer.domElement.addEventListener('pointerup',event=>{if(isActiveMode()&&pointerUp(event)){event.preventDefault();event.stopPropagation()}})
   renderer.domElement.addEventListener('pointercancel',event=>{if(isActiveMode()&&pointerCancel(event)){event.preventDefault();event.stopPropagation()}})
 
@@ -375,9 +427,10 @@ export function createSlingshotGame({
     charging:elasticRig?.snapshot()??null,
     projectiles:projectiles.filter(item=>item.active).map(item=>({position:item.mesh.position.toArray().map(value=>rounded(value)),velocity:item.velocity.toArray().map(value=>rounded(value)),age:rounded(item.age)})),
     targets:{hanging:hangingStates.map(state=>({id:state.id,angleX:rounded(state.angleX),angleZ:rounded(state.angleZ)})),standing:looseStates.map(state=>({id:state.id,active:state.active,position:state.mesh.position.toArray().map(value=>rounded(value))}))},
+    input:{gesture:pointerId!=null?'charge':touchAimPointerId!=null?'aim':null,pouchBounds:isTouchMode()?pouchTouchBounds():null},
     policy:{powerMeter:false,dragToShoot:false,chargeSeconds:game.elastic.chargeSeconds,maxHoldSteadySeconds:game.elastic.maxHoldSteadySeconds,safeLaneHalfWidth:game.safeLaneHalfWidth,fixedStep:game.fixedStep,maxSubsteps:game.maxSubsteps},
   })
-  const pauseInput=()=>{cancelCharge();pointerId=null;return true}
+  const pauseInput=()=>{releaseCapturedPointer(pointerId);releaseCapturedPointer(touchAimPointerId);cancelCharge();pointerId=null;touchAimPointerId=null;return true}
   const resumeAfterPause=durationMs=>{nextChargeAt+=Math.max(0,durationMs||0);return true}
-  return {root,hit,interact,enter,exit,update,handleKey,pointerDown,pointerUp,pointerCancel,beginCharge,releaseCharge,cancelCharge,pauseInput,resumeAfterPause,select,setStation,toggleStation,resetTargets,testFireAt,snapshot}
+  return {root,hit,interact,enter,exit,update,handleKey,pointerDown,pointerMove,pointerUp,pointerCancel,beginCharge,releaseCharge,cancelCharge,pauseInput,resumeAfterPause,select,setStation,toggleStation,resetTargets,testFireAt,snapshot}
 }

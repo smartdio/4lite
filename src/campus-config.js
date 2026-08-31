@@ -497,6 +497,8 @@ export const CAMPUS = {
         eyeHeight: 1.45, targetHeight: 1.68, aimingFov: 38,
         // 水平转头总范围 120°：以靶道中心为基准左右各 60°。
         aimYawDegrees: 60, aimPitchMinDegrees: -35, aimPitchMaxDegrees: 28,
+        // 触屏在画面任意非弹兜位置拖动瞄准；弹兜按实际投影外扩少量触摸容差后才可蓄力。
+        touchAimSensitivity: 0.0038, touchPouchPaddingPx: 12, touchPouchMinRadiusPx: 28,
         fixedStep: 1/120, maxSubsteps: 8, gravity: 9.81,
         projectileRadius: 0.0125, projectilePoolSize: 6, projectileLifetime: 3.2,
         projectileMaxBounces: 3, projectileRestitution: 0.42, projectileGroundFriction: 0.72, projectileMinBounceSpeed: 1.15,

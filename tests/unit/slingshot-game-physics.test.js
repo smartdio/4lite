@@ -1,13 +1,21 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import * as THREE from 'three'
-import {aimAnglesToward,applyGroundBounce,bounceVariation,segmentIntersectsBox,shotDirectionFromAim} from '../../src/interactions/slingshot-game.js'
+import {aimAnglesToward,applyGroundBounce,bounceVariation,pointInEllipse,segmentIntersectsBox,shotDirectionFromAim} from '../../src/interactions/slingshot-game.js'
 import {CAMPUS} from '../../src/campus-config.js'
 
 test('continuous slingshot collision catches a thin block crossed between fixed steps',()=>{
   const target=new THREE.Box3(new THREE.Vector3(-.02,-.05,.04),new THREE.Vector3(.02,.05,.075))
   assert.equal(segmentIntersectsBox(new THREE.Vector3(0,0,0),new THREE.Vector3(0,0,.12),target),true)
   assert.equal(segmentIntersectsBox(new THREE.Vector3(.04,0,0),new THREE.Vector3(.04,0,.12),target),false)
+})
+
+test('slingshot touch target follows the projected pouch ellipse',()=>{
+  const bounds={left:100,right:180,top:220,bottom:260}
+  assert.equal(pointInEllipse(140,240,bounds),true)
+  assert.equal(pointInEllipse(178,240,bounds),true)
+  assert.equal(pointInEllipse(178,258,bounds),false)
+  assert.equal(pointInEllipse(90,240,bounds),false)
 })
 
 test('continuous slingshot collision rejects an intersection beyond the current step',()=>{

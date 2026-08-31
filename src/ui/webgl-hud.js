@@ -55,7 +55,7 @@ const MINIGAME_INSTRUCTIONS={
   'ping-pong-desktop':['乒乓球玩法','1. 对准球桌，点击进入练习','2. 点击抛球，移动鼠标控制球拍','3. M 开始7分比赛 · X 退出 · Esc 暂停'],
   'ping-pong-mobile':['乒乓球玩法','1. 轻触球桌进入练习','2. 按住移动球和球拍，松手抛球','3. 再次触摸挥拍，上方按钮比赛／退出'],
   'slingshot-desktop':['弹弓玩法','1. 移动视角调整角度，按住鼠标蓄力','2. 松开发射；满力保持过久会抖动','3. W／↑ 5米 · S／↓ 10米 · X退出 · Esc暂停'],
-  'slingshot-mobile':['弹弓玩法','1. 拖动画面调整角度，按住射击区蓄力','2. 松开发射；满力保持过久会抖动','3. 点击“距离”按钮切换5米／10米'],
+  'slingshot-mobile':['弹弓玩法','1. 在画面任意位置拖动瞄准','2. 只有按住弹兜才会蓄力，松开发射','3. 点击“距离”按钮切换5米／10米'],
 }
 const INTERACTION_HINTS={
   look:'点击查看','open-link':'点击打开网页','show-qr':'点击查看二维码',
@@ -605,6 +605,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
 
   const makeSlingshotHud=scoreAtlasMaterial=>{
     const root=new THREE.Group();root.name='webgl-hud-slingshot';root.visible=false;scene.add(root)
+    const outlineMaterial=new THREE.MeshBasicMaterial({color:0x302c25,transparent:true,opacity:.98,depthTest:false,depthWrite:false,toneMapped:false})
+    const warmMaterial=new THREE.MeshBasicMaterial({color:0xfff8dc,transparent:true,opacity:.96,depthTest:false,depthWrite:false,toneMapped:false})
     const slingshotPhrases=arcadeComicHud.textEntries.slingshot.phrases
     const wood=slingshotPhrases.wood.mesh.clone(),wire=slingshotPhrases.wire.mesh.clone()
     wood.name='webgl-hud-slingshot-selected-wood';wire.name='webgl-hud-slingshot-selected-wire';wood.visible=true;wire.visible=false
@@ -621,8 +623,17 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     arcadeScore.slash.setText('/')
     const instruction=makeSmoothText({name:'webgl-hud-slingshot-instruction',width:1024,height:128,fontSize:46,fontWeight:650,color:'#fff8dc',strokeColor:'#302c25',strokeWidth:12,renderOrder:10})
     instruction.userData.smoothText.setText('W／↑ 5米　S／↓ 10米')
-    root.add(wood,wire,instruction,...Object.values(arcadeScore).map(value=>value.group??value))
-    slingshotHud={root,wood,wire,instruction,arcadeScore,bounds:null,lastKey:null}
+    const makeButton=(id,label)=>{
+      const buttonRoot=new THREE.Group();buttonRoot.name=`webgl-hud-slingshot-${id}`
+      const back=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,`${buttonRoot.name}-back`)
+      const fill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warmMaterial,`${buttonRoot.name}-fill`);fill.scale.set(.92,.82,1);fill.position.z=.001
+      const text=makeSmoothText({name:`${buttonRoot.name}-text`,width:256,height:128,fontSize:58,fontWeight:700,color:'#302c25',renderOrder:10})
+      text.userData.smoothText.setText(label);text.scale.set(.78,.72,1);text.position.z=.002
+      buttonRoot.add(back,fill,text);return {root:buttonRoot,bounds:null,label}
+    }
+    const help=makeButton('help','玩法'),exit=makeButton('exit','退出')
+    root.add(wood,wire,instruction,help.root,exit.root,...Object.values(arcadeScore).map(value=>value.group??value))
+    slingshotHud={root,wood,wire,instruction,help,exit,arcadeScore,bounds:null,lastKey:null}
   }
 
   const applyBasketballScore=()=>{
@@ -958,6 +969,15 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       layoutArcadeNumber(s.distance,portrait?58:72,viewportWidth,viewportHeight);s.distance.group.position.set(toX(distanceCenterX+(portrait?25:31)),toY(topY),.004)
       layoutArcadeLabel(s.metreLabel,portrait?38:46,portrait?19:23,viewportWidth,viewportHeight);s.metreLabel.position.set(toX(distanceCenterX+(portrait?62:78)),toY(topY+8),.004)
       slingshotHud.bounds={left:viewportWidth-right-distanceWidth,right:viewportWidth-right,top:Math.max(0,topY-42),bottom:Math.min(viewportHeight,topY+42)}
+      const buttonWidth=portrait?82:84,buttonHeight=48,buttonGap=8
+      const buttonRight=portrait?16:28,buttonTop=portrait?184:Math.max(112,viewportHeight-172)
+      const exitLeft=viewportWidth-buttonRight-buttonWidth,helpLeft=exitLeft-buttonGap-buttonWidth
+      const layoutButton=(button,left)=>{
+        button.root.scale.set(buttonWidth/viewportWidth*2,buttonHeight/viewportHeight*2,1)
+        button.root.position.set(toX(left+buttonWidth/2),toY(buttonTop+buttonHeight/2),.006)
+        button.bounds={left,right:left+buttonWidth,top:buttonTop,bottom:buttonTop+buttonHeight}
+      }
+      layoutButton(slingshotHud.help,helpLeft);layoutButton(slingshotHud.exit,exitLeft)
       const instructionWidth=Math.min(portrait?340:440,viewportWidth-32),instructionHeight=54
       slingshotHud.instruction.scale.set(instructionWidth/viewportWidth*2,instructionHeight/viewportHeight*2,1)
       slingshotHud.instruction.position.set(0,toY(viewportHeight-(portrait?92:48)),.004)
@@ -1281,6 +1301,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     Object.assign(slingshotState,state)
     if(!slingshotHud)return
     slingshotHud.root.visible=enabled&&Boolean(slingshotState.visible)
+    const touchControlsVisible=slingshotHud.root.visible&&Boolean(slingshotState.touch)
+    slingshotHud.help.root.visible=touchControlsVisible;slingshotHud.exit.root.visible=touchControlsVisible
     if(slingshotState.visible)prepareArcadeComicGame('slingshot')
     const selectedId=slingshotState.selectedId==='wire'?'wire':'wood'
     slingshotHud.wood.visible=selectedId==='wood';slingshotHud.wire.visible=selectedId==='wire'
@@ -1291,7 +1313,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       slingshotHud.arcadeScore.hits.setText(String(hits).padStart(2,'0'))
       slingshotHud.arcadeScore.shots.setText(String(shots).padStart(2,'0'))
       slingshotHud.arcadeScore.distance.setText(String(distance))
-      slingshotHud.instruction.userData.smoothText.setText(slingshotState.touch?'点击距离按钮切换5米／10米':'W／↑ 5米　S／↓ 10米')
+      slingshotHud.instruction.userData.smoothText.setText(slingshotState.touch?'拖动瞄准 · 按住弹兜发射':'W／↑ 5米　S／↓ 10米')
     }
   }
 
@@ -1411,6 +1433,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
   const hitPersonalRecord=(clientX,clientY)=>Boolean(personalRecordVisible&&personalRecordBounds&&clientX>=personalRecordBounds.left&&clientX<=personalRecordBounds.right&&clientY>=personalRecordBounds.top&&clientY<=personalRecordBounds.bottom)
   const hitBasketballShoot=(clientX,clientY)=>Boolean(enabled&&basketballState.shootButtonVisible&&basketballHud?.buttonBounds&&clientX>=basketballHud.buttonBounds.left&&clientX<=basketballHud.buttonBounds.right&&clientY>=basketballHud.buttonBounds.top&&clientY<=basketballHud.buttonBounds.bottom)
   const hitSlingshotDistance=(clientX,clientY)=>Boolean(enabled&&slingshotState.visible&&slingshotHud?.bounds&&clientX>=slingshotHud.bounds.left&&clientX<=slingshotHud.bounds.right&&clientY>=slingshotHud.bounds.top&&clientY<=slingshotHud.bounds.bottom)
+  const hitSlingshotHelp=(clientX,clientY)=>Boolean(enabled&&slingshotState.visible&&slingshotState.touch&&slingshotHud?.help.bounds&&clientX>=slingshotHud.help.bounds.left&&clientX<=slingshotHud.help.bounds.right&&clientY>=slingshotHud.help.bounds.top&&clientY<=slingshotHud.help.bounds.bottom)
+  const hitSlingshotExit=(clientX,clientY)=>Boolean(enabled&&slingshotState.visible&&slingshotState.touch&&slingshotHud?.exit.bounds&&clientX>=slingshotHud.exit.bounds.left&&clientX<=slingshotHud.exit.bounds.right&&clientY>=slingshotHud.exit.bounds.top&&clientY<=slingshotHud.exit.bounds.bottom)
   const hitBambooClimbExit=(clientX,clientY)=>Boolean(bambooClimbState.visible&&bambooClimbHud?.exitBounds&&clientX>=bambooClimbHud.exitBounds.left&&clientX<=bambooClimbHud.exitBounds.right&&clientY>=bambooClimbHud.exitBounds.top&&clientY<=bambooClimbHud.exitBounds.bottom)
   const hitLongJumpExit=(clientX,clientY)=>Boolean(longJumpState.visible&&longJumpHud?.exit.bounds&&clientX>=longJumpHud.exit.bounds.left&&clientX<=longJumpHud.exit.bounds.right&&clientY>=longJumpHud.exit.bounds.top&&clientY<=longJumpHud.exit.bounds.bottom)
   const hitLongJumpRestart=()=>false
@@ -1548,7 +1572,9 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     minigamePause:{visible:minigamePaused,resumeBounds:minigamePauseHud?.resume.bounds?{...minigamePauseHud.resume.bounds}:null,exitBounds:minigamePauseHud?.exit.bounds?{...minigamePauseHud.exit.bounds}:null},
     basketball:{...basketballState,arcadeScore:basketballHud?{score:basketballHud.arcadeScore.score.text,hits:basketballHud.arcadeScore.hits.text,shots:basketballHud.arcadeScore.shots.text,scorePixelHeight:arcadeNumberPixelHeight(basketballHud.arcadeScore.score),statsPixelHeight:arcadeNumberPixelHeight(basketballHud.arcadeScore.hits)}:null,scoreBounds:basketballHud?.scoreBounds?{...basketballHud.scoreBounds}:null,panelVisible:false,feedbackVisible:Boolean(basketballHud?.feedbackRoot.visible),feedbackTitle:basketballHud?.feedbackTitle.userData.pixelText.text??'',feedbackText:basketballHud?.feedbackLine.userData.pixelText.text??'',shootButtonBounds:basketballHud?.buttonBounds?{...basketballHud.buttonBounds}:null,loaded:Boolean(basketballHud)},
     slingshot:{
-      ...slingshotState,distanceButtonBounds:slingshotHud?.bounds?{...slingshotHud.bounds}:null,loaded:Boolean(slingshotHud),
+      ...slingshotState,distanceButtonBounds:slingshotHud?.bounds?{...slingshotHud.bounds}:null,
+      helpBounds:slingshotHud?.help.bounds?{...slingshotHud.help.bounds}:null,exitBounds:slingshotHud?.exit.bounds?{...slingshotHud.exit.bounds}:null,
+      helpLabel:slingshotHud?.help.label??'',exitLabel:slingshotHud?.exit.label??'',mobileInstructions:[...MINIGAME_INSTRUCTIONS['slingshot-mobile']],loaded:Boolean(slingshotHud),
       arcadeScore:slingshotHud?{hits:slingshotHud.arcadeScore.hits.text,shots:slingshotHud.arcadeScore.shots.text,distance:slingshotHud.arcadeScore.distance.text}:null,
       selectedLabel:slingshotHud?.wire.visible?'wire':'wood',instruction:slingshotHud?.instruction.userData.smoothText.text??'',
     },
@@ -1576,5 +1602,5 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     atlases:loaded?6:0,
   })
 
-  return {load,setEnabled,setInteraction,setPosture,setViewMode,setViewToggleVisible,setPersonalRecordVisible,setPointTargetVisible,setPointWalking,setBasketballHud,setSlingshotHud,setPingPongHud,setBambooClimbHud,setLongJumpHud,setHopscotchHud,setShuttlecockHud,setJacksHud,setFlagRaisingHud,setMinigamePaused,resumeAfterMinigamePause,hitViewToggle,hitPersonalRecord,hitBasketballShoot,hitSlingshotDistance,hitBambooClimbExit,hitLongJumpExit,hitLongJumpRestart,hitHopscotchExit,hitShuttlecockExit,hitJacksExit,hitFlagRaisingExit,hitMinigamePauseAction,showTutorial,showMinigameTutorial,flashBasketballPoints,flashPingPongFeedback,prepareArcadeComicGame,playArcadeComicCelebration,stopArcadeComicCelebration,update,render,resize,snapshot}
+  return {load,setEnabled,setInteraction,setPosture,setViewMode,setViewToggleVisible,setPersonalRecordVisible,setPointTargetVisible,setPointWalking,setBasketballHud,setSlingshotHud,setPingPongHud,setBambooClimbHud,setLongJumpHud,setHopscotchHud,setShuttlecockHud,setJacksHud,setFlagRaisingHud,setMinigamePaused,resumeAfterMinigamePause,hitViewToggle,hitPersonalRecord,hitBasketballShoot,hitSlingshotDistance,hitSlingshotHelp,hitSlingshotExit,hitBambooClimbExit,hitLongJumpExit,hitLongJumpRestart,hitHopscotchExit,hitShuttlecockExit,hitJacksExit,hitFlagRaisingExit,hitMinigamePauseAction,showTutorial,showMinigameTutorial,flashBasketballPoints,flashPingPongFeedback,prepareArcadeComicGame,playArcadeComicCelebration,stopArcadeComicCelebration,update,render,resize,snapshot}
 }
