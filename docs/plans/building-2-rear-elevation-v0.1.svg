@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+  <defs>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#292a27}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#686a64}.label{font-size:16px;font-weight:650}.small{font-size:13px}.tiny{font-size:11px}.wall{fill:#bd7b4d;stroke:#774b32;stroke-width:2}.slab{fill:#c5b9a4;stroke:#686159;stroke-width:2}.iron{fill:#566979;stroke:#283e50;stroke-width:3}.glass{fill:#8da0ad}.pier{fill:#eee4d2;stroke:#8a765b;stroke-width:2}.confirmed{fill:#e6f0e8;stroke:#709579;stroke-width:1.5}
+    </style>
+    <g id="rear-window">
+      <rect width="50" height="88" class="iron"/><rect x="4" y="4" width="42" height="80" class="glass"/>
+      <path d="M4 23H46M25 4V84M4 23L25 84M46 23L25 84" stroke="#283e50" stroke-width="2"/>
+    </g>
+    <g id="rear-room-row">
+      <use href="#rear-window" x="15"/><use href="#rear-window" x="82"/><use href="#rear-window" x="149"/><use href="#rear-window" x="216"/>
+    </g>
+  </defs>
+  <rect width="1500" height="760" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">2号教学楼｜背立面工作复原 v0.1</text>
+  <text x="70" y="87" class="subtitle">每间教室四组同规格铁窗｜下部两扇外开＋顶部亮窗｜中央楼梯后墙完全封闭无开口</text>
+
+  <rect x="90" y="170" width="1320" height="450" class="wall"/>
+  <rect x="81" y="154" width="1338" height="16" class="slab"/>
+  <path d="M90 130H1410M100 130V138M155 130V138M210 130V138M265 130V138M320 130V138M375 130V138M430 130V138M485 130V138M540 130V138M595 130V138M650 130V138M705 130V138M760 130V138M815 130V138M870 130V138M925 130V138M980 130V138M1035 130V138M1090 130V138M1145 130V138M1200 130V138M1255 130V138M1310 130V138M1365 130V138" stroke="#8a765b" stroke-width="5"/>
+  <path d="M110 138V154M230 138V154M350 138V154M470 138V154M590 138V154M710 138V154M830 138V154M950 138V154M1070 138V154M1190 138V154M1310 138V154M1390 138V154" stroke="#8a765b" stroke-width="3"/>
+  <text x="1390" y="123" text-anchor="end" class="tiny">外挑约0.30 m｜架空隔热砖层｜两端无山墙</text>
+
+  <rect x="90" y="310" width="1320" height="14" class="slab"/><rect x="90" y="460" width="1320" height="14" class="slab"/><rect x="90" y="610" width="1320" height="14" class="slab"/>
+  <rect x="660" y="170" width="180" height="440" fill="#a56643" stroke="#774b32" stroke-width="3"/>
+  <text x="750" y="375" text-anchor="middle" class="label">楼梯后墙</text><text x="750" y="401" text-anchor="middle" class="small">完整封闭实墙</text><text x="750" y="423" text-anchor="middle" class="tiny">无窗・无门・无采光口</text>
+
+  <g>
+    <use href="#rear-room-row" x="90" y="196"/><use href="#rear-room-row" x="375" y="196"/><use href="#rear-room-row" x="840" y="196"/><use href="#rear-room-row" x="1125" y="196"/>
+    <use href="#rear-room-row" x="90" y="346"/><use href="#rear-room-row" x="375" y="346"/><use href="#rear-room-row" x="840" y="346"/><use href="#rear-room-row" x="1125" y="346"/>
+    <use href="#rear-room-row" x="90" y="496"/><use href="#rear-room-row" x="375" y="496"/><use href="#rear-room-row" x="840" y="496"/><use href="#rear-room-row" x="1125" y="496"/>
+  </g>
+
+  <path d="M375 170V610M660 170V610M840 170V610M1125 170V610" stroke="#eee4d2" stroke-width="10"/>
+  <text x="76" y="270" text-anchor="end" class="label">三层</text><text x="76" y="420" text-anchor="end" class="label">二层</text><text x="76" y="570" text-anchor="end" class="label">一层</text>
+  <line x1="55" y1="640" x2="1445" y2="640" stroke="#777972" stroke-width="2"/>
+
+  <rect x="90" y="670" width="1320" height="54" class="confirmed"/>
+  <text x="110" y="692" class="small">已确认：每层四间教室；每间背面四组铁窗；窗与正面同尺寸、同为两扇外开＋顶部亮窗；楼梯后墙完全封闭。</text>
+  <text x="110" y="713" class="tiny">待校准：四组窗的准确间距、端部墙垛、窗台高度、梁板厚度及背墙颜色风化。</text>
+  <text x="70" y="748" class="tiny">本图为资料关系图，不是原建筑测绘立面。</text>
+</svg>

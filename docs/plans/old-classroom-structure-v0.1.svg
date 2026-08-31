@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1180" viewBox="0 0 1500 1180">
+  <defs>
+    <pattern id="oc-brick" width="32" height="16" patternUnits="userSpaceOnUse"><path d="M0 0H32M0 16H32M0 0V8M16 8V16M32 0V8" fill="none" stroke="#784d39" stroke-width="1" opacity=".55"/></pattern>
+    <pattern id="oc-tile" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M0 4Q9 -2 18 4M0 10Q9 4 18 10" fill="none" stroke="#151714" stroke-width="2"/></pattern>
+    <marker id="ocs-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#51534e"/></marker>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#292a27}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#696b65}.panel{font-size:20px;font-weight:650}.label{font-size:16px;font-weight:650}.small{font-size:13px}.tiny{font-size:11px}.lime{fill:#d8d0b7;stroke:#6e5b4c;stroke-width:2}.exposed{fill:url(#oc-brick);stroke:#784d39;stroke-width:1.5}.wood{fill:#65432f;stroke:#3e291d;stroke-width:2}.door{fill:#765039;stroke:#402b1f;stroke-width:2}.window{fill:#718589;stroke:#35494e;stroke-width:3}.glass{fill:#a8b6b6}.tile{fill:#252824;stroke:#111310;stroke-width:3}.tilepattern{fill:url(#oc-tile)}.ground{stroke:#74766f;stroke-width:2}.dim{stroke:#51534e;stroke-width:1.4;marker-start:url(#ocs-arrow);marker-end:url(#ocs-arrow)}.ext{stroke:#8b8d87;stroke-width:1;stroke-dasharray:4 4}.working{fill:#f4eee0;stroke:#aa8754;stroke-width:1.5;stroke-dasharray:7 5}.confirmed{fill:#e7f0e8;stroke:#72957a;stroke-width:1.5}
+    </style>
+    <g id="oc-front-window"><rect width="58" height="70" class="window"/><rect x="6" y="6" width="46" height="58" class="glass"/><path d="M21 6V64M37 6V64M6 35H52" stroke="#35494e" stroke-width="2"/></g>
+    <g id="oc-front-unit">
+      <rect width="48" height="120" class="door"/><path d="M7 110L41 72M7 90L41 52" stroke="#3e291d" stroke-width="2"/>
+      <use href="#oc-front-window" x="84" y="32"/><use href="#oc-front-window" x="174" y="32"/><use href="#oc-front-window" x="264" y="32"/>
+      <rect x="358" width="48" height="120" class="door"/><path d="M365 110L399 72M365 90L399 52" stroke="#3e291d" stroke-width="2"/>
+    </g>
+    <g id="oc-back-window"><rect width="48" height="66" class="window"/><rect x="6" y="6" width="36" height="54" class="glass"/><path d="M24 6V60M6 33H42" stroke="#35494e" stroke-width="2"/></g>
+  </defs>
+  <rect width="1500" height="1180" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">旧教室｜立面与屋顶结构图 v0.1</text>
+  <text x="70" y="87" class="subtitle">破旧砖墙＋大片剥落石灰面＋木屋架／横梁＋黑瓦双坡屋顶｜简化外部建筑</text>
+
+  <!-- South elevation -->
+  <text x="90" y="130" class="panel">A｜南向正立面</text>
+  <path d="M155 245L185 175H1315L1345 245L1315 285H185Z" class="tile"/>
+  <path d="M175 239L198 190H1302L1325 239L1310 264H190Z" class="tilepattern"/>
+  <rect x="190" y="265" width="1120" height="285" class="lime"/>
+  <!-- irregular areas of fallen lime wash -->
+  <path d="M190 330L260 305L318 327L355 300L410 322L395 410L332 430L286 400L218 435L190 415Z" class="exposed"/>
+  <path d="M605 278L674 292L708 340L681 386L618 374L584 330Z" class="exposed"/>
+  <path d="M880 402L934 370L1005 390L1048 440L1010 505L925 488L865 455Z" class="exposed"/>
+  <path d="M1180 282L1258 302L1310 345V430L1262 405L1210 438L1164 385Z" class="exposed"/>
+  <use href="#oc-front-unit" x="248" y="405"/><use href="#oc-front-unit" x="846" y="405"/>
+  <line x1="750" y1="265" x2="750" y2="550" stroke="#705844" stroke-width="4"/>
+  <line x1="130" y1="550" x2="1370" y2="550" class="ground"/>
+  <text x="451" y="585" text-anchor="middle" class="label">旧教室 1｜门—三窗—门</text><text x="1049" y="585" text-anchor="middle" class="label">旧教室 2｜门—三窗—门</text>
+  <text x="1310" y="220" text-anchor="end" class="tiny">黑色瓦片｜屋脊沿建筑长向｜屋檐外挑</text>
+  <line x1="1405" y1="265" x2="1405" y2="550" class="dim"/><text x="1422" y="408" text-anchor="middle" class="tiny" transform="rotate(90 1422 408)">墙身／檐口高度约2.7 m（A-）</text>
+  <line x1="1450" y1="175" x2="1450" y2="550" class="dim"/><text x="1467" y="363" text-anchor="middle" class="tiny" transform="rotate(90 1467 363)">屋脊总高待按坡度标定（C）</text>
+
+  <!-- North elevation -->
+  <text x="90" y="650" class="panel">B｜北向背立面</text>
+  <path d="M120 720H750L1380 720L1350 750H150Z" class="tile"/>
+  <rect x="165" y="750" width="1170" height="190" class="lime"/>
+  <path d="M165 790L235 770L310 805L286 875L210 895L165 865Z" class="exposed"/><path d="M700 760L764 780L795 850L750 910L684 880L650 818Z" class="exposed"/><path d="M1120 790L1190 772L1260 805L1240 885L1160 902L1095 858Z" class="exposed"/>
+  <g transform="translate(0 0)">
+    <use href="#oc-back-window" x="225" y="805"/><use href="#oc-back-window" x="350" y="805"/><use href="#oc-back-window" x="480" y="805"/><use href="#oc-back-window" x="605" y="805"/>
+    <use href="#oc-back-window" x="825" y="805"/><use href="#oc-back-window" x="950" y="805"/><use href="#oc-back-window" x="1080" y="805"/><use href="#oc-back-window" x="1205" y="805"/>
+  </g>
+  <line x1="750" y1="750" x2="750" y2="940" stroke="#705844" stroke-width="4"/><line x1="120" y1="940" x2="1380" y2="940" class="ground"/>
+  <text x="450" y="970" text-anchor="middle" class="small">每间四扇较小窗</text><text x="1050" y="970" text-anchor="middle" class="small">每间四扇较小窗</text>
+
+  <!-- Gable section -->
+  <g transform="translate(85 1010)">
+    <text x="0" y="0" class="panel">C｜山墙方向屋顶结构示意</text>
+    <g transform="translate(300 -10)">
+      <path d="M0 110L170 20L340 110" fill="none" stroke="#232622" stroke-width="20"/>
+      <path d="M12 103L170 31L328 103" fill="none" class="tilepattern" stroke-width="12"/>
+      <path d="M30 105L170 40L310 105M45 105H295M170 40V105" fill="none" class="wood" stroke-width="9"/>
+      <circle cx="85" cy="84" r="7" class="wood"/><circle cx="255" cy="84" r="7" class="wood"/>
+      <text x="170" y="135" text-anchor="middle" class="tiny">木屋架关系为结构示意，节点形式未实测</text>
+    </g>
+  </g>
+  <g transform="translate(875 1000)"><rect width="510" height="130" class="working"/><text x="16" y="28" class="label">表达边界</text><text x="16" y="56" class="small">• 瓦片不逐片精模，以连续黑瓦屋面和轮廓表现</text><text x="16" y="82" class="small">• 木屋架只在檐下／破损处适量显露</text><text x="16" y="108" class="small">• 墙面重点是石灰层大片脱落，而非裸砖整墙</text></g>
+  <text x="70" y="1160" class="tiny">墙身／檐口高度约2.7 m为亲历者估算；屋脊总高、坡度、木构节点和门窗尺寸仍为未知或可调整工作项。本图不是施工图或测绘图。</text>
+</svg>

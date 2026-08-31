@@ -1,0 +1,1664 @@
+{
+  "version": 1,
+  "lcdLayoutVersion": "fire-manual-ownership-v06",
+  "sourceManifest": "fire-lcd-segments-v01.json",
+  "digitGlyphs": {
+    "0": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f"
+    ],
+    "1": [
+      "b",
+      "c"
+    ],
+    "2": [
+      "a",
+      "b",
+      "d",
+      "e",
+      "g"
+    ],
+    "3": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "g"
+    ],
+    "4": [
+      "b",
+      "c",
+      "f",
+      "g"
+    ],
+    "5": [
+      "a",
+      "c",
+      "d",
+      "f",
+      "g"
+    ],
+    "6": [
+      "a",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g"
+    ],
+    "7": [
+      "a",
+      "b",
+      "c"
+    ],
+    "8": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g"
+    ],
+    "9": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "f",
+      "g"
+    ]
+  },
+  "digitSlots": {
+    "0": {
+      "a": "segment.003",
+      "f": "segment.008",
+      "b": "segment.009",
+      "g": "segment.019",
+      "e": "segment.023",
+      "c": "segment.024",
+      "d": "segment.037"
+    },
+    "1": {
+      "a": "segment.004",
+      "f": "segment.010",
+      "b": "segment.011",
+      "g": "segment.020",
+      "e": "segment.025",
+      "c": "segment.026",
+      "d": "segment.038"
+    },
+    "2": {
+      "a": "segment.005",
+      "f": "segment.012",
+      "b": "segment.013",
+      "g": "segment.021",
+      "e": "segment.027",
+      "c": "segment.028",
+      "d": "segment.039"
+    },
+    "3": {
+      "a": "segment.006",
+      "f": "segment.014",
+      "b": "segment.015",
+      "g": "segment.022",
+      "e": "segment.029",
+      "c": "segment.030",
+      "d": "segment.040"
+    }
+  },
+  "smokeFrames": [
+    "smoke.frame.0",
+    "smoke.frame.1",
+    "smoke.frame.2",
+    "smoke.frame.3"
+  ],
+  "fallRoutes": [
+    [
+      "fall.lane.0.step.0",
+      "fall.lane.0.step.1",
+      "fall.lane.0.step.2",
+      "fall.lane.0.step.3",
+      "fall.lane.0.step.4",
+      "fall.lane.0.step.5",
+      "fall.lane.0.step.6",
+      "fall.lane.0.step.7"
+    ],
+    [
+      "fall.lane.1.step.0",
+      "fall.lane.1.step.1",
+      "fall.lane.1.step.2",
+      "fall.lane.1.step.3",
+      "fall.lane.1.step.4",
+      "fall.lane.1.step.5",
+      "fall.lane.1.step.6"
+    ],
+    [
+      "fall.lane.2.step.0",
+      "fall.lane.2.step.1",
+      "fall.lane.2.step.2"
+    ]
+  ],
+  "stretcherPositions": [
+    "stretcher.position.0",
+    "stretcher.position.1",
+    "stretcher.position.2"
+  ],
+  "bouncePositions": [
+    "bounce.position.0",
+    "bounce.position.1",
+    "bounce.position.2"
+  ],
+  "carriedPositions": [
+    "carried.position.0",
+    "carried.position.1",
+    "carried.position.2"
+  ],
+  "rightActionFrames": [
+    "right.action.0",
+    "right.action.1",
+    "right.action.2",
+    "right.action.3",
+    "right.action.4",
+    "right.action.5",
+    "right.action.6",
+    "right.action.7"
+  ],
+  "segments": {
+    "smoke.frame.0": {
+      "atlasSegmentId": "segment.001",
+      "atlasRect": [
+        2,
+        2,
+        249,
+        160
+      ],
+      "screenRect": [
+        232,
+        57,
+        249,
+        160
+      ],
+      "pixelCount": 5890,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "smoke.frame.1": {
+      "atlasSegmentId": "segment.002",
+      "atlasRect": [
+        1316,
+        2,
+        66,
+        138
+      ],
+      "screenRect": [
+        469,
+        67,
+        66,
+        138
+      ],
+      "pixelCount": 2690,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "smoke.frame.2": {
+      "atlasSegmentId": "segment.018",
+      "atlasRect": [
+        1386,
+        2,
+        157,
+        120
+      ],
+      "screenRect": [
+        261,
+        102,
+        157,
+        120
+      ],
+      "pixelCount": 3153,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "smoke.frame.3": {
+      "atlasSegmentId": "segment.034",
+      "atlasRect": [
+        1258,
+        166,
+        158,
+        83
+      ],
+      "screenRect": [
+        226,
+        138,
+        158,
+        83
+      ],
+      "pixelCount": 3700,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "status.miss.label": {
+      "atlasSegmentId": "segment.007",
+      "atlasRect": [
+        1612,
+        261,
+        111,
+        35
+      ],
+      "screenRect": [
+        1211,
+        78,
+        111,
+        35
+      ],
+      "pixelCount": 2010,
+      "componentCount": 4,
+      "confidence": "confirmed"
+    },
+    "clock.am": {
+      "atlasSegmentId": "segment.016",
+      "atlasRect": [
+        1727,
+        261,
+        68,
+        32
+      ],
+      "screenRect": [
+        608,
+        85,
+        68,
+        32
+      ],
+      "pixelCount": 1251,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "clock.pm": {
+      "atlasSegmentId": "segment.035",
+      "atlasRect": [
+        1799,
+        261,
+        66,
+        32
+      ],
+      "screenRect": [
+        610,
+        141,
+        66,
+        32
+      ],
+      "pixelCount": 1233,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "clock.colon.top": {
+      "atlasSegmentId": "segment.017",
+      "atlasRect": [
+        1904,
+        261,
+        14,
+        13
+      ],
+      "screenRect": [
+        862,
+        97,
+        14,
+        13
+      ],
+      "pixelCount": 151,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "clock.colon.bottom": {
+      "atlasSegmentId": "segment.036",
+      "atlasRect": [
+        1886,
+        261,
+        14,
+        14
+      ],
+      "screenRect": [
+        858,
+        143,
+        14,
+        14
+      ],
+      "pixelCount": 153,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "miss.icon.0": {
+      "atlasSegmentId": "segment.031",
+      "atlasRect": [
+        1513,
+        166,
+        62,
+        82
+      ],
+      "screenRect": [
+        1147,
+        132,
+        62,
+        82
+      ],
+      "pixelCount": 1847,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "miss.icon.1": {
+      "atlasSegmentId": "segment.032",
+      "atlasRect": [
+        1579,
+        166,
+        60,
+        82
+      ],
+      "screenRect": [
+        1228,
+        132,
+        60,
+        82
+      ],
+      "pixelCount": 1841,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "miss.icon.2": {
+      "atlasSegmentId": "segment.033",
+      "atlasRect": [
+        184,
+        261,
+        62,
+        78
+      ],
+      "screenRect": [
+        1310,
+        132,
+        62,
+        78
+      ],
+      "pixelCount": 1791,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "stretcher.position.0": {
+      "atlasSegmentId": "segment.069",
+      "atlasRect": [
+        393,
+        2,
+        334,
+        151
+      ],
+      "screenRect": [
+        210,
+        648,
+        334,
+        151
+      ],
+      "pixelCount": 13986,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "stretcher.position.1": {
+      "atlasSegmentId": "segment.072",
+      "atlasRect": [
+        1042,
+        2,
+        270,
+        148
+      ],
+      "screenRect": [
+        591,
+        653,
+        270,
+        148
+      ],
+      "pixelCount": 12890,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "stretcher.position.2": {
+      "atlasSegmentId": "segment.070",
+      "atlasRect": [
+        731,
+        2,
+        307,
+        149
+      ],
+      "screenRect": [
+        900,
+        649,
+        307,
+        149
+      ],
+      "pixelCount": 13044,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "bounce.position.0": {
+      "atlasSegmentId": "segment.073",
+      "atlasRect": [
+        361,
+        166,
+        246,
+        90
+      ],
+      "screenRect": [
+        276,
+        804,
+        246,
+        90
+      ],
+      "pixelCount": 4960,
+      "componentCount": 5,
+      "confidence": "confirmed"
+    },
+    "bounce.position.1": {
+      "atlasSegmentId": "segment.074",
+      "atlasRect": [
+        96,
+        166,
+        261,
+        90
+      ],
+      "screenRect": [
+        583,
+        804,
+        261,
+        90
+      ],
+      "pixelCount": 5133,
+      "componentCount": 5,
+      "confidence": "confirmed"
+    },
+    "bounce.position.2": {
+      "atlasSegmentId": "segment.075",
+      "atlasRect": [
+        1725,
+        166,
+        260,
+        80
+      ],
+      "screenRect": [
+        916,
+        804,
+        260,
+        80
+      ],
+      "pixelCount": 4949,
+      "componentCount": 5,
+      "confidence": "confirmed"
+    },
+    "mode.gameA": {
+      "atlasSegmentId": "segment.077",
+      "atlasRect": [
+        1283,
+        261,
+        164,
+        36
+      ],
+      "screenRect": [
+        146,
+        907,
+        164,
+        36
+      ],
+      "pixelCount": 2975,
+      "componentCount": 5,
+      "confidence": "confirmed"
+    },
+    "mode.gameB": {
+      "atlasSegmentId": "segment.076",
+      "atlasRect": [
+        1451,
+        261,
+        157,
+        36
+      ],
+      "screenRect": [
+        1240,
+        905,
+        157,
+        36
+      ],
+      "pixelCount": 3075,
+      "componentCount": 5,
+      "confidence": "confirmed"
+    },
+    "digit.0.a": {
+      "atlasSegmentId": "segment.003",
+      "atlasRect": [
+        1922,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        699,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.f": {
+      "atlasSegmentId": "segment.008",
+      "atlasRect": [
+        1215,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        689,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.b": {
+      "atlasSegmentId": "segment.009",
+      "atlasRect": [
+        1075,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        723,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.g": {
+      "atlasSegmentId": "segment.019",
+      "atlasRect": [
+        182,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        696,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.e": {
+      "atlasSegmentId": "segment.023",
+      "atlasRect": [
+        1147,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        684,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.c": {
+      "atlasSegmentId": "segment.024",
+      "atlasRect": [
+        1003,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        718,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.d": {
+      "atlasSegmentId": "segment.037",
+      "atlasRect": [
+        38,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        689,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.a": {
+      "atlasSegmentId": "segment.004",
+      "atlasRect": [
+        1958,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        790,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.f": {
+      "atlasSegmentId": "segment.010",
+      "atlasRect": [
+        1232,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        780,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.b": {
+      "atlasSegmentId": "segment.011",
+      "atlasRect": [
+        1093,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        814,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.g": {
+      "atlasSegmentId": "segment.020",
+      "atlasRect": [
+        214,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        787,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.e": {
+      "atlasSegmentId": "segment.025",
+      "atlasRect": [
+        1164,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        775,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.c": {
+      "atlasSegmentId": "segment.026",
+      "atlasRect": [
+        1021,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        809,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.d": {
+      "atlasSegmentId": "segment.038",
+      "atlasRect": [
+        74,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        780,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.a": {
+      "atlasSegmentId": "segment.005",
+      "atlasRect": [
+        1994,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        916,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.f": {
+      "atlasSegmentId": "segment.012",
+      "atlasRect": [
+        1249,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        906,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.b": {
+      "atlasSegmentId": "segment.013",
+      "atlasRect": [
+        1111,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        940,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.g": {
+      "atlasSegmentId": "segment.021",
+      "atlasRect": [
+        246,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        913,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.e": {
+      "atlasSegmentId": "segment.027",
+      "atlasRect": [
+        1181,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        901,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.c": {
+      "atlasSegmentId": "segment.028",
+      "atlasRect": [
+        1039,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        935,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.d": {
+      "atlasSegmentId": "segment.039",
+      "atlasRect": [
+        110,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        906,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.a": {
+      "atlasSegmentId": "segment.006",
+      "atlasRect": [
+        2,
+        345,
+        32,
+        12
+      ],
+      "screenRect": [
+        1007,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.f": {
+      "atlasSegmentId": "segment.014",
+      "atlasRect": [
+        1266,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        997,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.b": {
+      "atlasSegmentId": "segment.015",
+      "atlasRect": [
+        1129,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        1031,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.g": {
+      "atlasSegmentId": "segment.022",
+      "atlasRect": [
+        278,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        1004,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.e": {
+      "atlasSegmentId": "segment.029",
+      "atlasRect": [
+        1198,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        992,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.c": {
+      "atlasSegmentId": "segment.030",
+      "atlasRect": [
+        1057,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        1026,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.d": {
+      "atlasSegmentId": "segment.040",
+      "atlasRect": [
+        146,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        997,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "fall.lane.0.step.0": {
+      "atlasSegmentId": "segment.041",
+      "atlasRect": [
+        336,
+        261,
+        101,
+        74
+      ],
+      "screenRect": [
+        187,
+        226,
+        101,
+        74
+      ],
+      "pixelCount": 2620,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.1": {
+      "atlasSegmentId": "segment.044",
+      "atlasRect": [
+        844,
+        166,
+        76,
+        85
+      ],
+      "screenRect": [
+        463,
+        299,
+        76,
+        85
+      ],
+      "pixelCount": 2694,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.2": {
+      "atlasSegmentId": "segment.046",
+      "atlasRect": [
+        611,
+        166,
+        93,
+        89
+      ],
+      "screenRect": [
+        246,
+        307,
+        93,
+        89
+      ],
+      "pixelCount": 2798,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.3": {
+      "atlasSegmentId": "segment.052",
+      "atlasRect": [
+        1817,
+        2,
+        75,
+        94
+      ],
+      "screenRect": [
+        180,
+        390,
+        75,
+        94
+      ],
+      "pixelCount": 2485,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.4": {
+      "atlasSegmentId": "segment.055",
+      "atlasRect": [
+        1016,
+        166,
+        85,
+        84
+      ],
+      "screenRect": [
+        427,
+        415,
+        85,
+        84
+      ],
+      "pixelCount": 2815,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.5": {
+      "atlasSegmentId": "segment.057",
+      "atlasRect": [
+        1420,
+        166,
+        89,
+        82
+      ],
+      "screenRect": [
+        281,
+        428,
+        89,
+        82
+      ],
+      "pixelCount": 2738,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.6": {
+      "atlasSegmentId": "segment.062",
+      "atlasRect": [
+        1638,
+        2,
+        90,
+        95
+      ],
+      "screenRect": [
+        304,
+        527,
+        90,
+        95
+      ],
+      "pixelCount": 2853,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.0.step.7": {
+      "atlasSegmentId": "segment.063",
+      "atlasRect": [
+        1547,
+        2,
+        87,
+        96
+      ],
+      "screenRect": [
+        398,
+        527,
+        87,
+        96
+      ],
+      "pixelCount": 2815,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.0": {
+      "atlasSegmentId": "segment.042",
+      "atlasRect": [
+        623,
+        261,
+        79,
+        68
+      ],
+      "screenRect": [
+        527,
+        232,
+        79,
+        68
+      ],
+      "pixelCount": 2443,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.1": {
+      "atlasSegmentId": "segment.045",
+      "atlasRect": [
+        1105,
+        166,
+        78,
+        84
+      ],
+      "screenRect": [
+        602,
+        301,
+        78,
+        84
+      ],
+      "pixelCount": 2611,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.2": {
+      "atlasSegmentId": "segment.047",
+      "atlasRect": [
+        2,
+        261,
+        90,
+        80
+      ],
+      "screenRect": [
+        820,
+        313,
+        90,
+        80
+      ],
+      "pixelCount": 2754,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.3": {
+      "atlasSegmentId": "segment.054",
+      "atlasRect": [
+        1643,
+        166,
+        78,
+        81
+      ],
+      "screenRect": [
+        753,
+        407,
+        78,
+        81
+      ],
+      "pixelCount": 2696,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.4": {
+      "atlasSegmentId": "segment.056",
+      "atlasRect": [
+        1187,
+        166,
+        67,
+        84
+      ],
+      "screenRect": [
+        621,
+        418,
+        67,
+        84
+      ],
+      "pixelCount": 2622,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.5": {
+      "atlasSegmentId": "segment.064",
+      "atlasRect": [
+        1896,
+        2,
+        78,
+        93
+      ],
+      "screenRect": [
+        741,
+        527,
+        78,
+        93
+      ],
+      "pixelCount": 3005,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.1.step.6": {
+      "atlasSegmentId": "segment.066",
+      "atlasRect": [
+        96,
+        261,
+        84,
+        80
+      ],
+      "screenRect": [
+        639,
+        536,
+        84,
+        80
+      ],
+      "pixelCount": 2689,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.2.step.0": {
+      "atlasSegmentId": "segment.053",
+      "atlasRect": [
+        1732,
+        2,
+        81,
+        94
+      ],
+      "screenRect": [
+        901,
+        397,
+        81,
+        94
+      ],
+      "pixelCount": 3010,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.2.step.1": {
+      "atlasSegmentId": "segment.060",
+      "atlasRect": [
+        708,
+        166,
+        87,
+        88
+      ],
+      "screenRect": [
+        1056,
+        522,
+        87,
+        88
+      ],
+      "pixelCount": 2715,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "fall.lane.2.step.2": {
+      "atlasSegmentId": "segment.061",
+      "atlasRect": [
+        2,
+        166,
+        90,
+        91
+      ],
+      "screenRect": [
+        934,
+        524,
+        90,
+        91
+      ],
+      "pixelCount": 2888,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.0": {
+      "atlasSegmentId": "segment.043",
+      "atlasRect": [
+        255,
+        2,
+        134,
+        157
+      ],
+      "screenRect": [
+        1274,
+        240,
+        134,
+        157
+      ],
+      "pixelCount": 7455,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.1": {
+      "atlasSegmentId": "segment.048",
+      "atlasRect": [
+        909,
+        261,
+        90,
+        49
+      ],
+      "screenRect": [
+        1246,
+        318,
+        90,
+        49
+      ],
+      "pixelCount": 1606,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.2": {
+      "atlasSegmentId": "segment.049",
+      "atlasRect": [
+        786,
+        261,
+        63,
+        60
+      ],
+      "screenRect": [
+        1176,
+        326,
+        63,
+        60
+      ],
+      "pixelCount": 1942,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.3": {
+      "atlasSegmentId": "segment.050",
+      "atlasRect": [
+        1869,
+        261,
+        13,
+        32
+      ],
+      "screenRect": [
+        1396,
+        376,
+        13,
+        32
+      ],
+      "pixelCount": 261,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.4": {
+      "atlasSegmentId": "segment.051",
+      "atlasRect": [
+        799,
+        166,
+        41,
+        87
+      ],
+      "screenRect": [
+        1304,
+        380,
+        41,
+        87
+      ],
+      "pixelCount": 1363,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.5": {
+      "atlasSegmentId": "segment.058",
+      "atlasRect": [
+        853,
+        261,
+        52,
+        57
+      ],
+      "screenRect": [
+        1336,
+        438,
+        52,
+        57
+      ],
+      "pixelCount": 1716,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.6": {
+      "atlasSegmentId": "segment.059",
+      "atlasRect": [
+        527,
+        261,
+        92,
+        68
+      ],
+      "screenRect": [
+        1136,
+        444,
+        92,
+        68
+      ],
+      "pixelCount": 2444,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "right.action.7": {
+      "atlasSegmentId": "segment.065",
+      "atlasRect": [
+        924,
+        166,
+        88,
+        84
+      ],
+      "screenRect": [
+        1190,
+        535,
+        88,
+        84
+      ],
+      "pixelCount": 2534,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "carried.position.0": {
+      "atlasSegmentId": "segment.068",
+      "atlasRect": [
+        250,
+        261,
+        82,
+        76
+      ],
+      "screenRect": [
+        344,
+        643,
+        82,
+        76
+      ],
+      "pixelCount": 2882,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "carried.position.1": {
+      "atlasSegmentId": "segment.071",
+      "atlasRect": [
+        706,
+        261,
+        76,
+        65
+      ],
+      "screenRect": [
+        699,
+        650,
+        76,
+        65
+      ],
+      "pixelCount": 2390,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "carried.position.2": {
+      "atlasSegmentId": "segment.067",
+      "atlasRect": [
+        441,
+        261,
+        82,
+        74
+      ],
+      "screenRect": [
+        995,
+        636,
+        82,
+        74
+      ],
+      "pixelCount": 2882,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    }
+  },
+  "representativeStates": {
+    "allLit": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.004",
+      "segment.005",
+      "segment.006",
+      "segment.007",
+      "segment.008",
+      "segment.009",
+      "segment.010",
+      "segment.011",
+      "segment.012",
+      "segment.013",
+      "segment.014",
+      "segment.015",
+      "segment.016",
+      "segment.017",
+      "segment.018",
+      "segment.019",
+      "segment.020",
+      "segment.021",
+      "segment.022",
+      "segment.023",
+      "segment.024",
+      "segment.025",
+      "segment.026",
+      "segment.027",
+      "segment.028",
+      "segment.029",
+      "segment.030",
+      "segment.031",
+      "segment.032",
+      "segment.033",
+      "segment.034",
+      "segment.035",
+      "segment.036",
+      "segment.037",
+      "segment.038",
+      "segment.039",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.043",
+      "segment.044",
+      "segment.045",
+      "segment.046",
+      "segment.047",
+      "segment.048",
+      "segment.049",
+      "segment.050",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.054",
+      "segment.055",
+      "segment.056",
+      "segment.057",
+      "segment.058",
+      "segment.059",
+      "segment.060",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.066",
+      "segment.067",
+      "segment.068",
+      "segment.069",
+      "segment.070",
+      "segment.071",
+      "segment.072",
+      "segment.073",
+      "segment.074",
+      "segment.075",
+      "segment.076",
+      "segment.077"
+    ],
+    "gameAStart": [
+      "segment.077",
+      "segment.007",
+      "segment.069"
+    ],
+    "gameBStart": [
+      "segment.076",
+      "segment.007",
+      "segment.069"
+    ],
+    "threeMisses": [
+      "segment.007",
+      "segment.031",
+      "segment.032",
+      "segment.033"
+    ]
+  },
+  "validation": {
+    "segmentCount": 77,
+    "semanticCoverageMissing": 0,
+    "duplicateSemanticIds": 0,
+    "confirmedCount": 51,
+    "candidateCount": 26
+  },
+  "gameplayStatus": "Playable lane routing is deterministic; original FR-27 millisecond timing remains candidate."
+}

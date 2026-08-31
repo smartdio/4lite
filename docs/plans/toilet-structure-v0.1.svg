@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1450" height="1120" viewBox="0 0 1450 1120">
+  <defs>
+    <pattern id="ts-brick" width="30" height="15" patternUnits="userSpaceOnUse"><path d="M0 0H30M0 15H30M0 0V7.5M15 7.5V15M30 0V7.5" fill="none" stroke="#754b38" stroke-width="1" opacity=".6"/></pattern>
+    <pattern id="ts-tile" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M0 4Q9 -2 18 4M0 10Q9 4 18 10" fill="none" stroke="#111310" stroke-width="2"/></pattern>
+    <pattern id="ts-vent" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 16L16 0" stroke="#696a63" stroke-width="3"/></pattern>
+    <marker id="ts-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#51534e"/></marker>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#292a27}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#696b65}.panel{font-size:20px;font-weight:650}.label{font-size:16px;font-weight:650}.small{font-size:13px}.tiny{font-size:11px}.lime{fill:#cdc5aa;stroke:#69584a;stroke-width:2}.brick{fill:url(#ts-brick);stroke:#754b38;stroke-width:1.5}.tile{fill:#252824;stroke:#10120f;stroke-width:3}.tilepattern{fill:url(#ts-tile)}.vent{fill:#3d403b;stroke:#20221f;stroke-width:2}.ventgrid{fill:url(#ts-vent)}.entry{fill:#272a27;stroke:#171917;stroke-width:3}.screen{fill:#8b6a53;stroke:#574236;stroke-width:2}.moss{fill:#687455;opacity:.72}.ground{stroke:#74766f;stroke-width:2}.dim{stroke:#51534e;stroke-width:1.4;marker-start:url(#ts-arrow);marker-end:url(#ts-arrow)}.working{fill:#f4eee0;stroke:#aa8754;stroke-width:1.5;stroke-dasharray:7 5}.confirmed{fill:#e7f0e8;stroke:#72957a;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1450" height="1120" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">校园厕所｜南立面与屋顶结构图 v0.1</text>
+  <text x="70" y="87" class="subtitle">约6 × 4 m｜墙身约2.7 m｜无窗｜连续通风带｜黑瓦双坡顶｜不可进入</text>
+
+  <!-- South elevation -->
+  <text x="85" y="130" class="panel">A｜南向正立面</text>
+  <path d="M175 235L205 175H1245L1275 235L1245 275H205Z" class="tile"/>
+  <path d="M195 230L218 190H1232L1255 230L1240 255H210Z" class="tilepattern"/>
+  <!-- continuous ventilation gap below roof -->
+  <rect x="210" y="270" width="1030" height="58" class="vent"/><rect x="218" y="278" width="1014" height="42" class="ventgrid"/>
+  <rect x="220" y="328" width="1010" height="292" class="lime"/>
+  <!-- heavy lime loss -->
+  <path d="M220 370L290 340L365 360L410 414L382 500L312 528L245 492L220 455Z" class="brick"/>
+  <path d="M465 335L530 350L570 410L540 465L475 452L440 395Z" class="brick"/>
+  <path d="M820 342L900 360L935 425L902 500L830 485L790 414Z" class="brick"/>
+  <path d="M1060 375L1140 348L1230 390V515L1172 485L1110 528L1040 470Z" class="brick"/>
+  <!-- Final entrance topology: two long screens parallel to facade, central gap; end doors hidden behind. -->
+  <rect x="220" y="405" width="455" height="215" class="screen"/><rect x="775" y="405" width="455" height="215" class="screen"/>
+  <rect x="675" y="435" width="100" height="185" class="entry"/>
+  <text x="455" y="520" text-anchor="middle" class="label">女</text><text x="995" y="520" text-anchor="middle" class="label">男</text>
+  <text x="725" y="650" text-anchor="middle" class="label">南向共用入口</text>
+  <text x="725" y="672" text-anchor="middle" class="tiny">中间进入｜沿墙后夹道走到左右两端｜再向北转入门洞，正面不可见门</text>
+  <!-- moss concentrated low and damp -->
+  <path d="M220 576Q280 540 340 582T470 570T600 585V620H220Z" class="moss"/>
+  <path d="M890 580Q960 548 1030 584T1160 565T1230 590V620H890Z" class="moss"/>
+  <line x1="145" y1="620" x2="1300" y2="620" class="ground"/>
+  <line x1="1340" y1="328" x2="1340" y2="620" class="dim"/><text x="1357" y="474" text-anchor="middle" class="tiny" transform="rotate(90 1357 474)">墙身／檐口约2.7 m（A-）</text>
+  <text x="1225" y="260" text-anchor="end" class="tiny">连续通风带｜整栋无窗</text>
+
+  <!-- Gable section -->
+  <text x="85" y="745" class="panel">B｜山墙方向结构示意</text>
+  <g transform="translate(100 770)">
+    <path d="M60 190L240 86L420 190" fill="none" stroke="#232622" stroke-width="22"/>
+    <path d="M75 182L240 99L405 182" fill="none" class="tilepattern" stroke-width="12"/>
+    <rect x="92" y="188" width="296" height="34" class="vent"/><rect x="100" y="194" width="280" height="22" class="ventgrid"/>
+    <rect x="105" y="222" width="270" height="146" class="lime"/>
+    <path d="M112 346Q165 320 218 350T325 338T375 350V368H105Z" class="moss"/>
+    <line x1="240" y1="86" x2="240" y2="222" stroke="#65503c" stroke-width="7"/><line x1="105" y1="190" x2="240" y2="105" stroke="#65503c" stroke-width="7"/><line x1="375" y1="190" x2="240" y2="105" stroke="#65503c" stroke-width="7"/>
+    <path d="M120 270A170 170 0 0 1 190 180" fill="none" stroke="#8b6b3f" stroke-width="2" stroke-dasharray="5 4"/><text x="135" y="240" class="tiny">约30°（C）</text>
+    <text x="240" y="398" text-anchor="middle" class="tiny">4 m总深工作轮廓｜屋脊总高约3.8–3.9 m为推导值（C）</text>
+  </g>
+
+  <!-- Detail panel -->
+  <g transform="translate(620 770)">
+    <text x="0" y="0" class="panel">C｜外观表达重点</text>
+    <rect y="28" width="720" height="250" class="confirmed"/>
+    <text x="20" y="62" class="small">• 黑瓦双坡屋顶，长向水平屋脊；坡度约30°仅为普通工作值</text>
+    <text x="20" y="96" class="small">• 墙顶与屋面之间保留连续深色通风带，不添加任何窗户</text>
+    <text x="20" y="130" class="small">• 石灰面剥落程度比旧教室更严重，较大区域露出老砖</text>
+    <text x="20" y="164" class="small">• 青苔主要集中在墙脚、入口侧墙及其他潮湿位置</text>
+    <text x="20" y="198" class="small">• 正面左“女”、右“男”；标识具体字体和做法仍可调整</text>
+    <text x="20" y="232" class="small">• 两片长屏风墙与正立面平行；中央进入、两端转北，门不在正立面显露</text>
+  </g>
+  <g transform="translate(620 1035)"><rect width="720" height="48" class="working"/><text x="16" y="20" class="tiny">入口宽高、通风带高度、瓦型和剥落分布未实测，均保持参数化。</text><text x="16" y="38" class="tiny">本图用于外观与体量确认，不是内部平面、测绘图或施工图。</text></g>
+  <text x="70" y="1102" class="tiny">依据：015-toilet-structure-sketch.jpg 与亲历者说明。</text>
+</svg>

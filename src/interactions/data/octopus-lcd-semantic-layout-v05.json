@@ -1,0 +1,1795 @@
+{
+  "version": 5,
+  "lcdLayoutVersion": "manual-color-v05",
+  "sourceManifest": "octopus-lcd-segments-v03.json",
+  "referenceStructure": {
+    "tentacleCount": 4,
+    "alternatePaths": [
+      "tentacle.0"
+    ],
+    "pickupAnimationFrames": 2,
+    "caughtDiverStruggleStatic": [
+      "segment.046",
+      "segment.049",
+      "segment.054"
+    ],
+    "caughtDiverFootFrames": [
+      [
+        "segment.050",
+        "segment.058"
+      ],
+      [
+        "segment.056",
+        "segment.060"
+      ]
+    ],
+    "status": "four-tentacle grouping follows user markup; exact extension timing remains candidate"
+  },
+  "digitGlyphs": {
+    "0": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f"
+    ],
+    "1": [
+      "b",
+      "c"
+    ],
+    "2": [
+      "a",
+      "b",
+      "d",
+      "e",
+      "g"
+    ],
+    "3": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "g"
+    ],
+    "4": [
+      "b",
+      "c",
+      "f",
+      "g"
+    ],
+    "5": [
+      "a",
+      "c",
+      "d",
+      "f",
+      "g"
+    ],
+    "6": [
+      "a",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g"
+    ],
+    "7": [
+      "a",
+      "b",
+      "c"
+    ],
+    "8": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g"
+    ],
+    "9": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "f",
+      "g"
+    ]
+  },
+  "tentaclePaths": {
+    "tentacle.0": {
+      "base": [
+        "segment.041"
+      ],
+      "pathA": [
+        "segment.042",
+        "segment.040"
+      ],
+      "pathB": [
+        "segment.044",
+        "segment.047",
+        "segment.052"
+      ]
+    },
+    "tentacle.1": {
+      "base": [
+        "segment.045"
+      ],
+      "pathA": [
+        "segment.048",
+        "segment.053",
+        "segment.061",
+        "segment.064"
+      ]
+    },
+    "tentacle.2": {
+      "base": [
+        "segment.051"
+      ],
+      "pathA": [
+        "segment.057",
+        "segment.062",
+        "segment.065"
+      ]
+    },
+    "tentacle.3": {
+      "base": [
+        "segment.059"
+      ],
+      "pathA": [
+        "segment.063",
+        "segment.068"
+      ]
+    }
+  },
+  "segments": {
+    "life.boat.0": {
+      "atlasSegmentId": "segment.001",
+      "atlasRect": [
+        770,
+        2,
+        48,
+        87
+      ],
+      "screenRect": [
+        2,
+        0,
+        48,
+        87
+      ],
+      "pixelCount": 2007,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "life.boat.1": {
+      "atlasSegmentId": "segment.002",
+      "atlasRect": [
+        822,
+        2,
+        44,
+        82
+      ],
+      "screenRect": [
+        82,
+        0,
+        44,
+        82
+      ],
+      "pixelCount": 2036,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "life.boat.2": {
+      "atlasSegmentId": "segment.003",
+      "atlasRect": [
+        870,
+        2,
+        44,
+        82
+      ],
+      "screenRect": [
+        138,
+        0,
+        44,
+        82
+      ],
+      "pixelCount": 2005,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.caught.frame.0": {
+      "atlasSegmentId": "segment.004",
+      "atlasRect": [
+        372,
+        2,
+        96,
+        136
+      ],
+      "screenRect": [
+        507,
+        1,
+        96,
+        136
+      ],
+      "pixelCount": 4180,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "clock.am": {
+      "atlasSegmentId": "segment.005",
+      "atlasRect": [
+        398,
+        229,
+        37,
+        19
+      ],
+      "screenRect": [
+        207,
+        3,
+        37,
+        19
+      ],
+      "pixelCount": 455,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "digit.0.a": {
+      "atlasSegmentId": "segment.006",
+      "atlasRect": [
+        586,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        263,
+        4,
+        19,
+        8
+      ],
+      "pixelCount": 125,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.a": {
+      "atlasSegmentId": "segment.007",
+      "atlasRect": [
+        770,
+        229,
+        18,
+        8
+      ],
+      "screenRect": [
+        313,
+        4,
+        18,
+        8
+      ],
+      "pixelCount": 121,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.a": {
+      "atlasSegmentId": "segment.008",
+      "atlasRect": [
+        609,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        376,
+        4,
+        19,
+        8
+      ],
+      "pixelCount": 126,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.a": {
+      "atlasSegmentId": "segment.009",
+      "atlasRect": [
+        632,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        425,
+        4,
+        19,
+        8
+      ],
+      "pixelCount": 128,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.f": {
+      "atlasSegmentId": "segment.010",
+      "atlasRect": [
+        210,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        257,
+        8,
+        9,
+        21
+      ],
+      "pixelCount": 132,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.b": {
+      "atlasSegmentId": "segment.011",
+      "atlasRect": [
+        154,
+        229,
+        10,
+        21
+      ],
+      "screenRect": [
+        275,
+        8,
+        10,
+        21
+      ],
+      "pixelCount": 134,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.f": {
+      "atlasSegmentId": "segment.012",
+      "atlasRect": [
+        315,
+        229,
+        9,
+        20
+      ],
+      "screenRect": [
+        307,
+        8,
+        9,
+        20
+      ],
+      "pixelCount": 117,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.b": {
+      "atlasSegmentId": "segment.013",
+      "atlasRect": [
+        223,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        325,
+        8,
+        9,
+        21
+      ],
+      "pixelCount": 134,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.f": {
+      "atlasSegmentId": "segment.014",
+      "atlasRect": [
+        236,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        370,
+        8,
+        9,
+        21
+      ],
+      "pixelCount": 131,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.b": {
+      "atlasSegmentId": "segment.015",
+      "atlasRect": [
+        249,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        389,
+        8,
+        9,
+        21
+      ],
+      "pixelCount": 134,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.f": {
+      "atlasSegmentId": "segment.016",
+      "atlasRect": [
+        262,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        419,
+        8,
+        9,
+        21
+      ],
+      "pixelCount": 136,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.b": {
+      "atlasSegmentId": "segment.017",
+      "atlasRect": [
+        168,
+        229,
+        10,
+        21
+      ],
+      "screenRect": [
+        437,
+        8,
+        10,
+        21
+      ],
+      "pixelCount": 140,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "cargo.boat": {
+      "atlasSegmentId": "segment.018",
+      "atlasRect": [
+        183,
+        173,
+        37,
+        44
+      ],
+      "screenRect": [
+        39,
+        12,
+        37,
+        44
+      ],
+      "pixelCount": 734,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "clock.colon": {
+      "atlasSegmentId": "segment.019",
+      "atlasRect": [
+        570,
+        173,
+        13,
+        34
+      ],
+      "screenRect": [
+        344,
+        12,
+        13,
+        34
+      ],
+      "pixelCount": 173,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "clock.alarm": {
+      "atlasSegmentId": "segment.020",
+      "atlasRect": [
+        99,
+        173,
+        33,
+        46
+      ],
+      "screenRect": [
+        465,
+        15,
+        33,
+        46
+      ],
+      "pixelCount": 596,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "digit.1.g": {
+      "atlasSegmentId": "segment.021",
+      "atlasRect": [
+        538,
+        229,
+        18,
+        12
+      ],
+      "screenRect": [
+        309,
+        22,
+        18,
+        12
+      ],
+      "pixelCount": 132,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.g": {
+      "atlasSegmentId": "segment.022",
+      "atlasRect": [
+        655,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        259,
+        26,
+        19,
+        8
+      ],
+      "pixelCount": 125,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.g": {
+      "atlasSegmentId": "segment.023",
+      "atlasRect": [
+        792,
+        229,
+        18,
+        8
+      ],
+      "screenRect": [
+        373,
+        26,
+        18,
+        8
+      ],
+      "pixelCount": 113,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.g": {
+      "atlasSegmentId": "segment.024",
+      "atlasRect": [
+        678,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        421,
+        26,
+        19,
+        8
+      ],
+      "pixelCount": 120,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "clock.pm": {
+      "atlasSegmentId": "segment.025",
+      "atlasRect": [
+        439,
+        229,
+        36,
+        19
+      ],
+      "screenRect": [
+        208,
+        30,
+        36,
+        19
+      ],
+      "pixelCount": 484,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "digit.1.c": {
+      "atlasSegmentId": "segment.026",
+      "atlasRect": [
+        275,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        322,
+        30,
+        9,
+        21
+      ],
+      "pixelCount": 129,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.e": {
+      "atlasSegmentId": "segment.027",
+      "atlasRect": [
+        139,
+        229,
+        11,
+        21
+      ],
+      "screenRect": [
+        366,
+        30,
+        11,
+        21
+      ],
+      "pixelCount": 140,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "digit.2.c": {
+      "atlasSegmentId": "segment.028",
+      "atlasRect": [
+        182,
+        229,
+        10,
+        21
+      ],
+      "screenRect": [
+        385,
+        30,
+        10,
+        21
+      ],
+      "pixelCount": 136,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.c": {
+      "atlasSegmentId": "segment.029",
+      "atlasRect": [
+        288,
+        229,
+        9,
+        21
+      ],
+      "screenRect": [
+        434,
+        30,
+        9,
+        21
+      ],
+      "pixelCount": 133,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.e": {
+      "atlasSegmentId": "segment.030",
+      "atlasRect": [
+        328,
+        229,
+        9,
+        20
+      ],
+      "screenRect": [
+        254,
+        31,
+        9,
+        20
+      ],
+      "pixelCount": 125,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.c": {
+      "atlasSegmentId": "segment.031",
+      "atlasRect": [
+        301,
+        229,
+        10,
+        20
+      ],
+      "screenRect": [
+        272,
+        31,
+        10,
+        20
+      ],
+      "pixelCount": 133,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.e": {
+      "atlasSegmentId": "segment.032",
+      "atlasRect": [
+        196,
+        229,
+        10,
+        21
+      ],
+      "screenRect": [
+        303,
+        31,
+        10,
+        21
+      ],
+      "pixelCount": 131,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.e": {
+      "atlasSegmentId": "segment.033",
+      "atlasRect": [
+        85,
+        229,
+        9,
+        22
+      ],
+      "screenRect": [
+        416,
+        31,
+        9,
+        22
+      ],
+      "pixelCount": 136,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.0.d": {
+      "atlasSegmentId": "segment.034",
+      "atlasRect": [
+        701,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        257,
+        47,
+        19,
+        8
+      ],
+      "pixelCount": 126,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.1.d": {
+      "atlasSegmentId": "segment.035",
+      "atlasRect": [
+        724,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        306,
+        47,
+        19,
+        8
+      ],
+      "pixelCount": 124,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.2.d": {
+      "atlasSegmentId": "segment.036",
+      "atlasRect": [
+        747,
+        229,
+        19,
+        8
+      ],
+      "screenRect": [
+        370,
+        47,
+        19,
+        8
+      ],
+      "pixelCount": 127,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "digit.3.d": {
+      "atlasSegmentId": "segment.037",
+      "atlasRect": [
+        814,
+        229,
+        18,
+        8
+      ],
+      "screenRect": [
+        419,
+        47,
+        18,
+        8
+      ],
+      "pixelCount": 117,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "octopus.body": {
+      "atlasSegmentId": "segment.038",
+      "atlasRect": [
+        2,
+        2,
+        366,
+        167
+      ],
+      "screenRect": [
+        201,
+        83,
+        366,
+        167
+      ],
+      "pixelCount": 30674,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.position.0": {
+      "atlasSegmentId": "segment.039",
+      "atlasRect": [
+        918,
+        2,
+        74,
+        81
+      ],
+      "screenRect": [
+        0,
+        108,
+        74,
+        81
+      ],
+      "pixelCount": 2576,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.0.pathA.extension.2": {
+      "atlasSegmentId": "segment.040",
+      "atlasRect": [
+        803,
+        173,
+        54,
+        28
+      ],
+      "screenRect": [
+        66,
+        121,
+        54,
+        28
+      ],
+      "pixelCount": 563,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.0.base.0": {
+      "atlasSegmentId": "segment.041",
+      "atlasRect": [
+        861,
+        173,
+        72,
+        27
+      ],
+      "screenRect": [
+        150,
+        136,
+        72,
+        27
+      ],
+      "pixelCount": 1062,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.0.pathA.extension.1": {
+      "atlasSegmentId": "segment.042",
+      "atlasRect": [
+        341,
+        229,
+        53,
+        19
+      ],
+      "screenRect": [
+        103,
+        141,
+        53,
+        19
+      ],
+      "pixelCount": 566,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "cargo.position.0": {
+      "atlasSegmentId": "segment.043",
+      "atlasRect": [
+        279,
+        173,
+        23,
+        40
+      ],
+      "screenRect": [
+        71,
+        158,
+        23,
+        40
+      ],
+      "pixelCount": 568,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.0.pathB.extension.1": {
+      "atlasSegmentId": "segment.044",
+      "atlasRect": [
+        2,
+        229,
+        46,
+        26
+      ],
+      "screenRect": [
+        128,
+        162,
+        46,
+        26
+      ],
+      "pixelCount": 560,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.1.base.0": {
+      "atlasSegmentId": "segment.045",
+      "atlasRect": [
+        937,
+        173,
+        55,
+        26
+      ],
+      "screenRect": [
+        228,
+        171,
+        55,
+        26
+      ],
+      "pixelCount": 709,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.caught.struggle.static.0": {
+      "atlasSegmentId": "segment.046",
+      "atlasRect": [
+        251,
+        173,
+        24,
+        40
+      ],
+      "screenRect": [
+        287,
+        173,
+        24,
+        40
+      ],
+      "pixelCount": 427,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.0.pathB.extension.2": {
+      "atlasSegmentId": "segment.047",
+      "atlasRect": [
+        448,
+        173,
+        44,
+        37
+      ],
+      "screenRect": [
+        110,
+        185,
+        44,
+        37
+      ],
+      "pixelCount": 679,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.1.pathA.extension.1": {
+      "atlasSegmentId": "segment.048",
+      "atlasRect": [
+        388,
+        173,
+        29,
+        38
+      ],
+      "screenRect": [
+        224,
+        196,
+        29,
+        38
+      ],
+      "pixelCount": 546,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.caught.struggle.static.1": {
+      "atlasSegmentId": "segment.049",
+      "atlasRect": [
+        136,
+        173,
+        43,
+        44
+      ],
+      "screenRect": [
+        256,
+        197,
+        43,
+        44
+      ],
+      "pixelCount": 1184,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.caught.struggle.leg.0.pose.0": {
+      "atlasSegmentId": "segment.050",
+      "atlasRect": [
+        98,
+        229,
+        37,
+        21
+      ],
+      "screenRect": [
+        339,
+        208,
+        37,
+        21
+      ],
+      "pixelCount": 340,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.2.base.0": {
+      "atlasSegmentId": "segment.051",
+      "atlasRect": [
+        587,
+        173,
+        46,
+        33
+      ],
+      "screenRect": [
+        296,
+        210,
+        46,
+        33
+      ],
+      "pixelCount": 776,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.0.pathB.extension.3": {
+      "atlasSegmentId": "segment.052",
+      "atlasRect": [
+        2,
+        173,
+        51,
+        52
+      ],
+      "screenRect": [
+        85,
+        215,
+        51,
+        52
+      ],
+      "pixelCount": 701,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.1.pathA.extension.2": {
+      "atlasSegmentId": "segment.053",
+      "atlasRect": [
+        57,
+        173,
+        18,
+        49
+      ],
+      "screenRect": [
+        215,
+        219,
+        18,
+        49
+      ],
+      "pixelCount": 550,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.caught.struggle.static.2": {
+      "atlasSegmentId": "segment.054",
+      "atlasRect": [
+        745,
+        173,
+        25,
+        30
+      ],
+      "screenRect": [
+        241,
+        220,
+        25,
+        30
+      ],
+      "pixelCount": 341,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.position.1": {
+      "atlasSegmentId": "segment.055",
+      "atlasRect": [
+        550,
+        2,
+        66,
+        93
+      ],
+      "screenRect": [
+        26,
+        226,
+        66,
+        93
+      ],
+      "pixelCount": 2496,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.caught.struggle.leg.0.pose.1": {
+      "atlasSegmentId": "segment.056",
+      "atlasRect": [
+        498,
+        229,
+        36,
+        14
+      ],
+      "screenRect": [
+        336,
+        231,
+        36,
+        14
+      ],
+      "pixelCount": 331,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.2.pathA.extension.1": {
+      "atlasSegmentId": "segment.057",
+      "atlasRect": [
+        328,
+        173,
+        28,
+        39
+      ],
+      "screenRect": [
+        296,
+        236,
+        28,
+        39
+      ],
+      "pixelCount": 548,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.caught.struggle.leg.1.pose.0": {
+      "atlasSegmentId": "segment.058",
+      "atlasRect": [
+        774,
+        173,
+        25,
+        29
+      ],
+      "screenRect": [
+        332,
+        242,
+        25,
+        29
+      ],
+      "pixelCount": 328,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.3.base.0": {
+      "atlasSegmentId": "segment.059",
+      "atlasRect": [
+        637,
+        173,
+        39,
+        33
+      ],
+      "screenRect": [
+        427,
+        246,
+        39,
+        33
+      ],
+      "pixelCount": 726,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.caught.struggle.leg.1.pose.1": {
+      "atlasSegmentId": "segment.060",
+      "atlasRect": [
+        527,
+        173,
+        15,
+        35
+      ],
+      "screenRect": [
+        325,
+        248,
+        15,
+        35
+      ],
+      "pixelCount": 329,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.1.pathA.extension.3": {
+      "atlasSegmentId": "segment.061",
+      "atlasRect": [
+        79,
+        173,
+        16,
+        47
+      ],
+      "screenRect": [
+        210,
+        250,
+        16,
+        47
+      ],
+      "pixelCount": 437,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.2.pathA.extension.2": {
+      "atlasSegmentId": "segment.062",
+      "atlasRect": [
+        306,
+        173,
+        18,
+        40
+      ],
+      "screenRect": [
+        306,
+        261,
+        18,
+        40
+      ],
+      "pixelCount": 424,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.3.pathA.extension.1": {
+      "atlasSegmentId": "segment.063",
+      "atlasRect": [
+        704,
+        173,
+        37,
+        30
+      ],
+      "screenRect": [
+        439,
+        274,
+        37,
+        30
+      ],
+      "pixelCount": 515,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.1.pathA.extension.4": {
+      "atlasSegmentId": "segment.064",
+      "atlasRect": [
+        224,
+        173,
+        23,
+        44
+      ],
+      "screenRect": [
+        195,
+        285,
+        23,
+        44
+      ],
+      "pixelCount": 450,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "tentacle.2.pathA.extension.3": {
+      "atlasSegmentId": "segment.065",
+      "atlasRect": [
+        360,
+        173,
+        24,
+        39
+      ],
+      "screenRect": [
+        301,
+        294,
+        24,
+        39
+      ],
+      "pixelCount": 390,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.position.2": {
+      "atlasSegmentId": "segment.066",
+      "atlasRect": [
+        692,
+        2,
+        74,
+        89
+      ],
+      "screenRect": [
+        119,
+        299,
+        74,
+        89
+      ],
+      "pixelCount": 2735,
+      "componentCount": 2,
+      "confidence": "confirmed"
+    },
+    "cargo.position.1": {
+      "atlasSegmentId": "segment.067",
+      "atlasRect": [
+        680,
+        173,
+        20,
+        33
+      ],
+      "screenRect": [
+        71,
+        300,
+        20,
+        33
+      ],
+      "pixelCount": 416,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "tentacle.3.pathA.extension.2": {
+      "atlasSegmentId": "segment.068",
+      "atlasRect": [
+        421,
+        173,
+        23,
+        38
+      ],
+      "screenRect": [
+        455,
+        302,
+        23,
+        38
+      ],
+      "pixelCount": 516,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "diver.position.3": {
+      "atlasSegmentId": "segment.069",
+      "atlasRect": [
+        472,
+        2,
+        74,
+        101
+      ],
+      "screenRect": [
+        238,
+        304,
+        74,
+        101
+      ],
+      "pixelCount": 2925,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "diver.position.4": {
+      "atlasSegmentId": "segment.070",
+      "atlasRect": [
+        620,
+        2,
+        68,
+        91
+      ],
+      "screenRect": [
+        384,
+        313,
+        68,
+        91
+      ],
+      "pixelCount": 2567,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "cargo.position.4": {
+      "atlasSegmentId": "segment.071",
+      "atlasRect": [
+        496,
+        173,
+        27,
+        37
+      ],
+      "screenRect": [
+        356,
+        343,
+        27,
+        37
+      ],
+      "pixelCount": 596,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "treasure.pickup.frame.0": {
+      "atlasSegmentId": "segment.072",
+      "atlasRect": [
+        560,
+        229,
+        22,
+        11
+      ],
+      "screenRect": [
+        387,
+        352,
+        22,
+        11
+      ],
+      "pixelCount": 171,
+      "componentCount": 1,
+      "confidence": "candidate"
+    },
+    "cargo.position.3": {
+      "atlasSegmentId": "segment.073",
+      "atlasRect": [
+        546,
+        173,
+        20,
+        34
+      ],
+      "screenRect": [
+        304,
+        360,
+        20,
+        34
+      ],
+      "pixelCount": 424,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "cargo.position.2": {
+      "atlasSegmentId": "segment.074",
+      "atlasRect": [
+        52,
+        229,
+        29,
+        26
+      ],
+      "screenRect": [
+        185,
+        363,
+        29,
+        26
+      ],
+      "pixelCount": 452,
+      "componentCount": 1,
+      "confidence": "confirmed"
+    },
+    "treasure.pickup.frame.1": {
+      "atlasSegmentId": "segment.075",
+      "atlasRect": [
+        479,
+        229,
+        15,
+        15
+      ],
+      "screenRect": [
+        436,
+        368,
+        15,
+        15
+      ],
+      "pixelCount": 155,
+      "componentCount": 1,
+      "confidence": "candidate"
+    }
+  },
+  "representativeStates": {
+    "TIME 12:34": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.005",
+      "segment.007",
+      "segment.008",
+      "segment.011",
+      "segment.013",
+      "segment.015",
+      "segment.016",
+      "segment.017",
+      "segment.019",
+      "segment.021",
+      "segment.023",
+      "segment.024",
+      "segment.028",
+      "segment.029",
+      "segment.031",
+      "segment.032",
+      "segment.035",
+      "segment.036",
+      "segment.038"
+    ],
+    "Game start": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.007",
+      "segment.008",
+      "segment.009",
+      "segment.012",
+      "segment.013",
+      "segment.014",
+      "segment.015",
+      "segment.016",
+      "segment.017",
+      "segment.026",
+      "segment.027",
+      "segment.028",
+      "segment.029",
+      "segment.032",
+      "segment.033",
+      "segment.035",
+      "segment.036",
+      "segment.037",
+      "segment.038",
+      "segment.039",
+      "segment.041",
+      "segment.045",
+      "segment.051",
+      "segment.057",
+      "segment.059"
+    ],
+    "Mid route": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.008",
+      "segment.009",
+      "segment.013",
+      "segment.015",
+      "segment.017",
+      "segment.023",
+      "segment.024",
+      "segment.026",
+      "segment.027",
+      "segment.029",
+      "segment.036",
+      "segment.037",
+      "segment.038",
+      "segment.041",
+      "segment.042",
+      "segment.045",
+      "segment.048",
+      "segment.051",
+      "segment.053",
+      "segment.057",
+      "segment.059",
+      "segment.062",
+      "segment.063",
+      "segment.065",
+      "segment.066",
+      "segment.074"
+    ],
+    "At treasure": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.007",
+      "segment.008",
+      "segment.009",
+      "segment.013",
+      "segment.014",
+      "segment.015",
+      "segment.016",
+      "segment.017",
+      "segment.021",
+      "segment.027",
+      "segment.028",
+      "segment.029",
+      "segment.032",
+      "segment.033",
+      "segment.035",
+      "segment.036",
+      "segment.037",
+      "segment.038",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.044",
+      "segment.045",
+      "segment.047",
+      "segment.048",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.057",
+      "segment.059",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.068",
+      "segment.070",
+      "segment.071",
+      "segment.072"
+    ],
+    "Caught upper pose": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.004",
+      "segment.038",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.044",
+      "segment.045",
+      "segment.047",
+      "segment.048",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.057",
+      "segment.059",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.068"
+    ],
+    "Caught struggle 0": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.038",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.044",
+      "segment.045",
+      "segment.046",
+      "segment.047",
+      "segment.048",
+      "segment.049",
+      "segment.050",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.054",
+      "segment.057",
+      "segment.058",
+      "segment.059",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.068"
+    ],
+    "Caught struggle 1": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.038",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.044",
+      "segment.045",
+      "segment.046",
+      "segment.047",
+      "segment.048",
+      "segment.049",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.054",
+      "segment.056",
+      "segment.057",
+      "segment.059",
+      "segment.060",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.068"
+    ],
+    "All lit": [
+      "segment.001",
+      "segment.002",
+      "segment.003",
+      "segment.004",
+      "segment.005",
+      "segment.006",
+      "segment.007",
+      "segment.008",
+      "segment.009",
+      "segment.010",
+      "segment.011",
+      "segment.012",
+      "segment.013",
+      "segment.014",
+      "segment.015",
+      "segment.016",
+      "segment.017",
+      "segment.018",
+      "segment.019",
+      "segment.020",
+      "segment.021",
+      "segment.022",
+      "segment.023",
+      "segment.024",
+      "segment.025",
+      "segment.026",
+      "segment.027",
+      "segment.028",
+      "segment.029",
+      "segment.030",
+      "segment.031",
+      "segment.032",
+      "segment.033",
+      "segment.034",
+      "segment.035",
+      "segment.036",
+      "segment.037",
+      "segment.038",
+      "segment.039",
+      "segment.040",
+      "segment.041",
+      "segment.042",
+      "segment.043",
+      "segment.044",
+      "segment.045",
+      "segment.046",
+      "segment.047",
+      "segment.048",
+      "segment.049",
+      "segment.050",
+      "segment.051",
+      "segment.052",
+      "segment.053",
+      "segment.054",
+      "segment.055",
+      "segment.056",
+      "segment.057",
+      "segment.058",
+      "segment.059",
+      "segment.060",
+      "segment.061",
+      "segment.062",
+      "segment.063",
+      "segment.064",
+      "segment.065",
+      "segment.066",
+      "segment.067",
+      "segment.068",
+      "segment.069",
+      "segment.070",
+      "segment.071",
+      "segment.072",
+      "segment.073",
+      "segment.074",
+      "segment.075"
+    ]
+  },
+  "validation": {
+    "segmentCount": 75,
+    "semanticCoverageMissing": 0,
+    "duplicateSemanticIds": 0,
+    "confirmedCount": 55,
+    "candidateCount": 20
+  }
+}

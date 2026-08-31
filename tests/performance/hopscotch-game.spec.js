@@ -1,0 +1,247 @@
+import {expect,test} from '@playwright/test'
+
+const boot=async(page,{bestProgress=null}={})=>{
+  await page.addInitScript(value=>value==null?localStorage.removeItem('4lite.hopscotch.best-cell.v1'):localStorage.setItem('4lite.hopscotch.best-cell.v1',String(value)),bestProgress)
+  await page.goto('/',{waitUntil:'networkidle',timeout:120000})
+  await page.waitForFunction(()=>window.__CAMPUS_TEST__,null,{timeout:30000})
+  await page.locator('#enter-campus').click()
+  await expect(page.locator('#experience-gate')).toBeHidden({timeout:15000})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.ready())
+}
+
+const settle=page=>page.evaluate(()=>window.__CAMPUS_TEST__.settleHopscotch())
+const hop=async(page,cell,lateral=0,footMode=null)=>{
+  const started=await page.evaluate(([id,offset,feet])=>window.__CAMPUS_TEST__.hopHopscotch(id,offset,feet),[cell,lateral,footMode])
+  expect(started.phase).toBe('hopTakeoff')
+  return settle(page)
+}
+const resetRound=async page=>{
+  expect((await page.evaluate(()=>window.__CAMPUS_TEST__.nextHopscotchRound())).phase).toBe('resetReturn')
+  return settle(page)
+}
+const exitPauseMenu=async page=>{
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().minigamePause.visible)).toBe(true)
+  const bounds=await page.evaluate(()=>window.__CAMPUS_TEST__.hud().minigamePause.exitBounds)
+  await page.mouse.click((bounds.left+bounds.right)/2,(bounds.top+bounds.bottom)/2)
+}
+
+test('hopscotch completes the animated trip, picks up the tile and restores the player',async({page})=>{
+  await boot(page)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.teleport(-15.8,-8.1,-14.0,-8.1,0,-.16))
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().interaction)).toBe('start-hopscotch')
+  expect(await page.evaluate(()=>window.__CAMPUS_TEST__.probeHopscotchInteraction())).toMatchObject({target:'grid'})
+  const before=await page.evaluate(()=>window.__CAMPUS_TEST__.player())
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  expect(state).toMatchObject({status:'active',phase:'ready',target:1,drawObjects:3,interactionProxies:1})
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.controls().mode)).toBe('hopscotch')
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().hopscotch)).toMatchObject({visible:true,loaded:true,target:1})
+  expect(await page.evaluate(()=>window.__CAMPUS_TEST__.enterLongJump())).toBeNull()
+
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  expect(state).toMatchObject({phase:'outbound',tileCell:1,tileVisible:true})
+  for(const [cell,feet] of [[2,'single'],[3,'double'],[5,'single'],[6,'double'],[8,'single']]){
+    state=await hop(page,cell,0,feet)
+    expect(state.faultReason).toBe('')
+  }
+  expect(state).toMatchObject({phase:'returning',direction:'returning'})
+  for(const [cell,feet] of [[6,'double'],[5,'single'],[3,'double'],[2,'single']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'complete',tileHeld:true,tileVisible:false,bestProgress:1,rounds:1})
+  expect(await page.evaluate(()=>localStorage.getItem('4lite.hopscotch.best-cell.v1'))).toBe('1')
+
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  const restored=await page.evaluate(()=>window.__CAMPUS_TEST__.player())
+  expect(restored).toMatchObject({mode:'walk',x:before.x,y:before.y,z:before.z})
+})
+
+test('eighth target picks up the tile, completes the course and restarts from one',async({page})=>{
+  await boot(page,{bestProgress:7})
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  expect(state).toMatchObject({phase:'ready',target:8,bestProgress:7,courseComplete:false})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(8,0,0))
+  for(const [cell,feet] of [[1,'single'],[2,'single'],[3,'double'],[5,'single'],[6,'double']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'returning',direction:'returning',tileHeld:true,tileVisible:false})
+  for(const [cell,feet] of [[5,'single'],[3,'double'],[2,'single'],[1,'single']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'complete',target:8,bestProgress:8,courseComplete:true,tileHeld:true,rounds:1})
+  expect(await page.evaluate(()=>localStorage.getItem('4lite.hopscotch.best-cell.v1'))).toBe('8')
+  state=await resetRound(page)
+  expect(state).toMatchObject({phase:'ready',target:1,bestProgress:8,courseComplete:false})
+})
+
+test('ninth target completes the nine-cell fan layout',async({page})=>{
+  await boot(page,{bestProgress:8})
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch('fan-nine-b'))
+  expect(state).toMatchObject({phase:'ready',layoutId:'fan-nine-b',target:9,bestProgress:8,courseComplete:false,config:{cells:9}})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(9,0,0))
+  for(const [cell,feet] of [[1,'single'],[2,'double'],[4,'single'],[5,'double'],[7,'double']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'returning',direction:'returning',tileHeld:true,tileVisible:false})
+  for(const [cell,feet] of [[5,'double'],[4,'single'],[2,'double'],[1,'single']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'complete',layoutId:'fan-nine-b',target:9,bestProgress:9,courseComplete:true,tileHeld:true})
+  expect(await page.evaluate(()=>localStorage.getItem('4lite.hopscotch.best-cell.v1'))).toBe('9')
+})
+
+test('repeated entry starts centered on the grid and clears stale look input',async({page})=>{
+  await boot(page)
+  const first=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  expect(first.aimX).toBe(0);expect(first.viewDirection[0]).toBeGreaterThan(.5);expect(Math.abs(first.viewDirection[2])).toBeLessThan(.1)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.lookHopscotch(1000,-1000,false))
+  expect(Math.abs((await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())).aimX)).toBe(1)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  const second=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  expect(second).toMatchObject({aimX:0,cameraQuaternion:first.cameraQuaternion,viewDirection:first.viewDirection})
+})
+
+test('single and double landings play one and two concrete footstep voices',async({page})=>{
+  await boot(page);await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch());await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  let before=await page.evaluate(()=>window.__CAMPUS_TEST__.audio().plays)
+  await hop(page,2,0,'single')
+  let after=await page.evaluate(()=>window.__CAMPUS_TEST__.audio().plays)
+  expect(after-before).toBe(1)
+  before=after;await hop(page,3,0,'double');after=await page.evaluate(()=>window.__CAMPUS_TEST__.audio().plays)
+  expect(after-before).toBe(2)
+})
+
+test('the scene preselects each eight or nine-cell layout before gameplay starts',async({page})=>{
+  await boot(page)
+  const idle=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch(null))
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame().visual.loadedLayouts)).toBe(2)
+  expect(['connected-a','fan-nine-b']).toContain(idle.layoutId)
+  expect(state.layoutId).toBe(idle.layoutId)
+  expect(state.visual.url).toBe(idle.visual.url)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect(state.layoutId).not.toBe(idle.layoutId)
+  const nextIdle={layoutId:state.layoutId,url:state.visual.url}
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch(null))
+  expect(state.layoutId).toBe(nextIdle.layoutId)
+  expect(state.visual.url).toBe(nextIdle.url)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch('fan-nine-b'))
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect(state).toMatchObject({layoutId:'fan-nine-b',config:{cells:9},visual:{candidate:'hand-drawn-fan-nine-v06',topology:'connected-stem-with-five-cell-fan',layoutCount:2,loadedLayouts:2,gridMesh:1}})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  state=await hop(page,2,0,'double')
+  expect(state).toMatchObject({phase:'outbound',layoutId:'fan-nine-b',lastLanding:{cell:2,footMode:'double'}})
+  for(const [cell,feet] of [[4,'single'],[5,'double'],[7,'double'],[9,'single']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'returning',layoutId:'fan-nine-b'})
+  for(const [cell,feet] of [[7,'double'],[5,'double'],[4,'single'],[2,'double']])state=await hop(page,cell,0,feet)
+  expect(state).toMatchObject({phase:'complete',layoutId:'fan-nine-b',tileHeld:true})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch(null))
+  expect(state.layoutId).toBe('connected-a')
+})
+
+test('nine-cell fan boundaries report chalk lines instead of leaking into adjacent rows',async({page})=>{
+  await boot(page,{bestProgress:6})
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch('fan-nine-b'))
+  expect(state).toMatchObject({target:7,layoutId:'fan-nine-b'})
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(7,0,-.18))
+  expect(state).toMatchObject({phase:'fault',faultReason:'瓦片压线了'})
+  await resetRound(page)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(7,0,0))
+  expect(state).toMatchObject({phase:'outbound',tileCell:7})
+})
+
+test('connected hand-drawn grid and physical throw expose bounded runtime resources',async({page})=>{
+  await boot(page);await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame().visual.status)).toBe('loaded')
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect(state).toMatchObject({
+    visual:{candidate:'hand-drawn-connected-v02',topology:'connected-shared-lines',size:[2048,1024],filter:'linear-mipmap',mipmaps:true,layoutId:'connected-a',layoutCount:2,loadedLayouts:2,gridMesh:1,powerMeter:false},
+    drawObjects:3,interactionProxies:1,physics:{fixedStep:1/120,maxSubsteps:8,gravity:9.81,powerScale:[.82,1.03]},
+    config:{rotationY:90,cells:8},
+  })
+  const held=[...state.tile.position],initialQuaternion=[...state.cameraQuaternion]
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.lookHopscotch(80,-20,false))
+  expect(state.cameraQuaternion).not.toEqual(initialQuaternion);expect(Math.abs(state.aimX)).toBeGreaterThan(.2)
+  expect(await page.evaluate(()=>window.__CAMPUS_TEST__.beginHopscotchThrow())).toBe(true)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.32))
+  expect(state).toMatchObject({phase:'charging'});expect(state.chargeRatio).toBeGreaterThan(.2)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.releaseHopscotchThrow(.5))
+  expect(state.phase).toBe('throwFlight');expect(Math.abs(state.tile.velocity[2])).toBeGreaterThan(.2)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.12))
+  expect(state.phase).toBe('throwFlight');expect(state.tile.position).not.toEqual(held);expect(state.tile.velocity[1]).toBeLessThan(1.25)
+  state=await settle(page)
+  expect(state.tile.bounces).toBeGreaterThanOrEqual(1)
+  expect(['outbound','fault']).toContain(state.phase)
+})
+
+test('hopscotch rejects short, over, wrong, line and invalid foot landings after motion',async({page})=>{
+  await boot(page);await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,-1))
+  expect(state).toMatchObject({phase:'fault',faultReason:'投短了'})
+  await resetRound(page)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,5))
+  expect(state).toMatchObject({phase:'fault',faultReason:'投过格了'})
+  await resetRound(page)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(2,0,0))
+  expect(state).toMatchObject({phase:'fault',faultReason:'投错格了'})
+  await resetRound(page)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,.32,0))
+  expect(state).toMatchObject({phase:'fault',faultReason:'瓦片压线了'})
+  await resetRound(page);await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  state=await hop(page,1,0,'single')
+  expect(state).toMatchObject({phase:'fault',faultReason:'踩进瓦片格了'})
+  await resetRound(page);await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  state=await hop(page,2,.3,'single')
+  expect(state).toMatchObject({phase:'fault',faultReason:'踩线了'})
+  await resetRound(page);await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0));await hop(page,2,0,'single')
+  state=await hop(page,3,0,'single')
+  expect(state).toMatchObject({phase:'fault',faultReason:'双格要双脚落地'})
+})
+
+test('every hop has crouch, airborne and landing frames and can exit mid-animation',async({page})=>{
+  await boot(page)
+  const before=await page.evaluate(()=>window.__CAMPUS_TEST__.player())
+  await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch());await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(1,0,0))
+  const start=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect((await page.evaluate(()=>window.__CAMPUS_TEST__.hopHopscotch(2,0,'single'))).phase).toBe('hopTakeoff')
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.05))
+  expect(state.phase).toBe('hopTakeoff');expect(state.currentCell).toBe(0);expect(state.camera[1]).toBeLessThan(start.camera[1])
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.14))
+  expect(state.phase).toBe('hopAir');expect(state.currentCell).toBe(0);expect(state.camera).not.toEqual(start.camera)
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.24))
+  expect(['hopAir','hopLand']).toContain(state.phase);expect(state.currentCell).toBe(0)
+  await page.keyboard.press('Escape')
+  expect(await page.evaluate(()=>window.__CAMPUS_TEST__.controls())).toMatchObject({mode:'hopscotch',minigamePaused:true})
+  await exitPauseMenu(page)
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.controls().mode)).toBe('walk')
+  const restored=await page.evaluate(()=>window.__CAMPUS_TEST__.player())
+  expect(restored).toMatchObject({x:before.x,y:before.y,z:before.z})
+})
+
+test('touch direction and power input animate without exposing the walking joystick',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2})
+  const page=await context.newPage();await boot(page)
+  await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+  await expect(page.locator('#touch-controls')).toBeVisible();await expect(page.locator('#touch-joystick')).toHaveCSS('pointer-events','none')
+  const zone=page.locator('#touch-look-zone')
+  const before=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame().cameraQuaternion)
+  await zone.dispatchEvent('pointerdown',{clientX:285,clientY:430,pointerId:51,pointerType:'touch',button:0,isPrimary:true})
+  await zone.dispatchEvent('pointermove',{clientX:335,clientY:400,pointerId:51,pointerType:'touch',button:0,isPrimary:true})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.advanceHopscotch(.36))
+  let state=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect(state).toMatchObject({phase:'charging'});expect(Math.abs(state.aimX)).toBeGreaterThan(.2);expect(state.cameraQuaternion).not.toEqual(before);expect(state.chargeRatio).toBeGreaterThan(.2)
+  await zone.dispatchEvent('pointerup',{clientX:335,clientY:400,pointerId:51,pointerType:'touch',button:0,isPrimary:true})
+  state=await page.evaluate(()=>window.__CAMPUS_TEST__.hopscotchGame())
+  expect(['throwFlight','throwSettle']).toContain(state.phase)
+  await context.close()
+})
+
+test('hopscotch reuses proxy, geometry, texture and HUD resources through repeated rounds',async({page})=>{
+  await boot(page)
+  for(let pass=0;pass<3;pass++){await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch());await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())}
+  await page.waitForTimeout(2000)
+  const before=await page.evaluate(()=>window.__CAMPUS_TEST__.performanceSnapshot().renderer.memory)
+  for(let pass=0;pass<4;pass++){
+    await page.evaluate(()=>window.__CAMPUS_TEST__.enterHopscotch())
+    await page.evaluate(()=>window.__CAMPUS_TEST__.throwHopscotchTile(2,0,0))
+    await resetRound(page)
+    await page.evaluate(()=>window.__CAMPUS_TEST__.exitHopscotch())
+  }
+  await page.waitForTimeout(500)
+  const result=await page.evaluate(()=>({memory:window.__CAMPUS_TEST__.performanceSnapshot().renderer.memory,game:window.__CAMPUS_TEST__.hopscotchGame()}))
+  expect(result.game).toMatchObject({status:'idle',drawObjects:3,interactionProxies:1,visual:{gridMesh:1}})
+  expect(result.memory.geometries).toBeLessThanOrEqual(before.geometries)
+  expect(result.memory.textures).toBeLessThanOrEqual(before.textures)
+})

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 720" role="img" aria-labelledby="title desc">
+  <title id="title">1号教学楼栏杆花纹重绘 v0.4</title>
+  <desc id="desc">依据亲历者草图重绘：左侧单个构造单元，右侧三个单元连续排列；中部是直线构成的细长剑形菱形，不是弧形叶片。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f6f3e9}.solid{fill:#e3b936;stroke:#795f18;stroke-width:3}.rail{fill:#d4a62b;stroke:#795f18;stroke-width:3}.hole{fill:#33485b}.wave-outline{fill:none;stroke:#795f18;stroke-width:34;stroke-linejoin:round}.wave{fill:none;stroke:#e3b936;stroke-width:28;stroke-linejoin:round}.guide{fill:none;stroke:#7695a7;stroke-width:2;stroke-dasharray:7 7}.label{font:600 24px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#2c302e}.note{font:18px -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#5f6763}
+    </style>
+    <g id="sword-diamond">
+      <path class="solid" fill-rule="evenodd" d="M0 0 L-60 70 L-56 200 L0 270 L56 200 L60 70 Z M0 30 L-34 88 L-30 181 L0 232 L30 181 L34 88 Z"/>
+    </g>
+  </defs>
+  <rect class="bg" width="1500" height="720"/>
+  <text class="label" x="60" y="54">单个基本单元</text>
+  <text class="label" x="590" y="54">连续排列</text>
+
+  <!-- 单个单元：上方方孔带 -->
+  <rect class="rail" x="110" y="82" width="280" height="22"/>
+  <rect class="rail" x="130" y="104" width="22" height="100"/>
+  <rect class="rail" x="348" y="104" width="22" height="100"/>
+  <rect class="rail" x="130" y="182" width="240" height="22"/>
+  <rect class="hole" x="152" y="104" width="196" height="78"/>
+
+  <!-- 单个剑形菱形及波浪横肋 -->
+  <use href="#sword-diamond" transform="translate(250 202)"/>
+  <path class="wave-outline" d="M130 410 C150 410 170 430 190 472 H310 C330 430 350 410 370 410"/>
+  <path class="wave" d="M130 410 C150 410 170 430 190 472 H310 C330 430 350 410 370 410"/>
+  <rect class="rail" x="239" y="472" width="22" height="58"/>
+
+  <!-- 单个单元：下方方孔带 -->
+  <rect class="rail" x="130" y="518" width="240" height="22"/>
+  <rect class="rail" x="130" y="540" width="22" height="106"/>
+  <rect class="rail" x="348" y="540" width="22" height="106"/>
+  <rect class="rail" x="130" y="624" width="240" height="22"/>
+  <rect class="hole" x="152" y="540" width="196" height="84"/>
+
+  <!-- 三个连续单元：顶部方孔带，分隔线位于波峰 -->
+  <rect class="rail" x="610" y="82" width="780" height="22"/>
+  <rect class="rail" x="629" y="104" width="22" height="100"/>
+  <rect class="rail" x="869" y="104" width="22" height="100"/>
+  <rect class="rail" x="1109" y="104" width="22" height="100"/>
+  <rect class="rail" x="1349" y="104" width="22" height="100"/>
+  <rect class="rail" x="629" y="182" width="742" height="22"/>
+  <rect class="hole" x="651" y="104" width="218" height="78"/>
+  <rect class="hole" x="891" y="104" width="218" height="78"/>
+  <rect class="hole" x="1131" y="104" width="218" height="78"/>
+
+  <!-- 三个同形剑形菱形单元 -->
+  <use href="#sword-diamond" transform="translate(760 202)"/>
+  <use href="#sword-diamond" transform="translate(1000 202)"/>
+  <use href="#sword-diamond" transform="translate(1240 202)"/>
+
+  <!-- 连续波浪横肋，波谷与剑形菱形底点重合 -->
+  <path class="wave-outline" d="M640 410 C660 410 680 430 700 472 H820 C840 430 860 410 880 410 C900 410 920 430 940 472 H1060 C1080 430 1100 410 1120 410 C1140 410 1160 430 1180 472 H1300 C1320 430 1340 410 1360 410"/>
+  <path class="wave" d="M640 410 C660 410 680 430 700 472 H820 C840 430 860 410 880 410 C900 410 920 430 940 472 H1060 C1080 430 1100 410 1120 410 C1140 410 1160 430 1180 472 H1300 C1320 430 1340 410 1360 410"/>
+
+  <!-- 波谷向下连接，成为下排方孔的分隔柱 -->
+  <rect class="rail" x="749" y="472" width="22" height="58"/>
+  <rect class="rail" x="989" y="472" width="22" height="58"/>
+  <rect class="rail" x="1229" y="472" width="22" height="58"/>
+
+  <!-- 下排方孔带；分隔柱相对上排错开半个节距 -->
+  <rect class="rail" x="629" y="518" width="742" height="22"/>
+  <rect class="rail" x="629" y="540" width="22" height="106"/>
+  <rect class="rail" x="749" y="540" width="22" height="106"/>
+  <rect class="rail" x="989" y="540" width="22" height="106"/>
+  <rect class="rail" x="1229" y="540" width="22" height="106"/>
+  <rect class="rail" x="1349" y="540" width="22" height="106"/>
+  <rect class="rail" x="629" y="624" width="742" height="22"/>
+  <rect class="hole" x="651" y="540" width="98" height="84"/>
+  <rect class="hole" x="771" y="540" width="218" height="84"/>
+  <rect class="hole" x="1011" y="540" width="218" height="84"/>
+  <rect class="hole" x="1251" y="540" width="98" height="84"/>
+
+  <!-- 对位辅助 -->
+  <path class="guide" d="M760 72V670 M1000 72V670 M1240 72V670"/>
+  <text class="note" x="590" y="690">菱形底部先水平延伸，走到菱形外缘附近才起拱；拱形只位于两个菱形之间。</text>
+</svg>

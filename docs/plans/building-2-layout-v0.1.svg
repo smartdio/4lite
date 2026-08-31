@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1050" viewBox="0 0 1500 1050">
+  <defs>
+    <pattern id="b2-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#e4e1d7" stroke-width="1"/></pattern>
+    <pattern id="b2-stair" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0 14L14 0M-4 4L4-4M10 18L18 10" stroke="#72746f" stroke-width="1.5"/></pattern>
+    <marker id="b2-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#50524d"/></marker>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#282925}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#676963}.label{font-size:18px;font-weight:650}.small{font-size:14px}.tiny{font-size:12px}.wall{fill:#4c4e49}.room{fill:#ead878}.stair{fill:url(#b2-stair);stroke:#4c4e49;stroke-width:2}.corridor{fill:#d8e6e9}.rail{stroke:#527888;stroke-width:4;fill:none}.column{fill:#d0a267;stroke:#765b39;stroke-width:1.5}.iron-window{fill:#aebed0;stroke:#344e61;stroke-width:4}.wood-door{fill:#986d4d;stroke:#5f402d;stroke-width:3}.candidate{stroke-dasharray:7 5}.dim{stroke:#50524d;stroke-width:1.5;marker-start:url(#b2-arrow);marker-end:url(#b2-arrow)}.ext{stroke:#8d8f89;stroke-width:1;stroke-dasharray:4 4}.note{fill:#f3eee0;stroke:#a88650;stroke-width:1.5;stroke-dasharray:7 5}.confirmed{fill:#e7f0e8;stroke:#73957b;stroke-width:1.5}.ground{stroke:#777972;stroke-width:2}.step{fill:#d5cebd;stroke:#74736c;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1500" height="1050" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">2号教学楼｜三层统一平面图 v0.1</text>
+  <text x="70" y="87" class="subtitle">四间9×7 m教室＋中央4.5 m楼梯间＋2 m连续外廊｜层高约3.0–3.2 m｜墙厚暂按0.24 m</text>
+
+  <g transform="translate(70 112)">
+    <rect width="14" height="14" class="room"/><text x="22" y="12" class="small">教室净空间</text>
+    <rect x="130" width="14" height="14" class="corridor"/><text x="152" y="12" class="small">外廊</text>
+    <rect x="230" width="14" height="14" class="stair"/><text x="252" y="12" class="small">中央楼梯</text>
+    <rect x="360" width="14" height="14" class="iron-window"/><text x="382" y="12" class="small">铁框玻璃窗</text>
+    <rect x="520" width="14" height="14" class="wood-door"/><text x="542" y="12" class="small">木门</text>
+  </g>
+
+  <text x="220" y="180" class="label">标准层平面｜第1、2、3层共用</text>
+  <text x="1228" y="180" text-anchor="end" class="tiny">走廊侧次序已确认：门—窗—粗柱—窗—门；具体宽度待标定</text>
+
+  <!-- Exterior wall and rooms -->
+  <rect x="220" y="220" width="1008" height="180" class="wall"/>
+  <rect x="226" y="226" width="216" height="168" class="room"/>
+  <rect x="448" y="226" width="216" height="168" class="room"/>
+  <rect x="670" y="226" width="108" height="168" class="stair"/>
+  <rect x="784" y="226" width="216" height="168" class="room"/>
+  <rect x="1006" y="226" width="216" height="168" class="room"/>
+
+  <g text-anchor="middle">
+    <text x="334" y="294" class="label">教室1</text><text x="334" y="320" class="small">净9×7 m</text>
+    <text x="556" y="294" class="label">教室2</text><text x="556" y="320" class="small">净9×7 m</text>
+    <text x="724" y="292" class="label">中央楼梯</text><text x="724" y="316" class="small">净宽约4.5 m</text>
+    <text x="892" y="294" class="label">教室3</text><text x="892" y="320" class="small">净9×7 m</text>
+    <text x="1114" y="294" class="label">教室4</text><text x="1114" y="320" class="small">净9×7 m</text>
+  </g>
+
+  <!-- Confirmed rear windows: four iron-window groups per classroom. -->
+  <g>
+    <rect x="246" y="216" width="38" height="10" class="iron-window"/><rect x="296" y="216" width="38" height="10" class="iron-window"/><rect x="346" y="216" width="38" height="10" class="iron-window"/><rect x="396" y="216" width="38" height="10" class="iron-window"/>
+    <rect x="468" y="216" width="38" height="10" class="iron-window"/><rect x="518" y="216" width="38" height="10" class="iron-window"/><rect x="568" y="216" width="38" height="10" class="iron-window"/><rect x="618" y="216" width="38" height="10" class="iron-window"/>
+    <rect x="804" y="216" width="38" height="10" class="iron-window"/><rect x="854" y="216" width="38" height="10" class="iron-window"/><rect x="904" y="216" width="38" height="10" class="iron-window"/><rect x="954" y="216" width="38" height="10" class="iron-window"/>
+    <rect x="1026" y="216" width="38" height="10" class="iron-window"/><rect x="1076" y="216" width="38" height="10" class="iron-window"/><rect x="1126" y="216" width="38" height="10" class="iron-window"/><rect x="1176" y="216" width="38" height="10" class="iron-window"/>
+  </g>
+
+  <!-- Confirmed corridor-side topology: door - window - thick pier - window - door. -->
+  <g>
+    <rect x="242" y="390" width="24" height="10" class="wood-door"/><rect x="284" y="390" width="40" height="10" class="iron-window"/><rect x="324" y="386" width="20" height="18" class="column"/><rect x="344" y="390" width="40" height="10" class="iron-window"/><rect x="402" y="390" width="24" height="10" class="wood-door"/>
+    <rect x="464" y="390" width="24" height="10" class="wood-door"/><rect x="506" y="390" width="40" height="10" class="iron-window"/><rect x="546" y="386" width="20" height="18" class="column"/><rect x="566" y="390" width="40" height="10" class="iron-window"/><rect x="624" y="390" width="24" height="10" class="wood-door"/>
+    <rect x="800" y="390" width="24" height="10" class="wood-door"/><rect x="842" y="390" width="40" height="10" class="iron-window"/><rect x="882" y="386" width="20" height="18" class="column"/><rect x="902" y="390" width="40" height="10" class="iron-window"/><rect x="960" y="390" width="24" height="10" class="wood-door"/>
+    <rect x="1022" y="390" width="24" height="10" class="wood-door"/><rect x="1064" y="390" width="40" height="10" class="iron-window"/><rect x="1104" y="386" width="20" height="18" class="column"/><rect x="1124" y="390" width="40" height="10" class="iron-window"/><rect x="1182" y="390" width="24" height="10" class="wood-door"/>
+  </g>
+
+  <!-- Two-run stair working layout. -->
+  <rect x="679" y="238" width="38" height="118" fill="#ece9df" stroke="#555750" stroke-width="2"/>
+  <rect x="731" y="238" width="38" height="118" fill="#ece9df" stroke="#555750" stroke-width="2"/>
+  <rect x="679" y="238" width="90" height="34" fill="#d6d0c0" stroke="#555750" stroke-width="2"/>
+  <g stroke="#777972" stroke-width="1.5">
+    <path d="M679 282H717M679 292H717M679 302H717M679 312H717M679 322H717M679 332H717M679 342H717"/>
+    <path d="M731 282H769M731 292H769M731 302H769M731 312H769M731 322H769M731 332H769M731 342H769"/>
+  </g>
+  <path d="M750 356V278" stroke="#52544f" stroke-width="2" marker-end="url(#b2-arrow)"/>
+  <path d="M698 278V356" stroke="#52544f" stroke-width="2" marker-end="url(#b2-arrow)"/>
+  <text x="750" y="374" text-anchor="middle" class="tiny">右侧进入</text>
+  <text x="698" y="226" text-anchor="middle" class="tiny">折返后左侧出</text>
+
+  <!-- Shared corridor footprint; outer line is railing on floors 2-3 and an open slab edge on floor 1. -->
+  <rect x="220" y="400" width="1008" height="48" class="corridor"/>
+  <path d="M220 448H1228" class="rail"/>
+  <text x="724" y="431" text-anchor="middle" class="small">连续外廊净宽约2.00 m｜二三层设栏杆｜一层完全敞开无栏杆</text>
+
+  <!-- Dimensions -->
+  <line x1="220" y1="195" x2="220" y2="215" class="ext"/><line x1="1228" y1="195" x2="1228" y2="215" class="ext"/><line x1="220" y1="195" x2="1228" y2="195" class="dim"/>
+  <text x="724" y="187" text-anchor="middle" class="small">推导外墙总长约41.94 m｜校园总平面早期约45 m为估计值</text>
+  <line x1="1265" y1="226" x2="1235" y2="226" class="ext"/><line x1="1265" y1="394" x2="1235" y2="394" class="ext"/><line x1="1265" y1="226" x2="1265" y2="394" class="dim"/><text x="1283" y="310" text-anchor="middle" class="small" transform="rotate(90 1283 310)">教室净深7.00 m</text>
+  <line x1="1310" y1="400" x2="1235" y2="400" class="ext"/><line x1="1310" y1="448" x2="1235" y2="448" class="ext"/><line x1="1310" y1="400" x2="1310" y2="448" class="dim"/><text x="1328" y="424" text-anchor="middle" class="small" transform="rotate(90 1328 424)">外廊净宽2.00 m</text>
+
+  <!-- Three-floor repetition diagram -->
+  <g transform="translate(220 570)">
+    <text x="0" y="0" class="label">三层重复关系</text>
+    <g transform="translate(0 30)"><rect width="650" height="68" class="confirmed"/><text x="18" y="26" class="label">三层</text><text x="110" y="26" class="small">教室1—教室2—中央楼梯—教室3—教室4</text><text x="110" y="51" class="tiny">连续2 m外廊｜设栏杆｜铁窗＋木门</text></g>
+    <g transform="translate(0 108)"><rect width="650" height="68" class="confirmed"/><text x="18" y="26" class="label">二层</text><text x="110" y="26" class="small">教室1—教室2—中央楼梯—教室3—教室4</text><text x="110" y="51" class="tiny">连续2 m外廊｜设栏杆</text></g>
+    <g transform="translate(0 186)"><rect width="650" height="68" class="confirmed"/><text x="18" y="26" class="label">一层</text><text x="110" y="26" class="small">教室1—教室2—中央楼梯—教室3—教室4</text><text x="110" y="51" class="tiny">外廊完全敞开无栏杆｜完成面高于院地约0.30 m</text></g>
+  </g>
+
+  <!-- Working stair and entry values -->
+  <g transform="translate(930 570)">
+    <rect width="360" height="254" class="note"/>
+    <text x="18" y="30" class="label">中央楼梯与首层工作值</text>
+    <text x="18" y="64" class="small">• 楼梯间净宽约4.50 m</text>
+    <text x="18" y="94" class="small">• 层高3.00–3.20 m｜工作值3.10 m</text>
+    <text x="18" y="124" class="small">• 暂按20级｜两跑各10级｜约0.155×0.28 m</text>
+    <text x="18" y="154" class="small">• 梯段净宽暂按1.50 m</text>
+    <text x="18" y="184" class="small">• 楼梯护栏约1 m半墙＋突出水泥压顶</text>
+    <text x="18" y="214" class="tiny">右进左出｜首层外廊敞开｜0.30 m高差按普通台阶</text>
+    <text x="18" y="232" class="tiny">粗柱截面和台阶位置仍需确认</text>
+  </g>
+
+  <text x="70" y="1015" class="tiny">每间背面四组窗已确认｜与正面窗同尺寸：下部两扇外开＋顶部亮窗｜楼梯后墙完全封闭无开口</text>
+</svg>

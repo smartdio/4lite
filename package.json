@@ -1,0 +1,30 @@
+{
+  "name": "memory-school-3d",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "assets:books": "python3 scripts/image/build_school_books_runtime.py",
+    "assets:comics": "python3 scripts/image/build_comic_books_runtime.py",
+    "assets:compositions": "python3 scripts/image/build_composition_pages_runtime.py",
+    "assets:document-viewer": "python3 scripts/image/build_document_viewer_runtime.py",
+    "assets:ephemera": "python3 scripts/image/build_school_ephemera_runtime.py",
+    "dev": "vite --force",
+    "build": "vite build",
+    "build:test": "VITE_ENABLE_TEST_API=1 vite build",
+    "preview": "vite preview",
+    "perf:build": "node scripts/performance/check-build.mjs",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "verify:public": "node scripts/public/verify-public-repo.mjs",
+    "test:performance": "npm run test:performance:full",
+    "test:performance:full": "npm run build && npm run perf:build && npm run build:test && playwright test",
+    "test:performance:update": "npm run build && npm run perf:build && npm run build:test && playwright test --update-snapshots"
+  },
+  "dependencies": {
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "vite": "^7.1.1"
+  }
+}

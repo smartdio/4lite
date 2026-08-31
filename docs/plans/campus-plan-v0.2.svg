@@ -1,0 +1,268 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120">
+  <defs>
+    <pattern id="grid5" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#d8d8d2" stroke-width="1"/>
+    </pattern>
+    <pattern id="sand" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="4" r="1.3" fill="#caa45b"/><circle cx="9" cy="9" r="1" fill="#caa45b"/>
+    </pattern>
+    <pattern id="sandSparse" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="7" r="1.1" fill="#b89555"/><circle cx="17" cy="16" r="0.8" fill="#b89555"/>
+    </pattern>
+    <pattern id="slopeHatch" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 14L14 0" stroke="#857b56" stroke-width="2" opacity=".65"/>
+    </pattern>
+    <clipPath id="siteClip">
+      <path d="M230 240H830V210H930V180H1260Q1296 188 1306 220V402Q1304 423 1275 432L1160 452V640Q1158 672 1140 690V848Q1138 878 1110 898L1045 930V948H840H720H410V650H230Z"/>
+    </clipPath>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8Z" fill="#4a4a45"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; fill: #262724; }
+      .title { font-size: 30px; font-weight: 600; }
+      .subtitle { font-size: 15px; fill: #666861; }
+      .label { font-size: 19px; font-weight: 600; }
+      .small { font-size: 14px; }
+      .tiny { font-size: 12px; }
+      .dimension { font-size: 14px; fill: #4a4a45; }
+      .site { fill: url(#grid5); stroke: #252622; stroke-width: 4; }
+      .teaching { fill: #f4df68; stroke: #38392f; stroke-width: 3; }
+      .support { fill: #d9ddc4; stroke: #38392f; stroke-width: 3; }
+      .service { fill: #d9b98b; stroke: #38392f; stroke-width: 3; }
+      .uncertain { fill: #ecebe5; stroke: #777972; stroke-width: 2; stroke-dasharray: 8 6; }
+      .dimline { stroke: #4a4a45; stroke-width: 1.5; marker-start: url(#arrow); marker-end: url(#arrow); }
+      .extension { stroke: #898b84; stroke-width: 1; stroke-dasharray: 3 3; }
+      .path { fill: #f4f1e8; stroke: #b9b8b0; stroke-width: 1.5; }
+      .platform { fill: #dfe5c7; stroke: #7b805e; stroke-width: 2; }
+      .slope { fill: url(#slopeHatch); stroke: #7b805e; stroke-width: 2; }
+      .equipment { fill: none; stroke: #4e5655; stroke-width: 3; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1120" fill="#faf9f5"/>
+  <text x="80" y="60" class="title">记忆中的学校｜校园总平面推定 v0.2</text>
+  <text x="80" y="89" class="subtitle">新增：东侧约1 m高台土坡、旧教室前器械沙地、厕所入口及教师宿舍细化　·　1格＝5 m</text>
+
+  <!-- North arrow: orientation provisional -->
+  <g transform="translate(1390 65)">
+    <path d="M0 54L17 10L34 54L17 44Z" fill="#30312d"/>
+    <line x1="17" y1="44" x2="17" y2="76" stroke="#30312d" stroke-width="3"/>
+    <text x="17" y="0" text-anchor="middle" class="label">北?</text>
+    <text x="17" y="94" text-anchor="middle" class="tiny">方向待确认</text>
+  </g>
+
+  <!-- Irregular site boundary. 90m x 64m is only the outer bounding envelope. -->
+  <path d="M230 240H830V210H930V180H1260Q1296 188 1306 220V402Q1304 423 1275 432L1160 452V640Q1158 672 1140 690V848Q1138 878 1110 898L1045 930V948H840H720H410V650H230Z" fill="#f7f5ec" stroke="none"/>
+  <rect x="230" y="180" width="1080" height="768" fill="url(#grid5)" clip-path="url(#siteClip)"/>
+  <path d="M830 240V210H930V180H1260Q1296 188 1306 220 M1275 432L1160 452V640Q1158 672 1140 690V848Q1138 878 1110 898L1045 930V948H840 M720 948H410V650H230V240" fill="none" stroke="#252622" stroke-width="4"/>
+  <text x="530" y="226" text-anchor="middle" class="tiny">二号教学楼北侧不设围墙</text>
+  <line x1="230" y1="250" x2="290" y2="250" stroke="#252622" stroke-width="5"/>
+  <line x1="793" y1="250" x2="850" y2="250" stroke="#252622" stroke-width="5"/>
+  <text x="260" y="242" text-anchor="middle" class="tiny">短围墙</text>
+  <text x="822" y="242" text-anchor="middle" class="tiny">短围墙</text>
+  <text x="1320" y="330" class="tiny" transform="rotate(90 1320 330)">旧教学楼及活动场地东侧不设围墙</text>
+
+  <!-- Compact continuous east high platform, closely following the old classroom, activity area and dorm edges. -->
+  <path d="M944 188H1268V646H1170V624H1142V450H944Z" class="platform" opacity=".92"/>
+  <ellipse cx="1128" cy="548" rx="50" ry="38" class="platform"/>
+  <path d="M944 188V450H1078Q1082 515 1078 548Q1080 590 1128 586Q1152 584 1170 600V646" class="slope" fill="none" stroke-width="10"/>
+  <text x="958" y="468" class="tiny">约1 m高台｜紧贴场地边缘｜土坡</text>
+
+  <!-- Gate opening and entrance -->
+  <rect x="410" y="933" width="635" height="20" fill="#faf9f5"/>
+  <line x1="410" y1="948" x2="720" y2="948" stroke="#252622" stroke-width="5"/>
+  <line x1="840" y1="948" x2="1045" y2="948" stroke="#252622" stroke-width="5"/>
+  <line x1="720" y1="948" x2="720" y2="971" stroke="#252622" stroke-width="5"/>
+  <line x1="840" y1="948" x2="840" y2="971" stroke="#252622" stroke-width="5"/>
+  <text x="780" y="1000" text-anchor="middle" class="label">学校大门（约10 m，待确认）</text>
+
+  <!-- Building 2: four classrooms plus central stair, about 41.94 x 9.48 m -->
+  <g>
+    <rect x="290" y="250" width="503" height="114" class="teaching"/>
+    <line x1="398" y1="250" x2="398" y2="364" stroke="#9d8b36" stroke-width="2"/>
+    <line x1="506" y1="250" x2="506" y2="364" stroke="#9d8b36" stroke-width="2"/>
+    <rect x="506" y="250" width="54" height="114" fill="#d9d4c7" stroke="#77756d" stroke-width="1.5"/>
+    <line x1="560" y1="250" x2="560" y2="364" stroke="#9d8b36" stroke-width="2"/>
+    <line x1="668" y1="250" x2="668" y2="364" stroke="#9d8b36" stroke-width="2"/>
+    <text x="541.5" y="292" text-anchor="middle" class="label">2号教学楼</text>
+    <text x="541.5" y="320" text-anchor="middle" class="small">约41.94 × 9.48 m｜四教室＋中央楼梯</text>
+  </g>
+
+  <!-- Toilet: 6 x 4 m, south-facing central entry with two parallel screen walls. -->
+  <rect x="850" y="220" width="72" height="48" class="support"/>
+  <rect x="850" y="272" width="30" height="5" fill="#8b6a53"/><rect x="892" y="272" width="30" height="5" fill="#8b6a53"/>
+  <path d="M886 286V274M886 274H864M886 274H908" fill="none" stroke="#4e5655" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="886" y="241" text-anchor="middle" class="small">厕所</text>
+  <text x="886" y="259" text-anchor="middle" class="tiny">约6×4 m｜入口朝南</text>
+
+  <!-- Old classroom -->
+  <rect x="950" y="198" width="312" height="90" class="teaching"/>
+  <line x1="1106" y1="198" x2="1106" y2="288" stroke="#9d8b36" stroke-width="2"/>
+  <text x="1106" y="236" text-anchor="middle" class="label">旧教室</text>
+  <text x="1106" y="264" text-anchor="middle" class="small">一层两教室｜约26 × 7.5 m（C）</text>
+
+  <!-- Lower sandpit beside toilet -->
+  <rect x="854" y="292" width="72" height="72" fill="url(#sand)" stroke="#8f7949" stroke-width="3"/>
+  <text x="890" y="323" text-anchor="middle" class="small">沙池</text>
+  <text x="890" y="345" text-anchor="middle" class="tiny">约6×6 m</text>
+  <line x1="793" y1="364" x2="942" y2="364" stroke="#b04a3c" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="941" y="385" text-anchor="end" class="tiny" fill="#b04a3c">南边缘与2号楼对齐</text>
+
+  <!-- Resolved former facility A: activity area in front of old classroom, on high platform. -->
+  <g>
+    <rect x="950" y="300" width="300" height="150" fill="#d8c89d" stroke="#756b4b" stroke-width="2"/>
+    <rect x="956" y="306" width="288" height="67" fill="url(#sand)" stroke="#a98d53"/>
+    <rect x="956" y="373" width="288" height="71" fill="url(#sandSparse)" stroke="#b4a176"/>
+    <text x="1218" y="320" text-anchor="end" class="tiny">上部沙多</text><text x="1218" y="392" text-anchor="end" class="tiny">下部沙少</text>
+    <!-- four double-bar groups in upper band -->
+    <g class="equipment">
+      <path d="M978 330V354M986 330V354M1008 330V354M1016 330V354"/>
+      <path d="M1042 330V354M1050 330V354M1072 330V354M1080 330V354"/>
+      <path d="M1106 330V354M1114 330V354M1136 330V354M1144 330V354"/>
+      <path d="M1170 330V354M1178 330V354M1200 330V354M1208 330V354"/>
+    </g>
+    <text x="1093" y="367" text-anchor="middle" class="tiny">一排双杠（图示4组，待确认）</text>
+    <!-- high/low horizontal bars, left; monkey ladder, lower center -->
+    <g class="equipment"><path d="M976 392V427M991 398V427M1006 405V427"/><path d="M1038 408H1158M1038 422H1158M1050 408V422M1066 408V422M1082 408V422M1098 408V422M1114 408V422M1130 408V422M1146 408V422"/></g>
+    <text x="974" y="440" class="tiny">高低单杠</text><text x="1098" y="440" text-anchor="middle" class="tiny">天梯</text>
+  </g>
+
+  <!-- Main yard -->
+  <text x="665" y="470" text-anchor="middle" class="subtitle">主要公共活动场地（边界待确认）</text>
+
+  <!-- Ping-pong tables -->
+  <g>
+    <text x="270" y="391" class="small">砌筑乒乓球桌 ×4</text>
+    <g fill="#b9b7ad" stroke="#52534e" stroke-width="2.5">
+      <rect x="255" y="416" width="54" height="31"/><rect x="255" y="473" width="54" height="31"/>
+      <rect x="255" y="530" width="54" height="31"/><rect x="255" y="587" width="54" height="31"/>
+    </g>
+    <g fill="#9b6e50" stroke="#604635" stroke-width="1.5">
+      <rect x="270" y="423" width="24" height="17"/><rect x="270" y="480" width="24" height="17"/>
+      <rect x="270" y="537" width="24" height="17"/><rect x="270" y="594" width="24" height="17"/>
+    </g>
+    <g stroke="#3d4245" stroke-width="2">
+      <line x1="282" y1="416" x2="282" y2="447"/><line x1="282" y1="473" x2="282" y2="504"/>
+      <line x1="282" y1="530" x2="282" y2="561"/><line x1="282" y1="587" x2="282" y2="618"/>
+    </g>
+    <text x="270" y="637" class="tiny">砖砌底座＋水泥板台面</text>
+  </g>
+
+  <!-- Flag platform -->
+  <g>
+    <rect x="625" y="450" width="72" height="42" rx="2" fill="#9ca5aa" stroke="#3d4245" stroke-width="2"/>
+    <line x1="661" y1="450" x2="661" y2="388" stroke="#555b5d" stroke-width="3"/>
+    <path d="M663 390L710 403L663 416Z" fill="#c8392e"/>
+    <text x="661" y="517" text-anchor="middle" class="small">旗杆台</text>
+  </g>
+
+  <!-- Banyan tree on an earthen mound extending from the high platform. -->
+  <g opacity="0.95">
+    <ellipse cx="1128" cy="555" rx="48" ry="34" fill="#a19064" stroke="#716542" stroke-width="2" stroke-dasharray="6 4"/>
+    <circle cx="1128" cy="530" r="61" fill="#73a65d" stroke="#3e6f3b" stroke-width="3"/>
+    <circle cx="1093" cy="519" r="35" fill="#8ab66d"/><circle cx="1160" cy="510" r="34" fill="#5f954d"/><circle cx="1143" cy="555" r="36" fill="#679f53"/>
+    <text x="1128" y="532" text-anchor="middle" class="label">细叶榕</text>
+    <text x="1128" y="555" text-anchor="middle" class="tiny">小土墩｜冠幅待定</text>
+  </g>
+
+  <!-- Teacher dorm: N-S long axis, west-facing openings, south exterior stair. -->
+  <rect x="1190" y="470" width="66" height="154" class="service"/>
+  <line x1="1190" y1="521" x2="1256" y2="521" stroke="#8b6845"/><line x1="1190" y1="572" x2="1256" y2="572" stroke="#8b6845"/>
+  <rect x="1186" y="486" width="7" height="12" fill="#765039"/><rect x="1186" y="537" width="7" height="12" fill="#765039"/><rect x="1186" y="588" width="7" height="12" fill="#765039"/>
+  <rect x="1190" y="624" width="66" height="20" fill="#d3cab6" stroke="#62625b" stroke-dasharray="5 3"/>
+  <text x="1223" y="538" text-anchor="middle" class="label" transform="rotate(90 1223 538)">教师宿舍</text>
+  <text x="1243" y="547" text-anchor="middle" class="tiny" transform="rotate(90 1243 547)">两层｜外长约12.8 m</text>
+  <text x="1223" y="660" text-anchor="middle" class="tiny">南墙露天楼梯（方向C）</text>
+
+  <!-- Slide: a narrow slot beside the east wing of Building 1 -->
+  <rect x="1055" y="734" width="48" height="84" class="support"/>
+  <path d="M1065 802L1093 748M1065 802H1093M1093 748V802" fill="none" stroke="#555b5d" stroke-width="4"/>
+  <text x="1079" y="842" text-anchor="middle" class="small">水泥滑梯</text>
+  <text x="1079" y="862" text-anchor="middle" class="tiny">约4×7 m</text>
+  <line x1="1020" y1="786" x2="1055" y2="786" class="dimline"/>
+  <text x="1038" y="776" text-anchor="middle" class="tiny">约3 m</text>
+
+  <!-- Building 1 U shape: main 45x8.5, each wing includes one classroom plus corridor -->
+  <g>
+    <path d="M480 650H1020V896H912V752H588V896H480Z" class="teaching"/>
+    <line x1="600" y1="650" x2="600" y2="752" stroke="#9d8b36" stroke-width="2"/>
+    <line x1="720" y1="650" x2="720" y2="752" stroke="#38392f" stroke-width="3"/>
+    <line x1="780" y1="650" x2="780" y2="752" stroke="#38392f" stroke-width="3"/>
+    <line x1="900" y1="650" x2="900" y2="752" stroke="#9d8b36" stroke-width="2"/>
+    <rect x="720" y="650" width="60" height="102" fill="#e8dfc9" stroke="#38392f" stroke-width="2"/>
+    <!-- These two solid lines prevent the corner classrooms from visually merging with the wings. -->
+    <line x1="480" y1="752" x2="588" y2="752" stroke="#38392f" stroke-width="3"/>
+    <line x1="912" y1="752" x2="1020" y2="752" stroke="#38392f" stroke-width="3"/>
+    <text x="750" y="676" text-anchor="middle" class="label">1号教学楼二层｜主楼4教室＋中部小房间</text>
+    <text x="540" y="720" text-anchor="middle" class="tiny">教室1</text>
+    <text x="660" y="720" text-anchor="middle" class="tiny">教室2</text>
+    <text x="750" y="710" text-anchor="middle" class="tiny">小房间</text>
+    <text x="750" y="730" text-anchor="middle" class="tiny">约5 m</text>
+    <text x="840" y="720" text-anchor="middle" class="tiny">教室3</text>
+    <text x="960" y="720" text-anchor="middle" class="tiny">教室4</text>
+    <line x1="566" y1="752" x2="566" y2="896" stroke="#8f7c32" stroke-width="2" stroke-dasharray="6 4"/>
+    <line x1="934" y1="752" x2="934" y2="896" stroke="#8f7c32" stroke-width="2" stroke-dasharray="6 4"/>
+    <rect x="538" y="752" width="424" height="18" fill="#d9e5e9" stroke="#59676c" stroke-width="1.5"/>
+    <rect x="480" y="752" width="58" height="30" fill="#d9ddc4" stroke="#38392f" stroke-width="2"/>
+    <rect x="962" y="752" width="58" height="30" fill="#d9ddc4" stroke="#38392f" stroke-width="2"/>
+    <text x="509" y="773" text-anchor="middle" class="tiny">楼梯→</text>
+    <text x="991" y="773" text-anchor="middle" class="tiny">←楼梯</text>
+    <text x="528" y="846" text-anchor="middle" class="small" transform="rotate(90 528 846)">左翼教室5</text>
+    <text x="972" y="846" text-anchor="middle" class="small" transform="rotate(-90 972 846)">右翼教室6</text>
+    <text x="576" y="868" text-anchor="middle" class="tiny" transform="rotate(90 576 868)">走廊</text>
+    <text x="924" y="868" text-anchor="middle" class="tiny" transform="rotate(-90 924 868)">走廊</text>
+    <text x="750" y="797" text-anchor="middle" class="small">合计：主楼4间＋两翼2间＝6间教室，另有二层小房间</text>
+    <text x="750" y="837" text-anchor="middle" class="subtitle">U形内院／入口空间</text>
+  </g>
+  <path d="M462 902H1038" fill="none" stroke="#678094" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="750" y="923" text-anchor="middle" class="tiny">教学楼前方与围墙之间保留约4–5 m通行空间（待确认）</text>
+
+  <!-- Dimension: building 2 length -->
+  <line x1="290" y1="228" x2="290" y2="250" class="extension"/>
+  <line x1="793" y1="228" x2="793" y2="250" class="extension"/>
+  <line x1="290" y1="228" x2="793" y2="228" class="dimline"/>
+  <text x="541.5" y="220" text-anchor="middle" class="dimension">工作外长约41.94 m｜早期约45 m</text>
+
+  <!-- Dimension: building 1 length -->
+  <line x1="480" y1="629" x2="480" y2="650" class="extension"/>
+  <line x1="1020" y1="629" x2="1020" y2="650" class="extension"/>
+  <line x1="480" y1="629" x2="1020" y2="629" class="dimline"/>
+  <text x="750" y="621" text-anchor="middle" class="dimension">约41–45 m（4×9 m＋中部约5 m；外墙总长待确认）</text>
+
+  <!-- Main clear distance -->
+  <line x1="445" y1="352" x2="480" y2="352" class="extension"/>
+  <line x1="445" y1="650" x2="480" y2="650" class="extension"/>
+  <line x1="445" y1="352" x2="445" y2="650" class="dimline"/>
+  <text x="430" y="501" text-anchor="middle" class="dimension" transform="rotate(-90 430 501)">两主楼净距约25 m（候选）</text>
+
+  <!-- Site dimensions -->
+  <line x1="230" y1="150" x2="230" y2="180" class="extension"/>
+  <line x1="1310" y1="150" x2="1310" y2="180" class="extension"/>
+  <line x1="230" y1="150" x2="1310" y2="150" class="dimline"/>
+  <text x="770" y="141" text-anchor="middle" class="dimension">校园外包东西约90 m（边界不规则）</text>
+
+  <line x1="1340" y1="180" x2="1310" y2="180" class="extension"/>
+  <line x1="1340" y1="948" x2="1310" y2="948" class="extension"/>
+  <line x1="1340" y1="180" x2="1340" y2="948" class="dimline"/>
+  <text x="1358" y="564" text-anchor="middle" class="dimension" transform="rotate(90 1358 564)">校园外包南北约64 m（边界不规则）</text>
+
+  <!-- Scale bar -->
+  <g transform="translate(250 1040)">
+    <rect x="0" y="0" width="60" height="14" fill="#252622"/>
+    <rect x="60" y="0" width="60" height="14" fill="#faf9f5" stroke="#252622"/>
+    <rect x="120" y="0" width="120" height="14" fill="#252622"/>
+    <text x="0" y="34" class="tiny">0</text><text x="60" y="34" text-anchor="middle" class="tiny">5</text>
+    <text x="120" y="34" text-anchor="middle" class="tiny">10</text><text x="240" y="34" text-anchor="end" class="tiny">20 m</text>
+  </g>
+
+  <!-- Confidence legend -->
+  <g transform="translate(650 1028)">
+    <text x="0" y="0" class="small">可信度：</text>
+    <text x="75" y="0" class="small">A 已确认</text>
+    <text x="180" y="0" class="small">B 由确认信息推导</text>
+    <text x="365" y="0" class="small">C 候选推定</text>
+    <text x="493" y="0" class="small">虚线＝用途或边界未知</text>
+    <text x="0" y="30" class="tiny">v0.2 已纳入东侧高台、器械沙地、厕所入口和教师宿舍；设施尺寸与局部边界仍需校准。</text>
+  </g>
+</svg>

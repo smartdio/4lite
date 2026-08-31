@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850">
+  <defs>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#292a27}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#686a64}.panel-title{font-size:20px;font-weight:650}.label{font-size:16px;font-weight:650}.small{font-size:13px}.tiny{font-size:11px}.frame{fill:#eee4d2;stroke:#806f57;stroke-width:3}.slat{fill:#e7ddca;stroke:#806f57;stroke-width:2}.face-a{fill:#f0e8d9;stroke:#806f57;stroke-width:2}.face-b{fill:#cbbb9e;stroke:#806f57;stroke-width:2}.guide{stroke:#92948e;stroke-width:1.5;stroke-dasharray:6 5}.confirmed{fill:#e7f0e8;stroke:#73957b;stroke-width:1.5}.working{fill:#f3eee0;stroke:#aa8754;stroke-width:1.5;stroke-dasharray:7 5}
+    </style>
+  </defs>
+  <rect width="1200" height="850" fill="#faf9f5"/>
+  <text x="60" y="58" class="title">2号教学楼｜栏杆构造关系 v0.1</text>
+  <text x="60" y="87" class="subtitle">正面宽度暂按约0.10 m｜侧面按草图左图的不对称多边形｜无粗大栏杆柱｜其余尺寸待标定</text>
+
+  <g transform="translate(60 135)">
+    <text class="panel-title">A｜朝院正立面</text>
+    <rect x="0" y="35" width="660" height="260" class="confirmed"/>
+    <rect x="35" y="65" width="590" height="22" class="frame"/>
+    <rect x="35" y="255" width="590" height="22" class="frame"/>
+    <path d="M70 55V63M84 55V63M70 59H84" stroke="#535550" stroke-width="1.5"/>
+    <text x="92" y="62" class="tiny">约0.10 m</text>
+    <g>
+      <rect x="70" y="87" width="14" height="168" class="slat"/><rect x="125" y="87" width="14" height="168" class="slat"/>
+      <rect x="180" y="87" width="14" height="168" class="slat"/><rect x="235" y="87" width="14" height="168" class="slat"/>
+      <rect x="290" y="87" width="14" height="168" class="slat"/><rect x="345" y="87" width="14" height="168" class="slat"/>
+      <rect x="400" y="87" width="14" height="168" class="slat"/><rect x="455" y="87" width="14" height="168" class="slat"/>
+      <rect x="510" y="87" width="14" height="168" class="slat"/><rect x="565" y="87" width="14" height="168" class="slat"/>
+    </g>
+    <text x="330" y="322" text-anchor="middle" class="small">正面只能看到笔直的窄矩形面；整排没有粗大柱子</text>
+  </g>
+
+  <g transform="translate(770 135)">
+    <text class="panel-title">B｜单根竖件侧面</text>
+    <rect x="0" y="35" width="370" height="260" class="confirmed"/>
+    <polygon points="175,70 220,70 220,260 170,260 120,205" class="face-a"/>
+    <path d="M175 70L220 70L220 260L170 260L120 205Z" fill="none" stroke="#806f57" stroke-width="3"/>
+    <line x1="105" y1="70" x2="265" y2="70" stroke="#806f57" stroke-width="8"/>
+    <line x1="105" y1="260" x2="265" y2="260" stroke="#806f57" stroke-width="8"/>
+    <text x="230" y="78" class="tiny">一边基本竖直</text>
+    <text x="55" y="209" class="tiny">偏下的外凸折点</text>
+    <text x="185" y="286" text-anchor="middle" class="tiny">上斜边较长，下斜边较短</text>
+    <text x="185" y="322" text-anchor="middle" class="small">侧面为不对称多边形，不是菱形</text>
+  </g>
+
+  <g transform="translate(60 520)">
+    <text class="panel-title">C｜两个正投影视图与建模关系</text>
+    <rect x="0" y="35" width="1080" height="215" class="working"/>
+    <rect x="70" y="68" width="24" height="145" class="slat"/>
+    <text x="82" y="232" text-anchor="middle" class="tiny">正面</text>
+    <polygon points="175,68 215,68 215,213 170,213 125,172" class="face-a"/>
+    <text x="180" y="232" text-anchor="middle" class="tiny">侧面</text>
+    <text x="280" y="92" class="label">正面直条，侧面采用左图多边形</text>
+    <text x="280" y="126" class="small">一边近直；另一边先长斜向外，在偏下位置折转，再短斜收回。</text>
+    <text x="280" y="162" class="small">顶端嵌入连续扶手，底端嵌入连续底梁；不增加花头和装饰节点。</text>
+    <text x="280" y="202" class="tiny">已暂定：正面宽约0.10 m｜待确认：总高、折点高度、最大厚度、间距、端部收口、材料与颜色。</text>
+  </g>
+  <text x="60" y="818" class="tiny">几何关系来自亲历者草图；当前比例仅用于辨认形状，不是原建筑测绘尺寸。</text>
+</svg>

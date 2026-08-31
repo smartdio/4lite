@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1180" viewBox="0 0 1500 1180">
+  <defs>
+    <pattern id="ds-tile" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M0 4Q9 -2 18 4M0 10Q9 4 18 10" fill="none" stroke="#242520" stroke-width="2"/></pattern>
+    <marker id="ds-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#50524d"/></marker>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;fill:#292a27}.title{font-size:30px;font-weight:650}.subtitle{font-size:15px;fill:#696b65}.panel{font-size:20px;font-weight:650}.label{font-size:16px;font-weight:650}.small{font-size:13px}.tiny{font-size:11px}.wall{fill:#d1c6a8;stroke:#6b5949;stroke-width:2}.tile{fill:#393a35;stroke:#171815;stroke-width:3}.tilepattern{fill:url(#ds-tile)}.door{fill:#79513a;stroke:#3f2a1e;stroke-width:2}.window{fill:#8fa3a8;stroke:#3e555a;stroke-width:3}.corridor{fill:#c2d7d9;stroke:#507078;stroke-width:2}.rail{stroke:#725f4c;stroke-width:5;fill:none}.stair{fill:#d3cab6;stroke:#62625b;stroke-width:2}.platform{fill:#9b8b64}.slope{fill:#8a805f}.ground{stroke:#6f716b;stroke-width:2}.dim{stroke:#50524d;stroke-width:1.4;marker-start:url(#ds-arrow);marker-end:url(#ds-arrow)}.working{fill:#f4eee0;stroke:#aa8754;stroke-width:1.5;stroke-dasharray:7 5}.confirmed{fill:#e7f0e8;stroke:#72957a;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1500" height="1180" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">教师宿舍｜西立面与场地结构图 v0.1</text>
+  <text x="70" y="87" class="subtitle">两层三开间｜一层无走廊｜二层外挑走廊｜南侧露天楼梯｜约1 m高台与土坡</text>
+
+  <text x="85" y="130" class="panel">A｜朝西主要立面</text>
+  <!-- longitudinal roof elevation -->
+  <path d="M155 225L185 170H1315L1345 225L1315 260H185Z" class="tile"/><path d="M180 220L198 188H1302L1320 220L1308 245H192Z" class="tilepattern"/>
+  <rect x="200" y="260" width="1100" height="480" class="wall"/>
+  <!-- openings: three repeated rooms per floor -->
+  <g>
+    <rect x="270" y="335" width="70" height="82" class="window"/><rect x="445" y="315" width="62" height="120" class="door"/>
+    <rect x="630" y="335" width="70" height="82" class="window"/><rect x="805" y="315" width="62" height="120" class="door"/>
+    <rect x="990" y="335" width="70" height="82" class="window"/><rect x="1165" y="315" width="62" height="120" class="door"/>
+    <rect x="270" y="575" width="70" height="82" class="window"/><rect x="445" y="555" width="62" height="120" class="door"/>
+    <rect x="630" y="575" width="70" height="82" class="window"/><rect x="805" y="555" width="62" height="120" class="door"/>
+    <rect x="990" y="575" width="70" height="82" class="window"/><rect x="1165" y="555" width="62" height="120" class="door"/>
+  </g>
+  <!-- second floor cantilevered corridor and railing only -->
+  <rect x="155" y="455" width="1190" height="18" class="corridor"/><path d="M165 455V375H1335V455M220 375V455M280 375V455M340 375V455M400 375V455M460 375V455M520 375V455M580 375V455M640 375V455M700 375V455M760 375V455M820 375V455M880 375V455M940 375V455M1000 375V455M1060 375V455M1120 375V455M1180 375V455M1240 375V455M1300 375V455" class="rail"/>
+  <text x="1300" y="365" text-anchor="end" class="tiny">二层西侧外挑走廊｜暂宽1.2 m（C）</text>
+  <text x="1300" y="724" text-anchor="end" class="tiny">一层没有走廊｜门窗直接临高台地面</text>
+  <!-- raised platform and earthen slope in front -->
+  <rect x="120" y="740" width="1260" height="70" class="platform"/><path d="M120 810H1380L1430 900H70Z" class="slope"/><line x1="45" y1="900" x2="1450" y2="900" class="ground"/>
+  <line x1="1410" y1="740" x2="1410" y2="900" class="dim"/><text x="1428" y="820" text-anchor="middle" class="tiny" transform="rotate(90 1428 820)">高台约1 m（A-）｜边缘为土坡</text>
+  <text x="750" y="930" text-anchor="middle" class="small">操场主体低地</text>
+
+  <text x="85" y="995" class="panel">B｜南墙露天楼梯工作示意</text>
+  <g transform="translate(110 1020)"><rect width="560" height="105" class="working"/><path d="M35 82H500L430 65L360 52L290 39L220 27L150 15" fill="none" stroke="#65665f" stroke-width="12"/><path d="M55 76H485M95 65H445M135 54H405M175 43H365M215 32H325" stroke="#85867f" stroke-width="2"/><path d="M480 76H150" stroke="#50524d" stroke-width="2" marker-end="url(#ds-arrow)"/><text x="280" y="100" text-anchor="middle" class="tiny">位置确定在南墙；图示暂按向西上行连接二层走廊，可镜像（C）</text></g>
+  <g transform="translate(735 990)"><rect width="650" height="145" class="confirmed"/><text x="18" y="28" class="label">已确认与限制</text><text x="18" y="58" class="small">• 两层、一层三间、主要门窗朝西；二层房间对应关系待确认</text><text x="18" y="84" class="small">• 二层有外挑走廊，一层没有走廊；南墙设露天楼梯</text><text x="18" y="110" class="small">• 建筑不可进入；门窗节奏、进深、层高和栏杆样式为工作表达</text><text x="18" y="134" class="small">• 高台连续至旧教室区域；厕所和沙池留在较低地面</text></g>
+  <text x="70" y="1160" class="tiny">本图用于建筑外观和场地高差讨论，不是测绘图或施工图。</text>
+</svg>

@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="1420" viewBox="0 0 1300 1420">
+  <defs>
+    <marker id="dim-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8Z" fill="#555750"/>
+    </marker>
+    <style>
+      text { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; fill:#252622; }
+      .title { font-size:30px; font-weight:650; }
+      .subtitle { font-size:15px; fill:#666862; }
+      .panel-title { font-size:20px; font-weight:650; }
+      .label { font-size:15px; font-weight:600; }
+      .small { font-size:13px; }
+      .tiny { font-size:11px; }
+      .wall { fill:#484a45; }
+      .room { fill:#f6e783; }
+      .corridor { fill:#dbe7ea; }
+      .window { fill:#b8c7ee; stroke:#536ad8; stroke-width:4; }
+      .door { fill:#987050; stroke:#078b52; stroke-width:4; }
+      .transom { fill:#cce3d8; stroke:#078b52; stroke-width:4; }
+      .column { fill:#c99552; stroke:#6f5436; stroke-width:2; }
+      .rail { fill:none; stroke:#3c7489; stroke-width:3; }
+      .rail-band { fill:#d5b53c; stroke:#806a1e; stroke-width:2; }
+      .planter { fill:#7e9860; stroke:#50633f; stroke-width:2; }
+      .shrub { fill:#56874f; stroke:#3f683b; stroke-width:1.5; }
+      .step { fill:#d9d1bf; stroke:#77756d; stroke-width:1.5; }
+      .roof { fill:#777a75; stroke:#454743; stroke-width:2; }
+      .insulation { fill:#eadfba; stroke:#a68243; stroke-width:2; stroke-dasharray:7 5; }
+      .dim { stroke:#555750; stroke-width:1.4; marker-start:url(#dim-arrow); marker-end:url(#dim-arrow); }
+      .ext { stroke:#92948e; stroke-width:1; stroke-dasharray:4 4; }
+      .confirmed { fill:#e6f1e9; stroke:#6f9a78; stroke-width:1.5; }
+      .working { fill:#f4eee0; stroke:#aa8754; stroke-width:1.5; stroke-dasharray:6 4; }
+    </style>
+  </defs>
+
+  <rect width="1300" height="1420" fill="#faf9f5"/>
+  <text x="70" y="58" class="title">1号教学楼｜标准教室门窗与走廊柱详图 v0.1</text>
+  <text x="70" y="87" class="subtitle">依据门窗草图＋两张旧影像修复照片｜翼部柱列为起点—中点—末端三根｜具体尺寸为可调整工作值</text>
+
+  <g transform="translate(70 112)">
+    <rect x="0" y="0" width="14" height="14" fill="#078b52"/><text x="22" y="12" class="small">木门及独立亮窗</text>
+    <rect x="170" y="0" width="14" height="14" fill="#536ad8"/><text x="192" y="12" class="small">木窗</text>
+    <rect x="290" y="0" width="14" height="14" fill="#c99552"/><text x="312" y="12" class="small">走廊柱</text>
+    <rect x="400" y="0" width="14" height="14" fill="#484a45"/><text x="422" y="12" class="small">0.24 m墙体</text>
+  </g>
+
+  <!-- Standard classroom plan -->
+  <g id="classroom-plan">
+    <text x="70" y="165" class="panel-title">A｜标准教室俯视图</text>
+    <text x="70" y="189" class="small">室内净尺寸 9×7 m；走廊侧顺序为“门—窗—窗—门”</text>
+
+    <rect x="88" y="208" width="474" height="374" class="wall"/>
+    <rect x="100" y="220" width="450" height="350" class="room"/>
+    <rect x="100" y="582" width="450" height="75" class="corridor"/>
+    <path d="M100 657H550" class="rail"/>
+
+    <!-- Opposite exterior wall: four windows -->
+    <rect x="137.5" y="204" width="75" height="16" class="window"/>
+    <rect x="237.5" y="204" width="75" height="16" class="window"/>
+    <rect x="337.5" y="204" width="75" height="16" class="window"/>
+    <rect x="437.5" y="204" width="75" height="16" class="window"/>
+
+    <!-- Corridor-side openings -->
+    <rect x="120" y="566" width="50" height="16" fill="#faf9f5"/>
+    <rect x="232.5" y="566" width="80" height="16" class="window"/>
+    <rect x="337.5" y="566" width="80" height="16" class="window"/>
+    <rect x="480" y="566" width="50" height="16" fill="#faf9f5"/>
+    <line x1="120" y1="570" x2="120" y2="520" stroke="#078b52" stroke-width="4"/>
+    <path d="M170 570A50 50 0 0 0 120 520" fill="none" stroke="#078b52" stroke-width="2"/>
+    <line x1="530" y1="570" x2="530" y2="520" stroke="#078b52" stroke-width="4"/>
+    <path d="M480 570A50 50 0 0 1 530 520" fill="none" stroke="#078b52" stroke-width="2"/>
+
+    <!-- Wing corridor: columns at the beginning, classroom centerline, and corridor end. -->
+    <rect x="88.75" y="645.75" width="22.5" height="22.5" class="column"/>
+    <rect x="313.75" y="645.75" width="22.5" height="22.5" class="column"/>
+    <rect x="538.75" y="645.75" width="22.5" height="22.5" class="column"/>
+
+    <text x="325" y="390" text-anchor="middle" class="panel-title">教室净空间</text>
+    <text x="325" y="416" text-anchor="middle" class="small">9.00×7.00 m</text>
+    <text x="325" y="630" text-anchor="middle" class="label">翼部走廊柱列｜起点—教室中线—末端</text>
+    <text x="175" y="238" text-anchor="middle" class="tiny">外侧四扇木窗</text>
+    <text x="325" y="556" text-anchor="middle" class="tiny">宽墙垛　两窗较近　宽墙垛</text>
+
+    <line x1="100" y1="690" x2="550" y2="690" class="dim"/>
+    <line x1="100" y1="670" x2="100" y2="696" class="ext"/>
+    <line x1="550" y1="670" x2="550" y2="696" class="ext"/>
+    <text x="325" y="716" text-anchor="middle" class="small">教室净宽 9.00 m</text>
+
+    <line x1="585" y1="220" x2="585" y2="570" class="dim"/>
+    <line x1="556" y1="220" x2="591" y2="220" class="ext"/>
+    <line x1="556" y1="570" x2="591" y2="570" class="ext"/>
+    <text x="606" y="395" text-anchor="middle" class="small" transform="rotate(90 606 395)">教室净进深 7.00 m</text>
+  </g>
+
+  <!-- Corridor elevation -->
+  <g id="corridor-elevation">
+    <text x="680" y="165" class="panel-title">B｜翼部教室面向走廊的墙面展开</text>
+    <text x="680" y="189" class="small">木门板＋独立亮窗；中间两扇木窗靠近，门窗间墙垛较宽</text>
+
+    <rect x="668" y="208" width="474" height="374" fill="#eeeadd" stroke="#484a45" stroke-width="3"/>
+    <rect x="680" y="220" width="450" height="350" fill="#f3f0e8"/>
+
+    <!-- Left wooden door and independent transom -->
+    <rect x="700" y="360" width="50" height="210" class="door"/>
+    <path d="M705 555L745 505M705 520L745 470M705 485L745 435M705 450L745 400" stroke="#5e432f" stroke-width="3"/>
+    <rect x="700" y="315" width="50" height="45" class="transom"/>
+    <line x1="725" y1="315" x2="725" y2="360" stroke="#078b52" stroke-width="3"/>
+
+    <!-- Two close wooden windows -->
+    <g>
+      <rect x="812.5" y="330" width="80" height="150" class="window"/>
+      <line x1="852.5" y1="330" x2="852.5" y2="480" stroke="#536ad8" stroke-width="3"/>
+      <line x1="812.5" y1="405" x2="892.5" y2="405" stroke="#536ad8" stroke-width="3"/>
+      <rect x="917.5" y="330" width="80" height="150" class="window"/>
+      <line x1="957.5" y1="330" x2="957.5" y2="480" stroke="#536ad8" stroke-width="3"/>
+      <line x1="917.5" y1="405" x2="997.5" y2="405" stroke="#536ad8" stroke-width="3"/>
+    </g>
+
+    <!-- Right wooden door and independent transom -->
+    <rect x="1060" y="360" width="50" height="210" class="door"/>
+    <path d="M1065 555L1105 505M1065 520L1105 470M1065 485L1105 435M1065 450L1105 400" stroke="#5e432f" stroke-width="3"/>
+    <rect x="1060" y="315" width="50" height="45" class="transom"/>
+    <line x1="1085" y1="315" x2="1085" y2="360" stroke="#078b52" stroke-width="3"/>
+
+    <text x="725" y="602" text-anchor="middle" class="tiny">木门</text>
+    <text x="852.5" y="602" text-anchor="middle" class="tiny">木窗</text>
+    <text x="957.5" y="602" text-anchor="middle" class="tiny">木窗</text>
+    <text x="1085" y="602" text-anchor="middle" class="tiny">木门</text>
+    <text x="905" y="294" text-anchor="middle" class="tiny">门上部为独立亮窗，不属于门扇</text>
+
+    <!-- Foreground wing corridor columns: beginning, classroom center, and end. -->
+    <rect x="668" y="208" width="22.5" height="374" class="column" opacity="0.72"/>
+    <rect x="893.75" y="208" width="22.5" height="374" class="column" opacity="0.72"/>
+    <rect x="1119.5" y="208" width="22.5" height="374" class="column" opacity="0.72"/>
+
+    <line x1="680" y1="640" x2="1130" y2="640" class="dim"/>
+    <line x1="680" y1="585" x2="680" y2="646" class="ext"/>
+    <line x1="1130" y1="585" x2="1130" y2="646" class="ext"/>
+    <text x="905" y="667" text-anchor="middle" class="small">单间教室立面模数 9.00 m</text>
+  </g>
+
+  <!-- Two-floor railing, ground-floor planter and entrance relationship. -->
+  <g id="ground-floor-railing-planter" transform="translate(70 735)">
+    <text x="0" y="0" class="panel-title">C｜两层栏杆、首层花基与翼部入口立面关系</text>
+    <text x="0" y="23" class="small">示意图：左右翼入口互为镜像；栏杆细部另见 building-1-railing-pattern-v0.4.svg</text>
+
+    <text x="18" y="85" class="label">二层</text>
+    <rect x="100" y="42" width="1000" height="12" class="rail-band"/>
+    <rect x="100" y="54" width="1000" height="48" fill="none" stroke="#3c7489" stroke-width="3"/>
+    <path d="M150 54L175 78L150 102M250 54L275 78L250 102M350 54L375 78L350 102M450 54L475 78L450 102M550 54L575 78L550 102M650 54L675 78L650 102M750 54L775 78L750 102M850 54L875 78L850 102M950 54L975 78L950 102M1050 54L1075 78L1050 102" fill="none" stroke="#3c7489" stroke-width="3"/>
+    <rect x="90" y="102" width="1020" height="12" fill="#686a64"/>
+    <text x="1120" y="80" class="tiny">连续同款栏杆</text>
+
+    <text x="18" y="200" class="label">一层</text>
+    <rect x="100" y="157" width="400" height="12" class="rail-band"/>
+    <rect x="575" y="157" width="525" height="12" class="rail-band"/>
+    <rect x="100" y="169" width="400" height="48" fill="none" stroke="#3c7489" stroke-width="3"/>
+    <rect x="575" y="169" width="525" height="48" fill="none" stroke="#3c7489" stroke-width="3"/>
+    <path d="M150 169L175 193L150 217M250 169L275 193L250 217M350 169L375 193L350 217M450 169L475 193L450 217M625 169L650 193L625 217M725 169L750 193L725 217M825 169L850 193L825 217M925 169L950 193L925 217M1025 169L1050 193L1025 217" fill="none" stroke="#3c7489" stroke-width="3"/>
+    <rect x="90" y="217" width="1020" height="12" fill="#686a64"/>
+
+    <rect x="100" y="229" width="400" height="40" class="planter"/>
+    <rect x="575" y="229" width="525" height="40" class="planter"/>
+    <path d="M115 229Q135 201 155 229Q178 194 200 229Q225 202 248 229Q275 194 300 229Q330 201 355 229Q385 195 415 229Q445 202 480 229" class="shrub"/>
+    <path d="M590 229Q615 198 640 229Q665 194 690 229Q720 201 745 229Q775 193 805 229Q835 202 865 229Q895 194 925 229Q955 201 985 229Q1020 194 1080 229" class="shrub"/>
+
+    <rect x="500" y="217" width="75" height="14" class="step"/>
+    <rect x="507" y="231" width="61" height="14" class="step"/>
+    <rect x="514" y="245" width="47" height="14" class="step"/>
+    <line x1="500" y1="145" x2="575" y2="145" class="dim"/>
+    <text x="537.5" y="136" text-anchor="middle" class="tiny">无栏杆入口净宽1.50 m</text>
+    <line x1="1145" y1="217" x2="1145" y2="259" class="dim"/>
+    <text x="1164" y="238" text-anchor="middle" class="tiny" transform="rotate(90 1164 238)">高差约0.40 m</text>
+    <line x1="70" y1="269" x2="1130" y2="269" stroke="#77756d" stroke-width="2"/>
+    <text x="537.5" y="287" text-anchor="middle" class="tiny">三级台阶｜花基在入口处中断</text>
+  </g>
+
+  <!-- Roof relationship. Exact insulation construction remains unresolved. -->
+  <g id="roof-section" transform="translate(70 1040)">
+    <text x="0" y="0" class="panel-title">D｜屋顶外挑与隔热层关系示意</text>
+    <text x="0" y="23" class="small">主屋面上设矮支座形成空气夹层，再铺方形隔热砖／板；尺寸与屋面坡度待标定</text>
+    <rect x="400" y="88" width="500" height="112" fill="#eeeadd" stroke="#484a45" stroke-width="3"/>
+    <rect x="385" y="76" width="530" height="18" class="roof"/>
+    <g class="insulation">
+      <rect x="395" y="38" width="62" height="20"/><rect x="459" y="38" width="62" height="20"/>
+      <rect x="523" y="38" width="62" height="20"/><rect x="587" y="38" width="62" height="20"/>
+      <rect x="651" y="38" width="62" height="20"/><rect x="715" y="38" width="62" height="20"/>
+      <rect x="779" y="38" width="62" height="20"/><rect x="843" y="38" width="62" height="20"/>
+    </g>
+    <g fill="#9a8a67" stroke="#625a48" stroke-width="1.5">
+      <rect x="405" y="58" width="12" height="18"/><rect x="493" y="58" width="12" height="18"/>
+      <rect x="581" y="58" width="12" height="18"/><rect x="669" y="58" width="12" height="18"/>
+      <rect x="757" y="58" width="12" height="18"/><rect x="845" y="58" width="12" height="18"/>
+      <rect x="893" y="58" width="12" height="18"/>
+    </g>
+    <text x="650" y="31" text-anchor="middle" class="label">方形隔热砖／板</text>
+    <text x="650" y="72" text-anchor="middle" class="tiny">架空空气层＋矮支座</text>
+    <line x1="385" y1="112" x2="400" y2="112" class="dim"/>
+    <line x1="900" y1="112" x2="915" y2="112" class="dim"/>
+    <text x="360" y="117" text-anchor="end" class="small">外挑约0.30 m</text>
+    <text x="940" y="117" class="small">外挑约0.30 m</text>
+    <text x="650" y="158" text-anchor="middle" class="small">外墙</text>
+    <text x="650" y="218" text-anchor="middle" class="tiny">屋面板外挑尺寸从外墙外表面起算</text>
+  </g>
+
+  <!-- Evidence / assumptions -->
+  <g transform="translate(70 1280)">
+    <rect x="0" y="0" width="555" height="132" rx="4" class="confirmed"/>
+    <text x="18" y="28" class="label">亲历者与影像共同确认</text>
+    <text x="18" y="56" class="small">• 全部为木质门窗；门扇为木门板，门上为独立亮窗</text>
+    <text x="18" y="82" class="small">• 走廊侧为门—窗—窗—门；两窗近、门窗间墙垛较宽</text>
+    <text x="18" y="108" class="small">• 倒角斜边无柱；每侧翼部直廊按起点—中点—末端设置三根柱</text>
+  </g>
+
+  <g transform="translate(650 1280)">
+    <rect x="0" y="0" width="580" height="132" rx="4" class="working"/>
+    <text x="18" y="28" class="label">当前工作尺寸｜后续可整体替换</text>
+    <text x="18" y="56" class="small">• 门1.00×2.10 m；亮窗高0.45 m；窗1.60×1.50 m，窗台高0.90 m</text>
+    <text x="18" y="82" class="small">• 门窗间墙垛约1.25 m；两窗间约0.50 m；柱截面暂按0.45×0.45 m</text>
+    <text x="18" y="108" class="small">• 外墙四窗暂按单窗1.50 m；栏杆花纹拓扑已确认，精确尺寸仍待标定</text>
+  </g>
+
+  <text x="70" y="1400" class="tiny">比例说明：A、B两图均以50 px/m绘制；C、D图为关系示意；彩色构造尺寸为重建工作值，不是旧校舍实测数据。</text>
+</svg>

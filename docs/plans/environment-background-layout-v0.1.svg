@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">校园外围环境分布理解图 v0.1</title>
+  <desc id="desc">北侧为横贯画面的池塘；南侧为约十五米宽道路和沿墙树列；东侧围墙外先是树木，北片区为南北排列的两栋约三层盒形楼，南片区为几栋旧瓦房；西南一栋约三层大建筑；西侧围墙外有树木，北段另有两栋一层瓦房。</desc>
+  <defs>
+    <linearGradient id="pond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a9d5d0"/>
+      <stop offset="1" stop-color="#c7e0d2"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfc8b8"/>
+      <stop offset="1" stop-color="#bcb5a8"/>
+    </linearGradient>
+    <pattern id="water-lines" width="48" height="20" patternUnits="userSpaceOnUse">
+      <path d="M3 10 C12 5 22 15 34 9 C39 7 43 7 47 8" fill="none" stroke="#6fa8a3" stroke-width="1.5" opacity=".35"/>
+    </pattern>
+    <filter id="soft" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+    <g id="tree">
+      <path d="M0 20 C-13 15-14 2-6-5 C-10-17 3-25 12-18 C21-21 29-10 24-1 C33 8 25 20 14 19 Z" fill="#668b66" opacity=".9"/>
+      <path d="M8 18 L8 31" stroke="#725d48" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g id="slender-tree">
+      <path d="M7 6 L7 42" stroke="#705d48" stroke-width="3"/>
+      <path d="M7 -9 C-2 -2-6 11 2 19 C-2 26 3 34 8 34 C16 29 17 20 13 15 C20 5 15-6 7-9 Z" fill="#567b62" opacity=".88"/>
+    </g>
+    <style>
+      .label{font:600 18px system-ui,'PingFang SC','Microsoft YaHei',sans-serif;fill:#3d463f}
+      .small{font:14px system-ui,'PingFang SC','Microsoft YaHei',sans-serif;fill:#566158}
+      .note{font:13px system-ui,'PingFang SC','Microsoft YaHei',sans-serif;fill:#6b716b}
+      .unknown{stroke:#8f6d4e;stroke-width:2;stroke-dasharray:7 6}
+      .confirmed{stroke:#4f6656;stroke-width:2.5}
+    </style>
+  </defs>
+
+  <rect width="1200" height="900" fill="#f5f0e4"/>
+  <text x="54" y="48" class="label" font-size="25">校园外围环境分布理解图 v0.1</text>
+  <text x="54" y="74" class="small">示意关系，不是测绘图｜上方暂记为北（−Z）</text>
+
+  <!-- 北侧池塘 -->
+  <path d="M55 105 C190 90 310 116 440 101 C610 82 770 111 910 94 C1015 82 1091 93 1145 107 L1145 278 C1010 260 890 282 740 266 C565 247 410 278 246 258 C165 249 98 257 55 268 Z" fill="url(#pond)" class="confirmed"/>
+  <path d="M55 105 C190 90 310 116 440 101 C610 82 770 111 910 94 C1015 82 1091 93 1145 107 L1145 278 C1010 260 890 282 740 266 C565 247 410 278 246 258 C165 249 98 257 55 268 Z" fill="url(#water-lines)"/>
+  <text x="600" y="175" text-anchor="middle" class="label" font-size="23">整个北侧：池塘</text>
+  <text x="600" y="201" text-anchor="middle" class="small">岸线、范围和荷花分布待定</text>
+
+  <!-- 校园沙色区域与不规则边界 -->
+  <path d="M313 323 L761 323 L761 346 L835 346 L846 649 L777 678 L744 738 L297 738 L267 691 L255 371 Z" fill="#d9c998" class="confirmed"/>
+  <path d="M345 384 L720 384 L720 448 L765 448 L765 683 L315 683 L315 453 L345 453 Z" fill="#cfbf8f" opacity=".65"/>
+  <text x="535" y="526" text-anchor="middle" class="label" font-size="27">校园主体</text>
+  <text x="535" y="555" text-anchor="middle" class="small">现有模型保持不变</text>
+  <path d="M448 702 H615" stroke="#7e6e51" stroke-width="7"/>
+  <text x="532" y="728" text-anchor="middle" class="small">校门</text>
+
+  <!-- 西侧北段两栋瓦房 -->
+  <g transform="translate(88 331)">
+    <rect x="0" y="22" width="126" height="70" rx="2" fill="#b8936b" class="unknown"/>
+    <path d="M-8 24 L63 -10 L134 24 Z" fill="#625b55"/>
+    <rect x="18" y="42" width="24" height="35" fill="#8d6d50" opacity=".7"/>
+    <rect x="75" y="42" width="32" height="24" fill="#9bb3ad" opacity=".55"/>
+  </g>
+  <g transform="translate(105 468)">
+    <rect x="0" y="22" width="118" height="65" rx="2" fill="#b58f68" class="unknown"/>
+    <path d="M-8 24 L59 -8 L126 24 Z" fill="#665e56"/>
+    <rect x="18" y="41" width="22" height="34" fill="#87694f" opacity=".7"/>
+    <rect x="72" y="41" width="29" height="22" fill="#9bb3ad" opacity=".55"/>
+  </g>
+  <text x="151" y="315" text-anchor="middle" class="label">两栋一层瓦房</text>
+  <text x="151" y="590" text-anchor="middle" class="note">西侧围墙外北段</text>
+  <g filter="url(#soft)">
+    <use href="#tree" x="230" y="350"/><use href="#tree" x="238" y="430"/>
+    <use href="#tree" x="225" y="520"/><use href="#tree" x="240" y="610"/>
+  </g>
+  <text x="80" y="616" class="small">西侧外围树木</text>
+
+  <!-- 西南大建筑 -->
+  <g transform="translate(54 635)">
+    <rect x="0" y="0" width="230" height="164" rx="3" fill="#7f8079" class="unknown"/>
+    <rect x="18" y="24" width="194" height="16" fill="#a7aaa2" opacity=".65"/>
+    <rect x="18" y="69" width="194" height="16" fill="#a7aaa2" opacity=".65"/>
+    <rect x="18" y="114" width="194" height="16" fill="#a7aaa2" opacity=".65"/>
+  </g>
+  <text x="169" y="824" text-anchor="middle" class="label">西南大型建筑</text>
+  <text x="169" y="848" text-anchor="middle" class="small">约三层，占据西南角视野</text>
+
+  <!-- 南侧道路 -->
+  <rect x="300" y="765" width="565" height="94" fill="url(#road)" class="unknown"/>
+  <path d="M322 813 H843" stroke="#eee9dc" stroke-width="3" stroke-dasharray="26 23" opacity=".75"/>
+  <text x="583" y="805" text-anchor="middle" class="label">南侧道路</text>
+  <text x="583" y="837" text-anchor="middle" class="small">约15 m宽（亲历估算）</text>
+
+  <!-- 南墙树列 -->
+  <g filter="url(#soft)">
+    <use href="#slender-tree" x="325" y="720"/><use href="#slender-tree" x="370" y="720"/>
+    <use href="#slender-tree" x="415" y="720"/><use href="#slender-tree" x="460" y="720"/>
+    <use href="#slender-tree" x="650" y="720"/><use href="#slender-tree" x="695" y="720"/>
+    <use href="#slender-tree" x="740" y="720"/><use href="#slender-tree" x="785" y="720"/>
+  </g>
+  <text x="842" y="736" class="small">沿南墙树列</text>
+  <text x="842" y="755" class="note">树种名称待核定</text>
+
+  <!-- 东侧树与密集瓦房 -->
+  <g filter="url(#soft)">
+    <use href="#tree" x="870" y="363"/><use href="#tree" x="900" y="414"/><use href="#tree" x="874" y="481"/>
+    <use href="#tree" x="908" y="535"/><use href="#tree" x="880" y="602"/><use href="#tree" x="912" y="666"/>
+  </g>
+  <g fill="#aa8966" stroke="#765f4e" stroke-width="1.5" opacity=".9">
+    <path d="M947 560 h92 v58 h-92z M939 560 l54-28 54 28z"/>
+    <path d="M1035 610 h100 v72 h-100z M1027 610 l58-31 58 31z"/>
+    <path d="M958 674 h115 v58 h-115z M950 674 l66-30 65 30z"/>
+    <path d="M1060 706 h76 v48 h-76z M1052 706 l46-24 46 24z"/>
+  </g>
+  <text x="1032" y="785" text-anchor="middle" class="label">南片区：几栋旧瓦房</text>
+  <text x="1032" y="808" text-anchor="middle" class="small">树木在前，一至三层瓦房在后</text>
+
+  <!-- 瓦房统一朝向 -->
+  <g transform="translate(873 823)">
+    <path d="M0 0 H110" stroke="#6f5c4d" stroke-width="4"/>
+    <text x="55" y="-8" text-anchor="middle" class="note">屋脊东西向</text>
+    <path d="M55 5 V39 M55 39 l-7-11 M55 39 l7-11" stroke="#6f5c4d" stroke-width="2.5" fill="none"/>
+    <text x="72" y="38" class="note">正面朝南</text>
+  </g>
+
+  <!-- 东侧树木外层、南北排列的两栋盒形楼 -->
+  <g transform="translate(1015 256)">
+    <rect x="0" y="0" width="112" height="86" fill="#818b87" class="unknown"/>
+    <path d="M14 22 H98 M14 47 H98 M14 70 H98" stroke="#b9c1ba" stroke-width="8" opacity=".55"/>
+  </g>
+  <g transform="translate(1010 380)">
+    <rect x="0" y="0" width="119" height="91" fill="#788480" class="unknown"/>
+    <path d="M15 23 H104 M15 49 H104 M15 75 H104" stroke="#b9c1ba" stroke-width="8" opacity=".55"/>
+  </g>
+  <text x="1070" y="238" text-anchor="middle" class="label">北片区：两栋盒形楼</text>
+  <text x="996" y="300" text-anchor="end" class="note">北栋</text>
+  <text x="996" y="424" text-anchor="end" class="note">南栋</text>
+  <text x="1070" y="486" text-anchor="middle" class="small">均约三层｜位于树木外层</text>
+
+  <!-- 方位与图例 -->
+  <g transform="translate(1110 35)">
+    <path d="M0 45 V5 M0 5 l-8 13 M0 5 l8 13" stroke="#38463e" stroke-width="3" fill="none"/>
+    <text x="0" y="0" text-anchor="middle" class="label">北</text>
+  </g>
+  <g transform="translate(55 865)">
+    <line x1="0" y1="0" x2="35" y2="0" class="confirmed"/><text x="44" y="5" class="note">已确认总体关系</text>
+    <line x1="185" y1="0" x2="220" y2="0" class="unknown"/><text x="229" y="5" class="note">估算尺寸／待定轮廓</text>
+  </g>
+</svg>

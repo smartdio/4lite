@@ -1,0 +1,26 @@
+* text=auto eol=lf
+
+# Two trailing spaces are meaningful Markdown hard line breaks in the retained
+# reconstruction notes, so they are not whitespace errors.
+*.md whitespace=-blank-at-eol
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.ogg binary
+*.mp3 binary
+*.wav binary
+*.glb binary
+*.gltf binary
+*.bin binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.zip binary
+*.blend binary
+*.ktx2 binary
+*.wasm binary

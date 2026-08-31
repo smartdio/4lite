@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "baselineCommit": "local-full-resource-2026-08-31",
+  "regressionCeilings": {
+    "distBytes": 84000000,
+    "runtimeAssetBytes": 82000000,
+    "runtimeAssetRequests": 260,
+    "entryJsBytes": 900000,
+    "entryJsGzipBytes": 245000,
+    "drawCalls": 1150,
+    "triangles": 5800000,
+    "textures": 165,
+    "textureMemoryEstimateBytes": 800000000,
+    "sceneReadyMs": 60000,
+    "frameP95Ms": 50
+  },
+  "optimizationTargets": {
+    "mobileLow": {
+      "firstViewBytes": [8000000, 12000000],
+      "progressiveTotalBytes": [25000000, 35000000],
+      "textureMemoryBytes": [100000000, 160000000],
+      "drawCalls": [120, 150],
+      "triangles": [400000, 700000],
+      "minimumFps": 30
+    },
+    "desktopHigh": {
+      "firstViewBytes": [12000000, 20000000],
+      "progressiveTotalBytes": [35000000, 50000000],
+      "textureMemoryBytes": [250000000, 400000000],
+      "drawCalls": [200, 250],
+      "triangles": [1000000, 1500000],
+      "targetFps": 60
+    }
+  },
+  "policy": "Regression ceilings describe the sealed phase-1 scene plus limited measurement overhead. Optimization targets are directional and must not be raised to make a regression pass. Any ceiling change requires a dated report with measured evidence and rationale."
+}

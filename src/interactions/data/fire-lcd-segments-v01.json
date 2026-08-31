@@ -1,0 +1,1795 @@
+{
+  "version": 1,
+  "lcdLayoutVersion": "fire-manual-ownership-v06",
+  "pixelSource": "user-confirmed-manual-color-ownership-map",
+  "screenSize": [
+    1536,
+    1024
+  ],
+  "atlasSize": [
+    2048,
+    512
+  ],
+  "ownershipMap": "fire-lcd-manual-ownership-user-v06.png",
+  "ownershipMapSha256": "2247a5630fce303943ed4c4f40edc0872d46de6e8bb5a056ed081a1e538c51fa",
+  "validation": {
+    "segmentCount": 77,
+    "overlapPixels": 0,
+    "unassignedPixels": 0,
+    "outsidePixels": 0,
+    "reconstructionDifferentPixels": 0
+  },
+  "segments": {
+    "segment.001": {
+      "atlasRect": [
+        2,
+        2,
+        249,
+        160
+      ],
+      "screenRect": [
+        232,
+        57,
+        249,
+        160
+      ],
+      "pixelCount": 5890,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        102,
+        209
+      ],
+      "group": "smoke-fire",
+      "semanticStatus": "candidate"
+    },
+    "segment.002": {
+      "atlasRect": [
+        1316,
+        2,
+        66,
+        138
+      ],
+      "screenRect": [
+        469,
+        67,
+        66,
+        138
+      ],
+      "pixelCount": 2690,
+      "componentCount": 1,
+      "reviewColor": [
+        146,
+        209,
+        59
+      ],
+      "group": "smoke-fire",
+      "semanticStatus": "candidate"
+    },
+    "segment.003": {
+      "atlasRect": [
+        1922,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        699,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        128
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.004": {
+      "atlasRect": [
+        1958,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        790,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "reviewColor": [
+        122,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.005": {
+      "atlasRect": [
+        1994,
+        261,
+        32,
+        12
+      ],
+      "screenRect": [
+        916,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        115,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.006": {
+      "atlasRect": [
+        2,
+        345,
+        32,
+        12
+      ],
+      "screenRect": [
+        1007,
+        78,
+        32,
+        12
+      ],
+      "pixelCount": 317,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        190
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.007": {
+      "atlasRect": [
+        1612,
+        261,
+        111,
+        35
+      ],
+      "screenRect": [
+        1211,
+        78,
+        111,
+        35
+      ],
+      "pixelCount": 2010,
+      "componentCount": 4,
+      "reviewColor": [
+        59,
+        209,
+        184
+      ],
+      "group": "miss-status",
+      "semanticStatus": "candidate"
+    },
+    "segment.008": {
+      "atlasRect": [
+        1215,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        689,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        84,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.009": {
+      "atlasRect": [
+        1075,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        723,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        77,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.010": {
+      "atlasRect": [
+        1232,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        780,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        78
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.011": {
+      "atlasRect": [
+        1093,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        814,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        83
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.012": {
+      "atlasRect": [
+        1249,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        906,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "reviewColor": [
+        71,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.013": {
+      "atlasRect": [
+        1111,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        940,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "reviewColor": [
+        90,
+        209,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.014": {
+      "atlasRect": [
+        1266,
+        261,
+        13,
+        37
+      ],
+      "screenRect": [
+        997,
+        84,
+        13,
+        37
+      ],
+      "pixelCount": 347,
+      "componentCount": 1,
+      "reviewColor": [
+        197,
+        209,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.015": {
+      "atlasRect": [
+        1129,
+        261,
+        14,
+        38
+      ],
+      "screenRect": [
+        1031,
+        84,
+        14,
+        38
+      ],
+      "pixelCount": 367,
+      "componentCount": 1,
+      "reviewColor": [
+        178,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.016": {
+      "atlasRect": [
+        1727,
+        261,
+        68,
+        32
+      ],
+      "screenRect": [
+        608,
+        85,
+        68,
+        32
+      ],
+      "pixelCount": 1251,
+      "componentCount": 2,
+      "reviewColor": [
+        59,
+        209,
+        134
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.017": {
+      "atlasRect": [
+        1904,
+        261,
+        14,
+        13
+      ],
+      "screenRect": [
+        862,
+        97,
+        14,
+        13
+      ],
+      "pixelCount": 151,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        71,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.018": {
+      "atlasRect": [
+        1386,
+        2,
+        157,
+        120
+      ],
+      "screenRect": [
+        261,
+        102,
+        157,
+        120
+      ],
+      "pixelCount": 3153,
+      "componentCount": 1,
+      "reviewColor": [
+        115,
+        209,
+        59
+      ],
+      "group": "smoke-fire",
+      "semanticStatus": "candidate"
+    },
+    "segment.019": {
+      "atlasRect": [
+        182,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        696,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "reviewColor": [
+        121,
+        209,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.020": {
+      "atlasRect": [
+        214,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        787,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        127,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.021": {
+      "atlasRect": [
+        246,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        913,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        134
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.022": {
+      "atlasRect": [
+        278,
+        345,
+        28,
+        11
+      ],
+      "screenRect": [
+        1004,
+        120,
+        28,
+        11
+      ],
+      "pixelCount": 244,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        159
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.023": {
+      "atlasRect": [
+        1147,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        684,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        165
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.024": {
+      "atlasRect": [
+        1003,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        718,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.025": {
+      "atlasRect": [
+        1164,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        775,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "reviewColor": [
+        171,
+        209,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.026": {
+      "atlasRect": [
+        1021,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        809,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "reviewColor": [
+        203,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.027": {
+      "atlasRect": [
+        1181,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        901,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        178,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.028": {
+      "atlasRect": [
+        1039,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        935,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        197,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.029": {
+      "atlasRect": [
+        1198,
+        261,
+        13,
+        38
+      ],
+      "screenRect": [
+        992,
+        129,
+        13,
+        38
+      ],
+      "pixelCount": 351,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        203,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.030": {
+      "atlasRect": [
+        1057,
+        261,
+        14,
+        39
+      ],
+      "screenRect": [
+        1026,
+        129,
+        14,
+        39
+      ],
+      "pixelCount": 391,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        171,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.031": {
+      "atlasRect": [
+        1513,
+        166,
+        62,
+        82
+      ],
+      "screenRect": [
+        1147,
+        132,
+        62,
+        82
+      ],
+      "pixelCount": 1847,
+      "componentCount": 2,
+      "reviewColor": [
+        209,
+        59,
+        78
+      ],
+      "group": "miss-status",
+      "semanticStatus": "candidate"
+    },
+    "segment.032": {
+      "atlasRect": [
+        1579,
+        166,
+        60,
+        82
+      ],
+      "screenRect": [
+        1228,
+        132,
+        60,
+        82
+      ],
+      "pixelCount": 1841,
+      "componentCount": 2,
+      "reviewColor": [
+        59,
+        122,
+        209
+      ],
+      "group": "miss-status",
+      "semanticStatus": "candidate"
+    },
+    "segment.033": {
+      "atlasRect": [
+        184,
+        261,
+        62,
+        78
+      ],
+      "screenRect": [
+        1310,
+        132,
+        62,
+        78
+      ],
+      "pixelCount": 1791,
+      "componentCount": 2,
+      "reviewColor": [
+        166,
+        209,
+        59
+      ],
+      "group": "miss-status",
+      "semanticStatus": "candidate"
+    },
+    "segment.034": {
+      "atlasRect": [
+        1258,
+        166,
+        158,
+        83
+      ],
+      "screenRect": [
+        226,
+        138,
+        158,
+        83
+      ],
+      "pixelCount": 3700,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        209
+      ],
+      "group": "smoke-fire",
+      "semanticStatus": "candidate"
+    },
+    "segment.035": {
+      "atlasRect": [
+        1799,
+        261,
+        66,
+        32
+      ],
+      "screenRect": [
+        610,
+        141,
+        66,
+        32
+      ],
+      "pixelCount": 1233,
+      "componentCount": 2,
+      "reviewColor": [
+        59,
+        209,
+        165
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.036": {
+      "atlasRect": [
+        1886,
+        261,
+        14,
+        14
+      ],
+      "screenRect": [
+        858,
+        143,
+        14,
+        14
+      ],
+      "pixelCount": 153,
+      "componentCount": 1,
+      "reviewColor": [
+        77,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.037": {
+      "atlasRect": [
+        38,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        689,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        166,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.038": {
+      "atlasRect": [
+        74,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        780,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        159
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.039": {
+      "atlasRect": [
+        110,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        906,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "reviewColor": [
+        153,
+        59,
+        209
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.040": {
+      "atlasRect": [
+        146,
+        345,
+        32,
+        11
+      ],
+      "screenRect": [
+        997,
+        162,
+        32,
+        11
+      ],
+      "pixelCount": 302,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        202,
+        59
+      ],
+      "group": "clock-score",
+      "semanticStatus": "candidate"
+    },
+    "segment.041": {
+      "atlasRect": [
+        336,
+        261,
+        101,
+        74
+      ],
+      "screenRect": [
+        187,
+        226,
+        101,
+        74
+      ],
+      "pixelCount": 2620,
+      "componentCount": 1,
+      "reviewColor": [
+        158,
+        59,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.042": {
+      "atlasRect": [
+        623,
+        261,
+        79,
+        68
+      ],
+      "screenRect": [
+        527,
+        232,
+        79,
+        68
+      ],
+      "pixelCount": 2443,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        114
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.043": {
+      "atlasRect": [
+        255,
+        2,
+        134,
+        157
+      ],
+      "screenRect": [
+        1274,
+        240,
+        134,
+        157
+      ],
+      "pixelCount": 7455,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        70,
+        59
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.044": {
+      "atlasRect": [
+        844,
+        166,
+        76,
+        85
+      ],
+      "screenRect": [
+        463,
+        299,
+        76,
+        85
+      ],
+      "pixelCount": 2694,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        91,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.045": {
+      "atlasRect": [
+        1105,
+        166,
+        78,
+        84
+      ],
+      "screenRect": [
+        602,
+        301,
+        78,
+        84
+      ],
+      "pixelCount": 2611,
+      "componentCount": 1,
+      "reviewColor": [
+        135,
+        209,
+        59
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.046": {
+      "atlasRect": [
+        611,
+        166,
+        93,
+        89
+      ],
+      "screenRect": [
+        246,
+        307,
+        93,
+        89
+      ],
+      "pixelCount": 2798,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        178
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.047": {
+      "atlasRect": [
+        2,
+        261,
+        90,
+        80
+      ],
+      "screenRect": [
+        820,
+        313,
+        90,
+        80
+      ],
+      "pixelCount": 2754,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        196
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.048": {
+      "atlasRect": [
+        909,
+        261,
+        90,
+        49
+      ],
+      "screenRect": [
+        1246,
+        318,
+        90,
+        49
+      ],
+      "pixelCount": 1606,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        152,
+        59
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.049": {
+      "atlasRect": [
+        786,
+        261,
+        63,
+        60
+      ],
+      "screenRect": [
+        1176,
+        326,
+        63,
+        60
+      ],
+      "pixelCount": 1942,
+      "componentCount": 1,
+      "reviewColor": [
+        108,
+        59,
+        209
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.050": {
+      "atlasRect": [
+        1869,
+        261,
+        13,
+        32
+      ],
+      "screenRect": [
+        1396,
+        376,
+        13,
+        32
+      ],
+      "pixelCount": 261,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        64
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.051": {
+      "atlasRect": [
+        799,
+        166,
+        41,
+        87
+      ],
+      "screenRect": [
+        1304,
+        380,
+        41,
+        87
+      ],
+      "pixelCount": 1363,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        97
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.052": {
+      "atlasRect": [
+        1817,
+        2,
+        75,
+        94
+      ],
+      "screenRect": [
+        180,
+        390,
+        75,
+        94
+      ],
+      "pixelCount": 2485,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        141,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.053": {
+      "atlasRect": [
+        1732,
+        2,
+        81,
+        94
+      ],
+      "screenRect": [
+        901,
+        397,
+        81,
+        94
+      ],
+      "pixelCount": 3010,
+      "componentCount": 1,
+      "reviewColor": [
+        185,
+        209,
+        59
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.054": {
+      "atlasRect": [
+        1643,
+        166,
+        78,
+        81
+      ],
+      "screenRect": [
+        753,
+        407,
+        78,
+        81
+      ],
+      "pixelCount": 2696,
+      "componentCount": 1,
+      "reviewColor": [
+        189,
+        59,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.055": {
+      "atlasRect": [
+        1016,
+        166,
+        85,
+        84
+      ],
+      "screenRect": [
+        427,
+        415,
+        85,
+        84
+      ],
+      "pixelCount": 2815,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        145
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.056": {
+      "atlasRect": [
+        1187,
+        166,
+        67,
+        84
+      ],
+      "screenRect": [
+        621,
+        418,
+        67,
+        84
+      ],
+      "pixelCount": 2622,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        102,
+        59
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.057": {
+      "atlasRect": [
+        1420,
+        166,
+        89,
+        82
+      ],
+      "screenRect": [
+        281,
+        428,
+        89,
+        82
+      ],
+      "pixelCount": 2738,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        59,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.058": {
+      "atlasRect": [
+        853,
+        261,
+        52,
+        57
+      ],
+      "screenRect": [
+        1336,
+        438,
+        52,
+        57
+      ],
+      "pixelCount": 1716,
+      "componentCount": 1,
+      "reviewColor": [
+        103,
+        209,
+        59
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.059": {
+      "atlasRect": [
+        527,
+        261,
+        92,
+        68
+      ],
+      "screenRect": [
+        1136,
+        444,
+        92,
+        68
+      ],
+      "pixelCount": 2444,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        147
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.060": {
+      "atlasRect": [
+        708,
+        166,
+        87,
+        88
+      ],
+      "screenRect": [
+        1056,
+        522,
+        87,
+        88
+      ],
+      "pixelCount": 2715,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        191,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.061": {
+      "atlasRect": [
+        2,
+        166,
+        90,
+        91
+      ],
+      "screenRect": [
+        934,
+        524,
+        90,
+        91
+      ],
+      "pixelCount": 2888,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        183,
+        59
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.062": {
+      "atlasRect": [
+        1638,
+        2,
+        90,
+        95
+      ],
+      "screenRect": [
+        304,
+        527,
+        90,
+        95
+      ],
+      "pixelCount": 2853,
+      "componentCount": 1,
+      "reviewColor": [
+        139,
+        59,
+        209
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.063": {
+      "atlasRect": [
+        1547,
+        2,
+        87,
+        96
+      ],
+      "screenRect": [
+        398,
+        527,
+        87,
+        96
+      ],
+      "pixelCount": 2815,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        95
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.064": {
+      "atlasRect": [
+        1896,
+        2,
+        78,
+        93
+      ],
+      "screenRect": [
+        741,
+        527,
+        78,
+        93
+      ],
+      "pixelCount": 3005,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        66
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.065": {
+      "atlasRect": [
+        924,
+        166,
+        88,
+        84
+      ],
+      "screenRect": [
+        1190,
+        535,
+        88,
+        84
+      ],
+      "pixelCount": 2534,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        110,
+        209
+      ],
+      "group": "right-action",
+      "semanticStatus": "candidate"
+    },
+    "segment.066": {
+      "atlasRect": [
+        96,
+        261,
+        84,
+        80
+      ],
+      "screenRect": [
+        639,
+        536,
+        84,
+        80
+      ],
+      "pixelCount": 2689,
+      "componentCount": 1,
+      "reviewColor": [
+        154,
+        209,
+        59
+      ],
+      "group": "falling-person",
+      "semanticStatus": "candidate"
+    },
+    "segment.067": {
+      "atlasRect": [
+        441,
+        261,
+        82,
+        74
+      ],
+      "screenRect": [
+        995,
+        636,
+        82,
+        74
+      ],
+      "pixelCount": 2882,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        198
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.068": {
+      "atlasRect": [
+        250,
+        261,
+        82,
+        76
+      ],
+      "screenRect": [
+        344,
+        643,
+        82,
+        76
+      ],
+      "pixelCount": 2882,
+      "componentCount": 1,
+      "reviewColor": [
+        59,
+        209,
+        177
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.069": {
+      "atlasRect": [
+        393,
+        2,
+        334,
+        151
+      ],
+      "screenRect": [
+        210,
+        648,
+        334,
+        151
+      ],
+      "pixelCount": 13986,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        133,
+        59
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.070": {
+      "atlasRect": [
+        731,
+        2,
+        307,
+        149
+      ],
+      "screenRect": [
+        900,
+        649,
+        307,
+        149
+      ],
+      "pixelCount": 13044,
+      "componentCount": 1,
+      "reviewColor": [
+        89,
+        59,
+        209
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.071": {
+      "atlasRect": [
+        706,
+        261,
+        76,
+        65
+      ],
+      "screenRect": [
+        699,
+        650,
+        76,
+        65
+      ],
+      "pixelCount": 2390,
+      "componentCount": 1,
+      "reviewColor": [
+        72,
+        209,
+        59
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.072": {
+      "atlasRect": [
+        1042,
+        2,
+        270,
+        148
+      ],
+      "screenRect": [
+        591,
+        653,
+        270,
+        148
+      ],
+      "pixelCount": 12890,
+      "componentCount": 1,
+      "reviewColor": [
+        209,
+        59,
+        116
+      ],
+      "group": "stretcher-rescue",
+      "semanticStatus": "candidate"
+    },
+    "segment.073": {
+      "atlasRect": [
+        361,
+        166,
+        246,
+        90
+      ],
+      "screenRect": [
+        276,
+        804,
+        246,
+        90
+      ],
+      "pixelCount": 4960,
+      "componentCount": 5,
+      "reviewColor": [
+        59,
+        160,
+        209
+      ],
+      "group": "bounce-animation",
+      "semanticStatus": "candidate"
+    },
+    "segment.074": {
+      "atlasRect": [
+        96,
+        166,
+        261,
+        90
+      ],
+      "screenRect": [
+        583,
+        804,
+        261,
+        90
+      ],
+      "pixelCount": 5133,
+      "componentCount": 5,
+      "reviewColor": [
+        204,
+        209,
+        59
+      ],
+      "group": "bounce-animation",
+      "semanticStatus": "candidate"
+    },
+    "segment.075": {
+      "atlasRect": [
+        1725,
+        166,
+        260,
+        80
+      ],
+      "screenRect": [
+        916,
+        804,
+        260,
+        80
+      ],
+      "pixelCount": 4949,
+      "componentCount": 5,
+      "reviewColor": [
+        170,
+        59,
+        209
+      ],
+      "group": "bounce-animation",
+      "semanticStatus": "candidate"
+    },
+    "segment.076": {
+      "atlasRect": [
+        1451,
+        261,
+        157,
+        36
+      ],
+      "screenRect": [
+        1240,
+        905,
+        157,
+        36
+      ],
+      "pixelCount": 3075,
+      "componentCount": 5,
+      "reviewColor": [
+        201,
+        59,
+        209
+      ],
+      "group": "mode-game-b",
+      "semanticStatus": "candidate"
+    },
+    "segment.077": {
+      "atlasRect": [
+        1283,
+        261,
+        164,
+        36
+      ],
+      "screenRect": [
+        146,
+        907,
+        164,
+        36
+      ],
+      "pixelCount": 2975,
+      "componentCount": 5,
+      "reviewColor": [
+        209,
+        59,
+        135
+      ],
+      "group": "mode-game-a",
+      "semanticStatus": "candidate"
+    }
+  }
+}
