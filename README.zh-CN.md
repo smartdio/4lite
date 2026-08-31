@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/branding/4lite-logo-approved.svg" alt="4Lite — 四小" width="320">
+</p>
+
 # 4Lite
 
 [English](README.md) · [简体中文](README.zh-CN.md)
