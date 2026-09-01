@@ -10,6 +10,11 @@ const boot=async page=>{
 
 test('long jump entry, grading, marker and exit restoration are deterministic',async({page})=>{
   await boot(page)
+  expect(await page.evaluate(()=>window.__CAMPUS_TEST__.sandpitIronPipes())).toEqual({
+    count:2,placements:[[2.28,-48.77],[8.08,-48.77]],height:2.05,radius:.04,
+    drawObjects:2,sharedGeometries:1,sharedMaterials:1,
+    externalRequests:0,hasCrossbar:false,confidence:'A/C',
+  })
   await page.evaluate(()=>window.__CAMPUS_TEST__.teleport(6.5,-47.4,6.5,-49.0,0,-.08))
   await page.waitForFunction(()=>window.__CAMPUS_TEST__.hud().interaction==='start-long-jump')
   expect(await page.evaluate(()=>window.__CAMPUS_TEST__.hud().interactionHint)).toBe('start-long-jump')

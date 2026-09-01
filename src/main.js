@@ -725,6 +725,10 @@ const activityParallelBarMaterial=new THREE.MeshStandardMaterial({
   name:'activity-parallel-bars-gray-black-steel',
   color:0x34383a,roughness:.72,metalness:.62,
 })
+const sandpitIronPipeMaterial=new THREE.MeshStandardMaterial({
+  name:'toilet-sandpit-aged-iron-pipes',
+  color:0x3d4140,roughness:.78,metalness:.55,
+})
 const bambooClimbSteelMaterial=new THREE.MeshStandardMaterial({
   name:'b1-north-bamboo-climb-aged-steel',color:0x3f4745,roughness:.76,metalness:.56,
 })
@@ -6059,6 +6063,36 @@ function createActivityParallelBars() {
   return {groups:bars.count,rails:bars.count*2,posts:bars.count*4,placements}
 }
 
+function createSandpitIronPipes() {
+  const sandpit=CAMPUS.facilities.sandpit,config=sandpit.uprightIronPipes
+  const geometry=new THREE.CylinderGeometry(
+    config.radius,config.radius,config.height,config.radialSegments,
+  )
+  const placements=[]
+  for(let index=0;index<config.count;index++) {
+    const side=index===0?-1:1
+    const x=sandpit.center[0]+side*config.lateralOffset
+    const z=sandpit.center[1]+config.longitudinalOffset
+    const mesh=new THREE.Mesh(geometry,sandpitIronPipeMaterial)
+    mesh.name=`toilet-sandpit-upright-iron-pipe-${index+1}`
+    mesh.position.set(x,config.baseY+config.height/2,z)
+    mesh.castShadow=mesh.receiveShadow=true
+    root.add(mesh)
+    navigation.addAabbBounds({
+      name:`toilet-sandpit-upright-iron-pipe-${index+1}-collider`,
+      minX:x-config.radius,maxX:x+config.radius,
+      minZ:z-config.radius,maxZ:z+config.radius,
+      minY:config.baseY,maxY:config.baseY+config.height,
+    })
+    placements.push([+x.toFixed(3),+z.toFixed(3)])
+  }
+  return {
+    count:config.count,placements,height:config.height,radius:config.radius,
+    drawObjects:config.count,sharedGeometries:1,sharedMaterials:1,
+    externalRequests:0,hasCrossbar:false,confidence:config.confidence,
+  }
+}
+
 function createActivityHighLowBar() {
   const config=CAMPUS.facilities.activity.highLowBar
   const highY=config.sandSurfaceY+config.highHeight
@@ -6183,6 +6217,7 @@ function createFacilities() {
   createBuilding2Planters()
   createB1NorthGraniteBenches()
   const b1NorthBambooClimbStats=createB1NorthBambooClimb()
+  const sandpitIronPipeStats=createSandpitIronPipes()
   const activityParallelBarStats=createActivityParallelBars()
   const activityHighLowBarStats=createActivityHighLowBar()
   const activityMonkeyBarStats=createActivityMonkeyBars()
@@ -6244,6 +6279,7 @@ function createFacilities() {
   addLabel('东侧器械场地 · 高台 +0.5m',[26.5,3.7,-47.5])
   return {
     b1NorthBambooClimb:b1NorthBambooClimbStats,
+    sandpitIronPipes:sandpitIronPipeStats,
     activityParallelBars:activityParallelBarStats,
     activityHighLowBar:activityHighLowBarStats,
     activityMonkeyBars:activityMonkeyBarStats,
@@ -9978,6 +10014,8 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
     return {instanceMeshes,instanceSlots,finiteMatrices,uniqueGeometries:geometries.size,uniqueMaterials:materials.size}
   },
   sandpitAsset:()=>({...sandpitAssetLoadState,drawObjects:sandpitAssetRoot.children.length}),
+  sandpitIronPipes:()=>({...facilityStats.sandpitIronPipes}),
+  perimeterEnvironment:()=>perimeterEnvironment.stats,
   activitySandAssets:()=>({...activitySandAssetLoadState,drawObjects:activitySandAssetRoot.children.length}),
   sharedSandTexture:()=>{
     const textures=new Set(),formats=new Set()

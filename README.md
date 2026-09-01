@@ -24,6 +24,12 @@
 
 The reconstruction does not present uncertain details as measured fact. Confirmed memories and source material take priority; dimensions and details that remain uncertain are treated as working values.
 
+## How it was made
+
+The campus was built through repeated exchanges between memory and implementation: first-hand recollections, sketches, and historical photographs were organised and assigned confidence levels; spatial relationships were then translated into measured plans and walkable Three.js grayboxes for review. Once the layout was confirmed, the project moved through visual development, asset production, interaction design, mobile adaptation, performance profiling, and regression testing, with uncertain details kept as working values until new evidence or first-hand review resolved them.
+
+Read the full development story: [From Memory to Campus: The Making of *The School I Remember*](docs/project-development-story.en.md).
+
 ## Games and interactions
 
 The complete experience includes:

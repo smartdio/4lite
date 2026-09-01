@@ -91,7 +91,7 @@ const mergedBoxes=(name,entries,material)=>{
 }
 
 const mergedGableRoofs=(name,entries,material)=>{
-  const geometries=entries.map(({size:[width,depth],position:[cx,baseY,cz],rise})=>{
+  const geometries=entries.map(({size:[width,depth],position:[cx,baseY,cz],rise,rotationY=0})=>{
     const halfWidth=width/2,halfDepth=depth/2
     const geometry=new THREE.BufferGeometry()
     geometry.setAttribute('position',new THREE.Float32BufferAttribute([
@@ -106,6 +106,7 @@ const mergedGableRoofs=(name,entries,material)=>{
       1,3,5,
     ])
     geometry.computeVertexNormals()
+    geometry.rotateY(rotationY)
     geometry.translate(cx,baseY,cz)
     return geometry
   })
@@ -222,6 +223,12 @@ export function createPerimeterEnvironment({scene,assetLoader,atmosphereColor}) 
 
   const mutedBuilding=flatMaterial('perimeter-muted-buildings',0x817e72)
   const tiledBuilding=flatMaterial('perimeter-old-tiled-buildings',0x777268)
+  const wallSideShop={
+    // 独立小卖部位于马尾松南侧东西向围墙的南面，处在该墙与校外道路之间。
+    // 除“墙后盒子房＋三角屋顶”为亲历确认外，尺寸、颜色和精确位置均为工作值。
+    center:[24.55,-9.35],size:[4.8,3.7,4],wallFaceZ:-11.36,roadNorthZ:.5,
+    roof:{size:[5.4,4.6],geometrySize:[5.4,4.6],baseY:3.7,rise:1.6,rotationY:0},confidence:'A/C',
+  }
   firstPersonRoot.add(mergedBoxes('perimeter-box-buildings',[
     {size:[11,9,7],position:[40.5,4.5,-48]},
     {size:[10,9,7],position:[40,4.5,-62]},
@@ -279,6 +286,17 @@ export function createPerimeterEnvironment({scene,assetLoader,atmosphereColor}) 
     {size:[12,6],position:[41,3.6,19],rise:1.3},
     {size:[16,6],position:[68,4.8,19],rise:1.5},
   ],tiledBuilding))
+  firstPersonRoot.add(
+    mergedBoxes('wall-side-shop-body',[{
+      size:wallSideShop.size,
+      position:[wallSideShop.center[0],wallSideShop.size[1]/2,wallSideShop.center[1]],
+    }],tiledBuilding),
+    mergedGableRoofs('wall-side-shop-triangular-roof',[{
+      size:wallSideShop.roof.geometrySize,
+      position:[wallSideShop.center[0],wallSideShop.roof.baseY,wallSideShop.center[1]],
+      rise:wallSideShop.roof.rise,rotationY:wallSideShop.roof.rotationY,
+    }],tiledBuilding),
+  )
 
   const perimeterTreeMaterial=flatMaterial('perimeter-watercolor-tree-cards',0xffffff,{
     transparent:false,alphaTest:.12,depthWrite:true,side:THREE.DoubleSide,
@@ -306,7 +324,7 @@ export function createPerimeterEnvironment({scene,assetLoader,atmosphereColor}) 
   ;[-38,-31].forEach(z=>addTree(wallTreeEntries,32.35,z,Math.PI/2))
   addTree(wallTreeEntries,29.35,-25.05,0)
   ;[-22,-16].forEach(z=>addTree(wallTreeEntries,27.65,z,Math.PI/2))
-  addTree(wallTreeEntries,24.55,-10.85,0)
+  // 马尾松南侧横墙外的这处树卡让位给亲历者确认的小卖部。
   ;[-7,-2].forEach(z=>addTree(wallTreeEntries,22.75,z,Math.PI/2))
   // 东北两栋盒子楼与校园之间：上层阔叶树，下层灌木封住树干空隙。
   const northeastTreeZ=[-48.5,-51.7,-54.9,-58.1,-61.3,-64.5,-67.7]
@@ -363,6 +381,15 @@ export function createPerimeterEnvironment({scene,assetLoader,atmosphereColor}) 
   syncMode('aerial')
   return {
     load,syncMode,firstPersonRoot,aerialRoot,
-    stats:{textures:3,drawCallsFirstPerson:10,drawCallsAerial:2,treeCards:54,lotusTiles:220,trianglesEstimate:1316},
+    stats:{
+      textures:3,drawCallsFirstPerson:12,drawCallsAerial:2,treeCards:53,lotusTiles:220,trianglesEstimate:1334,
+      wallSideShop:{
+        center:[...wallSideShop.center],size:[...wallSideShop.size],wallFaceZ:wallSideShop.wallFaceZ,
+        roadNorthZ:wallSideShop.roadNorthZ,roof:{
+          ...wallSideShop.roof,size:[...wallSideShop.roof.size],geometrySize:[...wallSideShop.roof.geometrySize],
+        },
+        drawCalls:2,externalRequests:0,confidence:wallSideShop.confidence,
+      },
+    },
   }
 }

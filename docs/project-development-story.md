@@ -1,5 +1,7 @@
 # 从记忆到校园：《记忆中的学校》开发纪实
 
+[简体中文](project-development-story.md) · [English](project-development-story.en.md)
+
 记录日期：2026年8月22日
 记录范围：从项目最初构想到当前版本
 项目形态：基于 Three.js 的浏览器三维校园体验

@@ -163,6 +163,13 @@ export const CAMPUS = {
       center: [5.18, -51.67], size: [6, 6], rimWidth: 0.2, sandInset: 0.025,
       placementY: 0.01, assetUrl: '/assets/models/sandpit/sandpit-recessed-game-v01.glb?v=7',
       confidence: 'C',
+      // 2026-09-01 补充回忆确认“沙池有两根竖立铁管”，最终明确两管
+      // 插在沙池南侧左右两个水泥边框角上。不补横杆或推断用途。
+      uprightIronPipes: {
+        count: 2, lateralOffset: 2.9, longitudinalOffset: 2.9,
+        baseY: 0, height: 2.05, radius: 0.04, radialSegments: 12,
+        confidence: 'A/C',
+      },
     },
     longJump: {
       // 跳远踏板与玩法参数均为游戏工作值，不代表历史实测尺寸。
