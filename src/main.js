@@ -1195,7 +1195,7 @@ const b1InteractiveMeshes = []
 const b1InteractionRaycaster = new THREE.Raycaster()
 const b1InteractionPointer = new THREE.Vector2()
 let b1AssetLoadState = { status: 'pending', loaded: [], failed: [] }
-let toiletAssetLoadState = { status: 'pending', url: '/assets/models/toilet/toilet-game-optimized-v01.glb?v=8' }
+let toiletAssetLoadState = { status: 'pending', url: '/assets/models/toilet/toilet-game-optimized-v01.glb?v=10' }
 let dormitoryAssetLoadState = { status: 'pending', url: '/assets/models/teacher-dormitory/teacher-dormitory-game-optimized-v01.glb?v=3' }
 let banyanAssetLoadState = { status: 'pending', url: CAMPUS.facilities.banyan.assetUrl }
 const banyanLeafMaterials=new Map()
@@ -2893,10 +2893,13 @@ async function loadToiletAsset() {
     const scaledBounds=new THREE.Box3().setFromObject(model)
     const scaledCenter=scaledBounds.getCenter(new THREE.Vector3())
     model.position.add(new THREE.Vector3(b.center[0]-scaledCenter.x,b.platformY-scaledBounds.min.y,b.center[1]-scaledCenter.z))
-    let meshes=0
+    let meshes=0,triangles=0
     model.traverse(node=>{
       if(!node.isMesh)return
       meshes++
+      const indexCount=node.geometry?.index?.count
+      const positionCount=node.geometry?.attributes?.position?.count
+      triangles+=Math.round((indexCount??positionCount??0)/3)
       node.castShadow=node.receiveShadow=true
       const materials=Array.isArray(node.material)?node.material:[node.material]
       for(const material of materials) for(const texture of [material?.map,material?.normalMap,material?.roughnessMap,material?.metalnessMap]) {
@@ -2912,8 +2915,8 @@ async function loadToiletAsset() {
     const finalSize=finalBounds.getSize(new THREE.Vector3())
     toiletAssetLoadState={
       ...toiletAssetLoadState,status:'loaded',url:assetUrl,
-      meshoptCandidate:toiletMeshoptCandidate||'formal-conservative',meshes,
-      triangles:model.userData.triangles??20000,
+      meshoptCandidate:toiletMeshoptCandidate||'formal-rebuild-v11-rear-wall',meshes,
+      triangles,
       size:[finalSize.x,finalSize.y,finalSize.z].map(value=>+value.toFixed(3)),
       center:[b.center[0],b.platformY,b.center[1]],
     }
