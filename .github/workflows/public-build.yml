@@ -35,9 +35,9 @@ jobs:
       name: production
       url: ${{ vars.VERCEL_PUBLIC_URL }}
     env:
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      PLATFORM_ORG: ${{ vars.PRODUCTION_PLATFORM_ORG }}
+      PLATFORM_PROJECT: ${{ vars.PRODUCTION_PLATFORM_PROJECT }}
+      PLATFORM_ACCESS: ${{ secrets.VERCEL_TOKEN }}
       DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       DEPLOY_USER: ${{ vars.DEPLOY_USER }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
@@ -49,9 +49,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Link Vercel production project
-        run: npx --yes vercel@59.10.0 pull --yes --environment=production --token="$VERCEL_TOKEN"
+        run: |
+          mkdir -p .vercel
+          node -e "require('node:fs').writeFileSync('.vercel/project.json', JSON.stringify({orgId: process.env.PLATFORM_ORG, projectId: process.env.PLATFORM_PROJECT}))"
+          npx --yes vercel@59.10.0 pull --yes --environment=production --token "$PLATFORM_ACCESS"
       - name: Build the shared production artifact
-        run: npx --yes vercel@59.10.0 build --prod --token="$VERCEL_TOKEN"
+        run: npx --yes vercel@59.10.0 build --prod --token "$PLATFORM_ACCESS"
       - run: npm run perf:build
       - name: Configure production SSH key
         env:
@@ -63,7 +66,7 @@ jobs:
           printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
       - name: Deploy to Vercel
-        run: npx --yes vercel@59.10.0 deploy --prebuilt --prod --yes --token="$VERCEL_TOKEN"
+        run: npx --yes vercel@59.10.0 deploy --prebuilt --prod --yes --token "$PLATFORM_ACCESS"
       - name: Deploy to the self-hosted server
         run: |
           ssh -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" "test -d '$DEPLOY_PATH'"
