@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,3 +23,65 @@ jobs:
       - run: npm run test:unit
       - run: npm run verify:public
       - run: npm run build
+      - run: npm run perf:build
+
+  deploy:
+    name: Deploy production
+    needs: verify
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: ${{ vars.VERCEL_PUBLIC_URL }}
+    env:
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Link Vercel production project
+        run: npx --yes vercel@59.10.0 pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Build the shared production artifact
+        run: npx --yes vercel@59.10.0 build --prod --token="$VERCEL_TOKEN"
+      - run: npm run perf:build
+      - name: Configure production SSH key
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d "$HOME/.ssh"
+          install -m 600 /dev/null "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+      - name: Deploy to Vercel
+        run: npx --yes vercel@59.10.0 deploy --prebuilt --prod --yes --token="$VERCEL_TOKEN"
+      - name: Deploy to the self-hosted server
+        run: |
+          ssh -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" "test -d '$DEPLOY_PATH'"
+          rsync -az --delete dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+      - name: Verify both production targets
+        env:
+          VERCEL_PUBLIC_URL: ${{ vars.VERCEL_PUBLIC_URL }}
+          SERVER_PUBLIC_URL: ${{ vars.SERVER_PUBLIC_URL }}
+        run: |
+          main_asset="$(find dist/assets -maxdepth 1 -type f -name 'main-*.js' -printf '%f\n')"
+          test -n "$main_asset"
+          expected_sha="$(sha256sum "dist/assets/$main_asset" | awk '{print $1}')"
+
+          for base_url in "$VERCEL_PUBLIC_URL" "$SERVER_PUBLIC_URL"; do
+            for route in / /en/ /about/ /help/ /en/about/ /en/help/; do
+              curl --fail --silent --show-error --output /dev/null "$base_url$route"
+            done
+
+            deployed_sha="$(curl --fail --silent --show-error "$base_url/assets/$main_asset" | sha256sum | awk '{print $1}')"
+            test "$deployed_sha" = "$expected_sha"
+          done
