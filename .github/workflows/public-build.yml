@@ -23,7 +23,6 @@ jobs:
       - run: npm run test:unit
       - run: npm run verify:public
       - run: npm run build
-      - run: npm run perf:build
 
   deploy:
     name: Deploy production
@@ -41,6 +40,7 @@ jobs:
       DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       DEPLOY_USER: ${{ vars.DEPLOY_USER }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+      RUNTIME_ASSETS_PATH: ${{ vars.RUNTIME_ASSETS_PATH }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -48,14 +48,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Link Vercel production project
-        run: |
-          mkdir -p .vercel
-          node -e "require('node:fs').writeFileSync('.vercel/project.json', JSON.stringify({orgId: process.env.PLATFORM_ORG, projectId: process.env.PLATFORM_PROJECT}))"
-          npx --yes vercel@59.10.0 pull --yes --environment=production --token "$PLATFORM_ACCESS"
-      - name: Build the shared production artifact
-        run: npx --yes vercel@59.10.0 build --prod --token "$PLATFORM_ACCESS"
-      - run: npm run perf:build
       - name: Configure production SSH key
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -65,6 +57,19 @@ jobs:
           install -m 600 /dev/null "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+      - name: Restore private runtime assets
+        run: |
+          test -n "$RUNTIME_ASSETS_PATH"
+          mkdir -p public/assets
+          rsync -az "$DEPLOY_USER@$DEPLOY_HOST:$RUNTIME_ASSETS_PATH/" public/assets/
+      - name: Link Vercel production project
+        run: |
+          mkdir -p .vercel
+          node -e "require('node:fs').writeFileSync('.vercel/project.json', JSON.stringify({orgId: process.env.PLATFORM_ORG, projectId: process.env.PLATFORM_PROJECT}))"
+          npx --yes vercel@59.10.0 pull --yes --environment=production --token "$PLATFORM_ACCESS"
+      - name: Build the shared production artifact
+        run: npx --yes vercel@59.10.0 build --prod --token "$PLATFORM_ACCESS"
+      - run: npm run perf:build
       - name: Deploy to Vercel
         run: npx --yes vercel@59.10.0 deploy --prebuilt --prod --yes --token "$PLATFORM_ACCESS"
       - name: Deploy to the self-hosted server
