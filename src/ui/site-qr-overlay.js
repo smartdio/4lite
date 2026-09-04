@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const QR_SOURCE_SIZE=Object.freeze([722,960])
 
@@ -150,7 +151,7 @@ export function createSiteQrOverlay({renderer,assetLoader,imageUrl,sourceImage=n
     return true
   }
   const snapshot=()=>({
-    open,loaded,label,imageUrl,sourceSize:[...QR_SOURCE_SIZE],
+    open,loaded,label:translateRuntimeText(label),imageUrl,sourceSize:[...QR_SOURCE_SIZE],
     cardBounds:cardBounds?{...cardBounds}:null,
     closeBounds:closeBounds?{...closeBounds}:null,
   })

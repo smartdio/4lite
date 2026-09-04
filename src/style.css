@@ -8,7 +8,7 @@
 * { box-sizing: border-box; }
 html, body, #app { width: 100%; height: 100%; height: 100dvh; margin: 0; overflow: hidden; }
 #app::before {
-  content: "正在展开那年夏天……"; position: fixed; inset: 0; display: grid; place-items: center;
+  content: attr(data-loading-label); position: fixed; inset: 0; display: grid; place-items: center;
   color: rgba(84,72,59,.72); background: #e9dfc6; font: 13px/1.5 system-ui,sans-serif;
   letter-spacing: .16em; opacity: 0; pointer-events: none; transition: opacity .28s ease;
 }
@@ -47,9 +47,14 @@ html.entry-visual-ready .experience-gate { opacity: 1; }
   padding-top: clamp(64px, 11vh, 118px);
 }
 .entry-logo {
-  display: block; width: clamp(230px, 23.5vw, 340px); height: auto; margin: -64px 0 8px;
+  display: block; width: clamp(230px, 23.5vw, 340px); height: auto; margin: -64px 0 0;
   overflow: visible; transform: translateX(-13.1%);
 }
+.entry-brand-caption { display:flex; flex-direction:column; gap:2px; margin:-4px 0 15px; color:#514438; font-family:system-ui,sans-serif; letter-spacing:.08em; }
+.entry-brand-caption strong { font-size:14px; font-weight:650; }
+.entry-brand-caption span { color:rgba(70,64,52,.66); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+.entry-language { position:absolute; z-index:4; top:max(20px,env(safe-area-inset-top)); right:max(24px,env(safe-area-inset-right)); min-width:52px; padding:8px 11px; border:1px solid rgba(96,79,54,.25); color:#574b3f; background:rgba(255,249,229,.86); font:600 12px/1.2 system-ui,sans-serif; letter-spacing:.08em; text-align:center; text-decoration:none; }
+.entry-language:hover { color:#93352f; background:#fff9e5; }
 .entry-copy { margin: 0 0 31px; color: #54483b; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.8; letter-spacing: .06em; }
 button.entry-primary {
   display: inline-flex; align-items: center; gap: 34px; min-width: 230px; padding: 13px 17px 12px 22px;

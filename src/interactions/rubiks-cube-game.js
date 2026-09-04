@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js'
 import {getUserDataStore} from '../state/user-data-store.js'
+import {translateRuntimeText} from '../i18n/index.js'
 import {
   applyCubeMove,applyCubeMoves,createSolvedCubeState,generateCubeScramble,inverseCubeMove,
   isCubeSolved,serializeCubeState,validateCubeState,
@@ -172,7 +173,7 @@ function makeTextPlane(renderer,{name,width=1024,height=160,fontSize=52,kind='in
   const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material);mesh.name=name;mesh.renderOrder=10
   let current=''
   const setText=text=>{
-    const next=String(text??'');if(next===current)return;current=next
+    const next=String(translateRuntimeText(text)??'');if(next===current)return;current=next
     context.clearRect(0,0,width,height)
     if(kind==='arcadeButton'){
       context.fillStyle='#173f67';context.strokeStyle='#17191b';context.lineWidth=10

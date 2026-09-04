@@ -1,8 +1,9 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 export const PIXEL_UI_FONT_URL='/assets/fonts/pixel/4lite-fusion-pixel-12px-ui-v02.woff2'
 export const PIXEL_UI_FONT_FAMILY='4Lite Pixel UI'
-export const PIXEL_UI_CHARS=' 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-/:%.得分命中投篮两三四乒乓球局胜负时间连击回合玩家电脑对手暂停开始结束重置本次距离总计最高记录练习比赛制发进行按住移动松手抛点击好扣杀攀爬左右抓稳用力厘米脱手再试一次到顶高度退出目标连续剩余失误瞄准后片逐格跳回轻触重开看时机石子接王'
+export const PIXEL_UI_CHARS=" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-/:%.,!?()'’得分命中投篮两三四乒乓球局胜负时间连击回合玩家电脑对手暂停开始结束重置本次距离总计最高记录练习比赛制发进行按住移动松手抛点击好扣杀攀爬左右抓稳用力厘米脱手再试一次到顶高度退出目标连续剩余失误瞄准后片逐格跳回轻触重开看时机石子接王"
 
 const CELL_SIZE=64
 const COLUMNS=16
@@ -58,7 +59,7 @@ export function createPixelTextSystem({renderer}){
     }
     let currentText=''
     const setText=value=>{
-      const next=String(value??'').slice(0,maxChars)
+      const next=String(translateRuntimeText(value)??'').slice(0,maxChars)
       if(next===currentText)return false
       currentText=next
       const characters=[...next],advances=characters.map(char=>char===' '?.42:/[\x00-\xff]/.test(char)?.58:1)

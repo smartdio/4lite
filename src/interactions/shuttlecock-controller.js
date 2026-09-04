@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const clamp=THREE.MathUtils.clamp
 const rounded=(value,digits=3)=>+value.toFixed(digits)
@@ -300,9 +301,9 @@ export function createShuttlecockController({
     const height=Math.max(0,position.y-groundY)
     return {height:rounded(height),heightRatio:rounded(clamp(height/config.heightGuideMax,0,1)),descending:velocity.y<0,kickWindow:[rounded(config.kickMinY/config.heightGuideMax),rounded(config.kickMaxY/config.heightGuideMax)]}
   }
-  const hudState=()=>({visible:active(),phase,streak,best,expectedFoot,feedback,kickable:kickableNow(),...heightState(),playerOffset:rounded(playerOffset),touch:isTouchMode()})
+  const hudState=()=>({visible:active(),phase,streak,best,expectedFoot,feedback:translateRuntimeText(feedback),feedbackCode:phase,kickable:kickableNow(),...heightState(),playerOffset:rounded(playerOffset),touch:isTouchMode()})
   const snapshot=()=>({
-    status:active()?'active':'idle',phase,streak,best,expectedFoot,feedback,kickable:kickableNow(),...heightState(),playerOffset:rounded(playerOffset),
+    status:active()?'active':'idle',phase,streak,best,expectedFoot,feedback:translateRuntimeText(feedback),feedbackCode:phase,kickable:kickableNow(),...heightState(),playerOffset:rounded(playerOffset),
     position:position.toArray().map(value=>rounded(value)),velocity:velocity.toArray().map(value=>rounded(value)),
     model:{
       kind:'textured-working-value',feathers:featherCount,featherArrangement:'radial-splay',featherSize:[config.featherWidth,config.featherHeight],

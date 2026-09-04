@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import segmentManifest from './data/octopus-lcd-segments-v03.json'
 import semanticLayout from './data/octopus-lcd-semantic-layout-v05.json'
 import {getUserDataStore} from '../state/user-data-store.js'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const DEVICE={width:.114,height:.064,depth:.010,imageAspect:1659/948}
 const LCD_RECT=[484/1659,262/948,668/1659,425/948]
@@ -46,7 +47,7 @@ function makeExitControl() {
   const canvas=document.createElement('canvas');canvas.width=384;canvas.height=128
   const context=canvas.getContext('2d');context.strokeStyle='rgba(210,198,171,.55)';context.fillStyle='rgba(18,17,15,.58)';context.lineWidth=5
   context.beginPath();context.roundRect(5,5,374,118,22);context.fill();context.stroke();context.fillStyle='rgba(218,207,181,.76)';context.font='500 38px sans-serif'
-  context.textAlign='center';context.textBaseline='middle';context.fillText('退出',192,64)
+  context.textAlign='center';context.textBaseline='middle';context.fillText(translateRuntimeText('退出'),192,64)
   const material=new THREE.MeshBasicMaterial({map:makeCanvasTexture(canvas),transparent:true,depthTest:false,depthWrite:false,toneMapped:false})
   const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material);mesh.name='octopus-handheld-exit';mesh.renderOrder=30;return mesh
 }
@@ -55,7 +56,7 @@ function makeHelpControl(inputMode) {
   const touch=inputMode==='touch',canvas=document.createElement('canvas');canvas.width=1000;canvas.height=touch?174:126
   const context=canvas.getContext('2d');context.strokeStyle='rgba(210,198,171,.32)';context.fillStyle='rgba(18,17,15,.52)';context.lineWidth=3
   context.beginPath();context.roundRect(3,3,994,canvas.height-6,15);context.fill();context.stroke();context.textBaseline='middle';context.textAlign='left'
-  const row=(label,body,y,bodySize=25)=>{context.font=`600 ${touch?26:22}px sans-serif`;context.fillStyle='rgba(202,184,146,.72)';context.fillText(label,24,y);context.font=`400 ${bodySize}px sans-serif`;context.fillStyle='rgba(210,204,187,.66)';context.fillText(body,112,y)}
+  const row=(label,body,y,bodySize=25)=>{const displayLabel=translateRuntimeText(label),displayBody=translateRuntimeText(body);context.font=`600 ${touch?26:22}px sans-serif`;context.fillStyle='rgba(202,184,146,.72)';context.fillText(displayLabel,24,y);let size=bodySize;context.font=`400 ${size}px sans-serif`;while(size>17&&context.measureText(displayBody).width>860){size--;context.font=`400 ${size}px sans-serif`}context.fillStyle='rgba(210,204,187,.66)';context.fillText(displayBody,112,y)}
   if(touch){
     row('玩法','向右取宝 · 向左返船 · 躲避触手 · 三次失误结束',34,31)
     row('操作','点按主机左右键移动、取宝和返船',87,31)

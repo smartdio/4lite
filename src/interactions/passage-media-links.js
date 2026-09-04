@@ -1,13 +1,14 @@
 import * as THREE from 'three'
 import {SITE_LINKS} from '../site-links.js'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const LINK_LAYOUT=[
-  {label:'小红书',displayLabel:'小红书',hudInteraction:'open-xiaohongshu',bounds:[.788,.852,.15,.37]},
-  {label:'微博',displayLabel:'微博',hudInteraction:'open-weibo',bounds:[.858,.927,.15,.37]},
-  {label:'X',displayLabel:'X',hudInteraction:'open-x',bounds:[.788,.852,.385,.61]},
-  {label:'视频号',displayLabel:'视频号',hudInteraction:'show-wechat-qr',bounds:[.858,.927,.385,.61]},
-  {label:'GitHub',displayLabel:'GitHub',hudInteraction:'open-github',bounds:[.788,.852,.615,.855]},
-  {label:'Vercel',displayLabel:'在线体验',hudInteraction:'open-vercel',bounds:[.858,.927,.615,.855]},
+  {siteLinkId:'xiaohongshu',displayLabel:'小红书',hudInteraction:'open-xiaohongshu',bounds:[.788,.852,.15,.37]},
+  {siteLinkId:'weibo',displayLabel:'微博',hudInteraction:'open-weibo',bounds:[.858,.927,.15,.37]},
+  {siteLinkId:'x',displayLabel:'X',hudInteraction:'open-x',bounds:[.788,.852,.385,.61]},
+  {siteLinkId:'wechat-channels',displayLabel:'视频号',hudInteraction:'show-wechat-qr',bounds:[.858,.927,.385,.61]},
+  {siteLinkId:'github',displayLabel:'GitHub',hudInteraction:'open-github',bounds:[.788,.852,.615,.855]},
+  {siteLinkId:'vercel',displayLabel:'在线体验',hudInteraction:'open-vercel',bounds:[.858,.927,.615,.855]},
 ]
 
 const defaultOpenExternal=href=>{
@@ -35,8 +36,8 @@ export function createPassageMediaLinks({camera,renderer,board,maxDistance=2.5,o
   const plane=new THREE.Plane().setFromNormalAndCoplanarPoint(normal,center)
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),point=new THREE.Vector3(),delta=new THREE.Vector3()
   const links=LINK_LAYOUT.map(layout=>{
-    const link=SITE_LINKS.find(item=>item.label===layout.label)
-    if(!link)throw new Error(`Missing configured site link: ${layout.label}`)
+    const link=SITE_LINKS.find(item=>item.id===layout.siteLinkId)
+    if(!link)throw new Error(`Missing configured site link: ${layout.siteLinkId}`)
     return {...layout,href:link.href,qrImageUrl:link.qrImageUrl??null}
   })
 
@@ -56,7 +57,7 @@ export function createPassageMediaLinks({camera,renderer,board,maxDistance=2.5,o
     const v=.5-delta.y/board.board.height
     const link=links.find(({bounds:[left,right,top,bottom]})=>u>=left&&u<=right&&v>=top&&v<=bottom)
     return link?{
-      label:link.displayLabel,sourceLabel:link.label,hudInteraction:link.hudInteraction,
+      id:link.siteLinkId,label:translateRuntimeText(link.displayLabel),sourceLabel:link.siteLinkId,hudInteraction:link.hudInteraction,
       href:link.href,qrImageUrl:link.qrImageUrl,
       distance,uv:[u,v],
     }:null
@@ -74,8 +75,8 @@ export function createPassageMediaLinks({camera,renderer,board,maxDistance=2.5,o
     hit,interact,
     snapshot:()=>({
       boardId:board.id,proxyCount:links.length,strategy:'board-local-rectangles',maxDistance,
-      links:links.map(({displayLabel,hudInteraction,href,qrImageUrl,bounds})=>({
-        label:displayLabel,hudInteraction,href,qrImageUrl,bounds:[...bounds],
+      links:links.map(({siteLinkId,displayLabel,hudInteraction,href,qrImageUrl,bounds})=>({
+        id:siteLinkId,label:translateRuntimeText(displayLabel),hudInteraction,href,qrImageUrl,bounds:[...bounds],
       })),
     }),
   }

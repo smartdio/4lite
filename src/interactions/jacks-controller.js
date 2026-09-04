@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 import {getUserDataStore} from '../state/user-data-store.js'
 
 const STORAGE_NAMESPACE='jacksGame'
@@ -264,9 +265,9 @@ export function createJacksGame({
     }
     return snapshot()
   }
-  const hudState=()=>({visible:active(),phase,stage,required:requiredCount(),remaining,turn,streak,failures,feedback,failureReason,complete:phase==='gameComplete'})
+  const hudState=()=>({visible:active(),phase,stage,required:requiredCount(),remaining,turn,streak,failures,feedback:translateRuntimeText(feedback),feedbackCode:failureReason??phase,failureReason,reasonCode:failureReason,complete:phase==='gameComplete'})
   const snapshot=()=>({
-    status:active()?'active':'idle',phase,stage,required:requiredCount(),remaining,turn,streak,failures,feedback,failureReason,
+    status:active()?'active':'idle',phase,stage,required:requiredCount(),remaining,turn,streak,failures,feedback:translateRuntimeText(feedback),feedbackCode:failureReason??phase,failureReason,reasonCode:failureReason,
     center:[centerX,floorY,centerZ],stoneCount,available:stones.filter(stone=>stone.available).map(stone=>stone.index),selected:[...selectedIndices],
     hand:handLocal.toArray().map(value=>rounded(value)),aimMoved,catchMoved,catchOnTarget,
     catchTarget:catchTargetLocal.toArray().map(value=>rounded(value)),kingY:rounded(bag.position.y),proxyLayer,progress:{...progress},

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const COLORS={
   ink:'#2e2920',muted:'#74684f',paper:'#ead9ad',paperDeep:'#cfb77e',red:'#9e4332',blue:'#315a67',green:'#4e6847',warm:'#fff4cf',shade:'rgba(18,16,12,.68)',line:'rgba(73,59,38,.34)',white:'rgba(255,255,255,.18)',track:'rgba(76,62,39,.16)',hidden:'#897b5f',
@@ -39,7 +40,8 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   const font=(size,{weight=500,family=FONT}={})=>`${weight} ${size}px ${family}`
   const fillText=(text,x,y,size,{color=COLORS.ink,align='left',weight=500,family=FONT,maxWidth=null}={})=>{
     context.fillStyle=color;context.font=font(size,{weight,family});context.textAlign=align;context.textBaseline='middle'
-    context.fillText(maxWidth?truncate(context,text,maxWidth):text,x,y)
+    const localized=translateRuntimeText(text)
+    context.fillText(maxWidth?truncate(context,localized,maxWidth):localized,x,y)
   }
   const line=(x1,y1,x2,y2,width=2,color=COLORS.line)=>{
     context.beginPath();context.moveTo(x1,y1);context.lineTo(x2,y2);context.lineWidth=width;context.strokeStyle=color;context.stroke()
@@ -110,7 +112,7 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   }
   const drawBestRecords=(x,y,width)=>{
     fillText('我的最佳纪录',x,y+18,23,{color:COLORS.red});line(x,y+39,x+width,y+39,2,COLORS.line)
-    const records=viewModel.games.filter(game=>game.record!=='尚无纪录').slice(0,6)
+    const records=viewModel.games.filter(game=>game.record!==translateRuntimeText('尚无纪录')).slice(0,6)
     if(!records.length){fillText('玩一次游戏，第一条纪录会留在这里。',x,y+84,19,{color:COLORS.muted,family:SANS});return}
     records.forEach((game,index)=>{
       const rowY=y+66+index*43

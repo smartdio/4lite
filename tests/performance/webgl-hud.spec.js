@@ -79,7 +79,7 @@ test('ping-pong good shot and smash are mutually exclusive over the centred scor
   await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().arcadeComic.ready.pingPong)).toBe(true)
   await page.evaluate(()=>{
     window.__CAMPUS_TEST__.setArcadeHudSample('pingPong',{playerScore:3,aiScore:2})
-    return window.__CAMPUS_TEST__.flashPingPongFeedback('好球','',900)
+    return window.__CAMPUS_TEST__.flashPingPongFeedback('good-shot',900)
   })
   await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().arcadeComic)).toMatchObject({
     active:true,game:'pingPong',phrase:'good',secondaryPhrase:null,kind:'hit',rootVisible:true,
@@ -90,7 +90,7 @@ test('ping-pong good shot and smash are mutually exclusive over the centred scor
   expect(presentation.baseBurstScale[0]*1280/(presentation.baseBurstScale[1]*720)).toBeCloseTo(1,5)
   expect(await page.evaluate(()=>{
     window.__CAMPUS_TEST__.setArcadeHudSample('pingPong',{playerScore:3,aiScore:2})
-    return window.__CAMPUS_TEST__.flashPingPongFeedback('扣杀','',900)
+    return window.__CAMPUS_TEST__.flashPingPongFeedback('smash',900)
   })).toMatchObject({active:true,game:'pingPong',phrase:'smash',secondaryPhrase:null,kind:'hit',rootVisible:true})
   expect(await page.evaluate(()=>window.__CAMPUS_TEST__.playArcadeComicCelebration('pingPong','good','hit',900,'smash'))).toMatchObject({phrase:'smash',secondaryPhrase:null})
 })

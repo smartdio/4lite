@@ -35,8 +35,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        english: fileURLToPath(new URL('./en/index.html', import.meta.url)),
         about: fileURLToPath(new URL('./about/index.html', import.meta.url)),
         help: fileURLToPath(new URL('./help/index.html', import.meta.url)),
+        englishAbout: fileURLToPath(new URL('./en/about/index.html', import.meta.url)),
+        englishHelp: fileURLToPath(new URL('./en/help/index.html', import.meta.url)),
         ...collectHtmlInputs(join(projectRoot, 'stories'), 'stories'),
       },
       output: {

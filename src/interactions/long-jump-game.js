@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const clamp=THREE.MathUtils.clamp
 const rounded=(value,digits=3)=>+value.toFixed(digits)
@@ -35,7 +36,7 @@ export function createLongJumpGame({
   marker.name='long-jump-result-line';marker.renderOrder=40;marker.visible=false;group.add(marker)
 
   let phase='idle',angleTurns=0,angleSpeed=config.minTurnsPerSecond,angleError=0
-  let chargeStartedAt=0,powerRatio=0,distance=0,evaluation='',overrun=false
+  let chargeStartedAt=0,powerRatio=0,distance=0,evaluation='',evaluationCode=null,overrun=false
   let phaseStartedAt=0,entryFromPosition=new THREE.Vector3(),entryFromQuaternion=new THREE.Quaternion()
   let flightFrom=new THREE.Vector3(),flightTo=new THREE.Vector3(),flightDurationMs=650
   let landingFromPosition=new THREE.Vector3(),landingViewPosition=new THREE.Vector3()
@@ -62,20 +63,21 @@ export function createLongJumpGame({
     marker.position.set(boardX,y,z);marker.visible=true
   }
   const clearMarker=()=>{marker.visible=false}
-  const evaluationFor=value=>value>=2?'跳得真远！':value>=1.6?'不错！':value>=1.3?'再来一次！':'再用点力！'
+  const evaluationFor=value=>value>=2?'excellent':value>=1.6?'good':value>=1.3?'try-again':'more-power'
+  const evaluationText=code=>({excellent:'跳得真远！',good:'不错！','try-again':'再来一次！','more-power':'再用点力！',overrun:'用力过头啦！'}[code]??'')
   const computeDistance=ratio=>{
     if(ratio>1){
       overrun=true
       const excess=clamp((ratio-1)/.22,0,1)
       distance=THREE.MathUtils.lerp(config.overrunMaxDistance,config.overrunMinDistance,excess)
-      evaluation='用力过头啦！'
+      evaluationCode='overrun';evaluation=evaluationText(evaluationCode)
     }else{
       overrun=false
       const angleQuality=clamp(1-Math.abs(angleError)/90,0,1)
       const powerQuality=clamp(ratio,0,1)
       distance=.55+1.65*(.25+.75*angleQuality)*(.25+.75*powerQuality)
       distance=clamp(distance,config.minDistance,config.maxDistance)
-      evaluation=evaluationFor(distance)
+      evaluationCode=evaluationFor(distance);evaluation=evaluationText(evaluationCode)
     }
     distance=+distance.toFixed(2)
   }
@@ -87,7 +89,7 @@ export function createLongJumpGame({
     const landingZ=takeoffLineZ-distance
     flightTo.set(boardX,groundHeightAt(boardX,landingZ,0)+config.landingEyeHeight,landingZ)
     flightDurationMs=550+160*(distance/config.maxDistance)
-    clearMarker();onEvent({type:'long-jump-launch',distance,angleError:rounded(angleError,2),powerRatio:rounded(powerRatio),overrun})
+    clearMarker();onEvent({type:'long-jump-launch',distance,angleError:rounded(angleError,2),powerRatio:rounded(powerRatio),evaluationCode,overrun})
     return snapshot()
   }
   const beginCharge=(overrideAngleDegrees=null,overrideNow=null)=>{
@@ -105,14 +107,14 @@ export function createLongJumpGame({
     if(active())return snapshot()
     entryFromPosition.copy(camera.position);entryFromQuaternion.copy(camera.quaternion)
     if(onEnter({center:[boardX,boardZ]})===false)return null
-    phase='entering';phaseStartedAt=performance.now();angleTurns=0;angleError=0;powerRatio=0;distance=0;evaluation='';overrun=false;pointerId=null;clearMarker()
+    phase='entering';phaseStartedAt=performance.now();angleTurns=0;angleError=0;powerRatio=0;distance=0;evaluation='';evaluationCode=null;overrun=false;pointerId=null;clearMarker()
     onEvent({type:'long-jump-enter'});return snapshot()
   }
   const interact=(clientX,clientY,useCenter=false)=>hit(clientX,clientY,useCenter)&&enter()?{type:'long-jump-enter'}:null
   const restart=()=>{
     if(phase!=='result')return false
     entryFromPosition.copy(camera.position);entryFromQuaternion.copy(camera.quaternion);clearMarker()
-    phase='entering';phaseStartedAt=performance.now();powerRatio=0;distance=0;evaluation='';overrun=false
+    phase='entering';phaseStartedAt=performance.now();powerRatio=0;distance=0;evaluation='';evaluationCode=null;overrun=false
     onEvent({type:'long-jump-restart'});return true
   }
   const exit=()=>{
@@ -147,7 +149,7 @@ export function createLongJumpGame({
         landingViewPosition.set(boardX,groundHeightAt(boardX,viewZ,0)+config.resultViewEyeHeight,viewZ)
         camera.position.copy(landingViewPosition);camera.lookAt(boardX,marker.position.y,marker.position.z);landingToQuaternion.copy(camera.quaternion)
         camera.position.copy(landingFromPosition);camera.quaternion.copy(landingFromQuaternion)
-        onEvent({type:'long-jump-land',distance,evaluation,overrun})
+        onEvent({type:'long-jump-land',distance,evaluation:translateRuntimeText(evaluation),evaluationCode,overrun})
       }
     }else if(phase==='landing'){
       const elapsed=now-phaseStartedAt
@@ -156,7 +158,7 @@ export function createLongJumpGame({
         const t=clamp((elapsed-config.landingPauseMs)/config.turnDurationMs,0,1)
         camera.position.lerpVectors(landingFromPosition,landingViewPosition,easeOutCubic(t))
         camera.quaternion.slerpQuaternions(landingFromQuaternion,landingToQuaternion,easeOutCubic(t))
-        if(t>=1){phase='result';phaseStartedAt=now;onEvent({type:'long-jump-result',distance,evaluation,overrun})}
+        if(t>=1){phase='result';phaseStartedAt=now;onEvent({type:'long-jump-result',distance,evaluation:translateRuntimeText(evaluation),evaluationCode,overrun})}
       }
     }else if(phase==='result'&&now-phaseStartedAt>=config.resultDurationMs){
       exit()
@@ -211,7 +213,7 @@ export function createLongJumpGame({
     }
     return snapshot()
   }
-  const hudState=()=>({visible:active(),phase,angleTurns,angleError,powerRatio,overrun,distance,evaluation,result:phase==='result'})
-  const snapshot=()=>({status:active()?'active':'idle',phase,angleTurns:rounded(angleTurns),angleSpeed:rounded(angleSpeed),angleError:rounded(angleError,2),powerRatio:rounded(powerRatio),distance,evaluation,overrun,markerVisible:marker.visible,markerZ:marker.visible?rounded(marker.position.z):null,board:[boardX,config.boardTopY,boardZ],takeoffLineZ:rounded(takeoffLineZ),camera:camera.position.toArray().map(v=>rounded(v))})
+  const hudState=()=>({visible:active(),phase,angleTurns,angleError,powerRatio,overrun,distance,evaluation:translateRuntimeText(evaluation),evaluationCode,feedbackCode:evaluationCode,result:phase==='result'})
+  const snapshot=()=>({status:active()?'active':'idle',phase,angleTurns:rounded(angleTurns),angleSpeed:rounded(angleSpeed),angleError:rounded(angleError,2),powerRatio:rounded(powerRatio),distance,evaluation:translateRuntimeText(evaluation),evaluationCode,feedbackCode:evaluationCode,overrun,markerVisible:marker.visible,markerZ:marker.visible?rounded(marker.position.z):null,board:[boardX,config.boardTopY,boardZ],takeoffLineZ:rounded(takeoffLineZ),camera:camera.position.toArray().map(v=>rounded(v))})
   return {hit,interact,enter,exit,restart,update,proximity,hudState,snapshot,beginCharge,releaseCharge,settle,pointerDown,pointerUp,pointerCancel,pauseInput,resumeAfterPause,consumePostExitClick}
 }

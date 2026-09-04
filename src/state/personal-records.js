@@ -1,4 +1,5 @@
 import {getUserDataStore} from './user-data-store.js'
+import {isEnglish,translateRuntimeText} from '../i18n/index.js'
 
 const STORAGE_NAMESPACE='personalRecords'
 const STORAGE_VERSION=1
@@ -70,6 +71,41 @@ const timestamp=now=>new Date(now()).toISOString()
 const changed=(before,after)=>JSON.stringify(before)!==JSON.stringify(after)
 const formatInteger=value=>String(Math.max(0,Math.round(value)))
 const formatRecord=(id,metrics)=>{
+  if(isEnglish){
+    if(id==='basketball'&&metrics.bestPoints>0)return `${formatInteger(metrics.bestPoints)} points`
+    if(id==='pingPong'){
+      const parts=[]
+      if(metrics.longestRally>0)parts.push(`Longest rally: ${formatInteger(metrics.longestRally)}`)
+      if(metrics.wins>0)parts.push(`${formatInteger(metrics.wins)} wins`)
+      return parts.join(' · ')||'No record yet'
+    }
+    if(id==='longJump'&&metrics.maxDistance>0)return `${metrics.maxDistance.toFixed(2)} m`
+    if(id==='bambooClimb'){
+      if(metrics.completions>0&&Number.isFinite(metrics.leastFailures))return `Reached the top · Fewest misses: ${formatInteger(metrics.leastFailures)}`
+      if(metrics.maxHeight>0)return `Highest: ${metrics.maxHeight.toFixed(2)} m`
+    }
+    if(id==='hopscotch'&&metrics.bestProgress>0)return `Completed through square ${formatInteger(metrics.bestProgress)}`
+    if(id==='shuttlecock'&&metrics.bestStreak>0)return `Best streak: ${formatInteger(metrics.bestStreak)}`
+    if(id==='jacks'){
+      const parts=[]
+      if(metrics.highestStage>0)parts.push(`Highest round: ${formatInteger(metrics.highestStage)}`)
+      if(metrics.bestStreak>0)parts.push(`Best catch: ${formatInteger(metrics.bestStreak)}`)
+      return parts.join(' · ')||'No record yet'
+    }
+    if(id==='slingshot'&&metrics.bestHits>0)return `${formatInteger(metrics.bestHits)} targets hit`
+    if(id==='rubiksCube'){
+      if(metrics.completions>0&&metrics.fewestMoves>0)return `Solved in ${formatInteger(metrics.fewestMoves)} moves`
+      if(metrics.moves>0)return `${formatInteger(metrics.moves)} moves made`
+    }
+    if(id==='flagRaising'&&metrics.completions>0)return `Completed ${formatInteger(metrics.completions)} times`
+    if(id==='handheldOctopus'||id==='handheldFire'){
+      const parts=[]
+      if(metrics.gameA>0)parts.push(`A ${formatInteger(metrics.gameA)}`)
+      if(metrics.gameB>0)parts.push(`B ${formatInteger(metrics.gameB)}`)
+      return parts.join(' · ')||'No record yet'
+    }
+    return 'No record yet'
+  }
   if(id==='basketball'&&metrics.bestPoints>0)return `${formatInteger(metrics.bestPoints)} 分`
   if(id==='pingPong'){
     const parts=[]
@@ -131,9 +167,10 @@ export function createPersonalRecords({store=getUserDataStore(),now=Date.now}={}
   const recordObject=item=>{
     const id=cleanId(item?.id),kind=cleanId(item?.kind)??'object';if(!id)return false
     const variant=cleanId(item.variant),typeId=cleanId(item.typeId)??(variant?`${kind}:${variant}`:kind)
-    const label=cleanId(item.label)
     return mutate((value,at)=>{
-      value.objects.types[typeId]??={kind,label,firstViewedAt:at}
+      // Localised display labels are deliberately not written to new saves.
+      // The validator still accepts legacy labels so existing records remain intact.
+      value.objects.types[typeId]??={kind,firstViewedAt:at}
       value.objects.instances[id]??={typeId,firstViewedAt:at}
     })
   }
@@ -192,14 +229,14 @@ export function createPersonalRecords({store=getUserDataStore(),now=Date.now}={}
     const compositionCount=Object.values(value.documents).filter(item=>item.kind==='composition').length
     const snackFound=Object.keys(value.mysteries.snackBags.found).length
     const mysteries=[
-      {id:'snackBags',label:'卜卜星零食',found:snackFound>=PERSONAL_RECORD_TOTALS.snackBags,progress:snackFound,total:PERSONAL_RECORD_TOTALS.snackBags},
-      {id:'handheldOctopus',label:'Octopus 掌机',found:Boolean(value.mysteries.handheldOctopus.foundAt),progress:Number(Boolean(value.mysteries.handheldOctopus.foundAt)),total:1},
-      {id:'handheldFire',label:'Fire 掌机',found:Boolean(value.mysteries.handheldFire.foundAt),progress:Number(Boolean(value.mysteries.handheldFire.foundAt)),total:1},
+      {id:'snackBags',label:translateRuntimeText('卜卜星零食'),found:snackFound>=PERSONAL_RECORD_TOTALS.snackBags,progress:snackFound,total:PERSONAL_RECORD_TOTALS.snackBags},
+      {id:'handheldOctopus',label:translateRuntimeText('Octopus 掌机'),found:Boolean(value.mysteries.handheldOctopus.foundAt),progress:Number(Boolean(value.mysteries.handheldOctopus.foundAt)),total:1},
+      {id:'handheldFire',label:translateRuntimeText('Fire 掌机'),found:Boolean(value.mysteries.handheldFire.foundAt),progress:Number(Boolean(value.mysteries.handheldFire.foundAt)),total:1},
     ]
     const games=PERSONAL_GAME_CATALOG.map(game=>{
       const entry=value.games[game.id]??{firstPlayedAt:null,lastPlayedAt:null,metrics:{}}
       const mystery=mysteries.find(item=>item.id===game.id),hidden=Boolean(mystery&&!mystery.found)
-      return {...game,label:hidden?'神秘掌机':game.label,hidden,played:Boolean(entry.firstPlayedAt),record:formatRecord(game.id,entry.metrics),metrics:{...entry.metrics}}
+      return {...game,label:translateRuntimeText(hidden?'神秘掌机':game.label),hidden,played:Boolean(entry.firstPlayedAt),record:formatRecord(game.id,entry.metrics),metrics:{...entry.metrics}}
     })
     return {
       totals:{rooms:roomTotal,books:bookTotal,objectTypes:objectTypeTotal,games:PERSONAL_RECORD_TOTALS.games,mysteries:PERSONAL_RECORD_TOTALS.mysteries},

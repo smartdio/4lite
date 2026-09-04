@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import {getUserDataStore} from '../state/user-data-store.js'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const TEXTURE_WIDTH=1050
 const TEXTURE_HEIGHT=360
@@ -77,7 +78,7 @@ function createDrawingState(board,root) {
   const canvas=document.createElement('canvas')
   canvas.width=TEXTURE_WIDTH;canvas.height=TEXTURE_HEIGHT
   canvas.className='blackboard-drawing-canvas'
-  canvas.setAttribute('aria-label',`${board.classroom}教学黑板绘画区域`)
+  canvas.setAttribute('aria-label',translateRuntimeText(`${board.classroom}教学黑板绘画区域`))
   const context=canvas.getContext('2d',{alpha:true})
   const texture=new THREE.CanvasTexture(canvas)
   texture.name=`${board.id}-player-chalk-layer`
@@ -116,17 +117,17 @@ export function createBlackboardDrawing({root,camera,renderer,scene,boards,block
   shell.setAttribute('aria-hidden','true')
   shell.innerHTML=`
     <div class="blackboard-drawing-heading">
-      <strong>黑板绘画</strong><span>按住并拖动，在黑板上留下粉笔痕迹</span>
+      <strong>${translateRuntimeText('黑板绘画')}</strong><span>${translateRuntimeText('按住并拖动，在黑板上留下粉笔痕迹')}</span>
     </div>
     <div class="blackboard-drawing-surface"></div>
-    <div class="blackboard-drawing-toolbar" role="toolbar" aria-label="黑板绘画工具">
-      <div class="blackboard-drawing-colors" aria-label="粉笔颜色">
-        ${Object.entries(CHALK_COLORS).map(([name,color],index)=>`<button type="button" class="chalk-color${index===0?' active':''}" data-color="${name}" aria-label="${name}粉笔" style="--chalk-color:${color}"></button>`).join('')}
+    <div class="blackboard-drawing-toolbar" role="toolbar" aria-label="${translateRuntimeText('黑板绘画工具')}">
+      <div class="blackboard-drawing-colors" aria-label="${translateRuntimeText('粉笔颜色')}">
+        ${Object.entries(CHALK_COLORS).map(([name,color],index)=>`<button type="button" class="chalk-color${index===0?' active':''}" data-color="${name}" aria-label="${translateRuntimeText(`${{white:'白色',pink:'粉色',yellow:'黄色',blue:'蓝色',green:'绿色'}[name]}粉笔`)}" style="--chalk-color:${color}"></button>`).join('')}
       </div>
-      <button type="button" data-tool="eraser">板擦</button>
-      <button type="button" data-action="undo">撤销</button>
-      <button type="button" data-action="clear">清空</button>
-      <button type="button" class="blackboard-drawing-done" data-action="done">完成</button>
+      <button type="button" data-tool="eraser">${translateRuntimeText('板擦')}</button>
+      <button type="button" data-action="undo">${translateRuntimeText('撤销')}</button>
+      <button type="button" data-action="clear">${translateRuntimeText('清空')}</button>
+      <button type="button" class="blackboard-drawing-done" data-action="done">${translateRuntimeText('完成')}</button>
     </div>`
   document.body.append(shell)
   const surface=shell.querySelector('.blackboard-drawing-surface')

@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import {createViewerCloseControl} from './ui/viewer-close-control.js'
+import {isEnglish,translateRuntimeText} from './i18n/index.js'
 
 function createHint(renderer) {
   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=128
@@ -14,7 +15,9 @@ function createHint(renderer) {
     context.textAlign='center';context.textBaseline='middle'
     context.lineJoin='round';context.lineWidth=10;context.strokeStyle='rgba(28,23,18,.92)'
     context.fillStyle='#f3ead2'
-    const text=`${title}　·　拖动旋转 / 滚轮缩放 / ${actionLabel} / X 关闭`
+    const text=isEnglish
+      ?`${translateRuntimeText(title)} · Drag to rotate / Scroll to zoom / ${translateRuntimeText(actionLabel)} / X to close`
+      :`${title}　·　拖动旋转 / 滚轮缩放 / ${actionLabel} / X 关闭`
     let fontSize=48
     do {
       context.font=`700 ${fontSize}px system-ui, "PingFang SC", sans-serif`

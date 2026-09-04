@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 import {getUserDataStore} from '../state/user-data-store.js'
 
 const COLORS={white:0xe2dfd3,pink:0xc7777d,yellow:0xd5bc67,blue:0x6fa8b7,green:0x86a77b}
@@ -14,7 +15,7 @@ const roundedArray=(values,digits=4)=>values.map(value=>+value.toFixed(digits))
 export function createChalkThrowing({root,camera,renderer,schoolChalk,maxDistance,collisionWorlds,onEvent}) {
   const group=new THREE.Group();group.name='thrown-school-chalk';root.add(group)
   const indicator=document.createElement('div')
-  indicator.className='chalk-held-indicator';indicator.textContent='手持粉笔 · 点击抛出'
+  indicator.className='chalk-held-indicator';indicator.textContent=translateRuntimeText('手持粉笔 · 点击抛出')
   document.querySelector('.hud')?.append(indicator)
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2()
   const projectiles=[]

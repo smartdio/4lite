@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const rounded=(value,digits=4)=>+value.toFixed(digits)
 
@@ -211,11 +212,11 @@ export function createBambooClimbGame({
 
   const hudState=()=>({
     visible:active(),phase,side,charging:phase==='charging',chargeRatio:THREE.MathUtils.clamp(chargeRatio,0,1),
-    aim:[rounded(cursorX,3),rounded(cursorY,3)],arrowCenter:[rounded(targetX(),3),rounded(game.arrowCenterY,3)],feedback,progress:climbHeight/(game.finishEyeY-game.initialEyeY),failures,complete:phase==='complete'||phase==='sliding',
+    aim:[rounded(cursorX,3),rounded(cursorY,3)],arrowCenter:[rounded(targetX(),3),rounded(game.arrowCenterY,3)],feedback:translateRuntimeText(feedback),feedbackCode:phase,progress:climbHeight/(game.finishEyeY-game.initialEyeY),failures,complete:phase==='complete'||phase==='sliding',
   })
   const snapshot=()=>({
     status:active()?'active':'idle',phase,side,activePole,chargeRatio:rounded(chargeRatio,3),
-    climbHeight:rounded(climbHeight),cameraHeight:rounded(camera.position.y),lookTargetHeight:rounded(lookTargetY),failures,complete:phase==='complete'||phase==='sliding',sliding:phase==='sliding',
+    climbHeight:rounded(climbHeight),cameraHeight:rounded(camera.position.y),lookTargetHeight:rounded(lookTargetY),failures,feedback:translateRuntimeText(feedback),feedbackCode:phase,complete:phase==='complete'||phase==='sliding',sliding:phase==='sliding',
     cursor:[rounded(cursorX,3),rounded(cursorY,3)],cursorOnArrow:cursorOnArrow(),
     config:{chargeSeconds:game.chargeSeconds,perfectRatio:game.perfectRatio,maxRise:game.maxRise,initialEyeY:game.initialEyeY,finishEyeY:game.finishEyeY},
   })

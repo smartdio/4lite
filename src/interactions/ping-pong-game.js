@@ -1,8 +1,15 @@
 import * as THREE from 'three'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const SIDE_PLAYER='player'
 const SIDE_AI='ai'
 const otherSide=side=>side===SIDE_PLAYER?SIDE_AI:SIDE_PLAYER
+const POINT_REASON_TEXT=Object.freeze({
+  'serve-wrong-first-bounce':'发球未先落本方台面','serve-double-own-bounce':'发球连续落在本方',
+  'missed-before-second-bounce':'对方未在第二跳前回球','return-did-not-cross-net':'回球未越过球网',
+  'net-fault':'触网未过','serve-incomplete':'未完成发球','return-missed':'未能回球','return-out':'回球出界',
+  'toss-missed':'抛球后未击中','test-award':'测试判定',
+})
 
 export function createPingPongGame({
   root,camera,renderer,paddleMesh,config,tables,
@@ -98,8 +105,9 @@ export function createPingPongGame({
     context.fillStyle='#ffd43b';context.beginPath();context.roundRect(10,5,364,112,25);context.fill()
     context.lineWidth=6;context.strokeStyle='#fff0a2';context.stroke()
     context.lineWidth=9;context.strokeStyle='#8b1b11'
-    context.font='900 55px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.strokeText(label,192,62)
-    context.fillStyle='#fff0a2';context.fillText(label,192,62)
+    const displayLabel=translateRuntimeText(label)
+    context.font='900 55px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.strokeText(displayLabel,192,62)
+    context.fillStyle='#fff0a2';context.fillText(displayLabel,192,62)
     const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace
     texture.generateMipmaps=true;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter
     const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,depthTest:false,depthWrite:false,toneMapped:false})
@@ -159,7 +167,7 @@ export function createPingPongGame({
 
   let activeTableIndex=null,phase='idle',playMode='practice',server=SIDE_PLAYER
   let scores={player:0,ai:0},pointTimer=0,serveTimer=0,accumulator=0
-  const hudState={visible:false,mode:'练习',playerScore:0,aiScore:0,server:'玩家',phase:'idle',prompt:''}
+  const hudState={visible:false,mode:'practice',playerScore:0,aiScore:0,server:SIDE_PLAYER,phase:'idle',prompt:'',feedbackCode:null,reasonCode:null}
   const message={textContent:''}
   let lastHit=null,lastBounceSide=null,serveBounces=[],bounceCounts={player:0,ai:0}
   let playerSwing=0,aiSwing=0,aiReaction=0,aiWillMiss=false
@@ -388,16 +396,19 @@ export function createPingPongGame({
   }
 
   const isMatchWon=winner=>scores[winner]>=game.rules.targetScore&&scores[winner]-scores[otherSide(winner)]>=game.rules.winBy
-  const finishPoint=(winner,reason)=>{
+  const finishPoint=(winner,reasonCode)=>{
     if(phase==='point'||phase==='matchEnd'||phase==='idle')return false
     ball.active=false;ball.velocity.set(0,0,0);pointsPlayed++
     if(playMode==='match')scores[winner]++
     else server=winner
     const matchWon=playMode==='match'&&isMatchWon(winner)
     phase=matchWon?'matchEnd':'point';pointTimer=matchWon?0:.82
+    const reason=POINT_REASON_TEXT[reasonCode]??String(reasonCode??'')
     const label=winner===SIDE_PLAYER?'玩家':'对手'
-    message.textContent=matchWon?`${label}赢得本局`:`${label}得分 · ${reason}`
-    onEvent({type:matchWon?'ping-pong-match-end':'ping-pong-point',winner,reason,scores:{...scores}})
+    message.textContent=translateRuntimeText(matchWon?`${label}赢得本局`:`${label}得分 · ${reason}`)
+    hudState.feedbackCode=matchWon?(winner===SIDE_PLAYER?'match-won':'match-lost'):(winner===SIDE_PLAYER?'point-player':'point-computer')
+    hudState.reasonCode=reasonCode
+    onEvent({type:matchWon?'ping-pong-match-end':'ping-pong-point',winner,reasonCode,reason:translateRuntimeText(reason),scores:{...scores}})
     updateUi();return true
   }
 
@@ -406,17 +417,17 @@ export function createPingPongGame({
     onEvent({type:'ping-pong-table-bounce',side,speed:ball.velocity.length()})
     if(phase==='serve') {
       serveBounces.push(side)
-      if(serveBounces.length===1&&side!==server)return finishPoint(otherSide(server),'发球未先落本方台面')
+      if(serveBounces.length===1&&side!==server)return finishPoint(otherSide(server),'serve-wrong-first-bounce')
       if(serveBounces.length===2) {
-        if(side===server)return finishPoint(otherSide(server),'发球连续落在本方')
-        phase='rally';message.textContent='回合进行中';updateUi()
+        if(side===server)return finishPoint(otherSide(server),'serve-double-own-bounce')
+        phase='rally';message.textContent=translateRuntimeText('回合进行中');updateUi()
       }
-      if(serveBounces.length>2)return finishPoint(server,'对方未在第二跳前回球')
+      if(serveBounces.length>2)return finishPoint(server,'missed-before-second-bounce')
       return false
     }
     if(phase==='rally') {
-      if(side===lastHit)return finishPoint(otherSide(lastHit),'回球未越过球网')
-      if(bounceCounts[side]>1)return finishPoint(lastHit,'对方未在第二跳前回球')
+      if(side===lastHit)return finishPoint(otherSide(lastHit),'return-did-not-cross-net')
+      if(bounceCounts[side]>1)return finishPoint(lastHit,'missed-before-second-bounce')
     }
     return false
   }
@@ -600,7 +611,7 @@ export function createPingPongGame({
       ball.position.x=current.center[0]+Math.sign(ball.previous.x-current.center[0])*(game.ballRadius+.012)
       ball.velocity.x*=-.28;ball.velocity.y*=.58;netHits++
       onEvent({type:'ping-pong-net',side:lastHit,speed:ball.velocity.length()})
-      finishPoint(otherSide(lastHit??server),'触网未过')
+      finishPoint(otherSide(lastHit??server),'net-fault')
     }
   }
 
@@ -610,9 +621,9 @@ export function createPingPongGame({
     const outZ=Math.abs(localZ())>halfWidth+game.physics.outMarginZ
     const fell=ball.position.y<current.surfaceY-.55
     if(!outX&&!outZ&&!fell)return
-    if(!lastHit)return finishPoint(otherSide(server),'未完成发球')
+    if(!lastHit)return finishPoint(otherSide(server),'serve-incomplete')
     const winner=lastBounceSide&&lastBounceSide!==lastHit?lastHit:otherSide(lastHit)
-    finishPoint(winner,lastBounceSide?'未能回球':'回球出界')
+    finishPoint(winner,lastBounceSide?'return-missed':'return-out')
   }
 
   const stepBall=dt=>{
@@ -623,7 +634,7 @@ export function createPingPongGame({
     ball.velocity.multiplyScalar(Math.exp(-game.physics.airDrag*dt))
     ball.position.addScaledVector(ball.velocity,dt)
     resolvePaddleCrossings();resolveTableAndNet()
-    if(phase==='toss'&&ball.position.y<table().surfaceY-.08)finishPoint(SIDE_AI,'抛球后未击中')
+    if(phase==='toss'&&ball.position.y<table().surfaceY-.08)finishPoint(SIDE_AI,'toss-missed')
     resolveOut();syncLiveBall()
   }
 
@@ -668,12 +679,12 @@ export function createPingPongGame({
   const updateUi=()=>{
     const active=activeTableIndex!=null
     hudState.visible=active
-    hudState.mode=playMode==='match'?'7分比赛':'练习'
+    hudState.mode=playMode
     hudState.playerScore=scores.player;hudState.aiScore=scores.ai
-    hudState.server=server===SIDE_PLAYER?'玩家':'电脑';hudState.phase=phase
-    hudState.prompt=phase==='matchEnd'?'比赛结束':phase==='ready'
+    hudState.server=server;hudState.phase=phase
+    hudState.prompt=translateRuntimeText(phase==='matchEnd'?'比赛结束':phase==='ready'
       ?isTouchMode()?'按住移动 松手抛球':'点击抛球'
-      :phase==='toss'?'移动球拍击球':phase==='serve'||phase==='rally'?'回合进行中':phase==='point'?'本回合结束':message.textContent
+      :phase==='toss'?'移动球拍击球':phase==='serve'||phase==='rally'?'回合进行中':phase==='point'?'本回合结束':message.textContent)
     cameraUiGroup.visible=active
     cameraMatchButton.visible=active&&!(playMode==='match'&&phase!=='matchEnd')
     if(active)updateCameraUiLayout()
@@ -731,7 +742,7 @@ export function createPingPongGame({
     return strikeBall(side,true)?snapshot():null
   }
 
-  const awardPoint=(winner,reason='测试判定')=>{finishPoint(winner,reason);return snapshot()}
+  const awardPoint=(winner,reasonCode='test-award')=>{finishPoint(winner,reasonCode);return snapshot()}
   const setScore=(player,ai)=>{scores={player,ai};server=serveForTotal(player+ai);phase='ready';setReadyBall();return snapshot()}
   const setBallState=state=>{
     if(activeTableIndex==null)return null
@@ -890,6 +901,7 @@ export function createPingPongGame({
   const snapshot=()=>({
     status:activeTableIndex==null?'idle':'active',activeTable:activeTableIndex,simulations:activeTableIndex==null?0:1,
     phase,mode:playMode,server,scores:{...scores},targetScore:game.rules.targetScore,
+    feedback:hudState.prompt,feedbackCode:hudState.feedbackCode,reasonCode:hudState.reasonCode,
     table:table()?{center:[...table().center],size:[...game.tableSize],surfaceY:table().surfaceY,netTopY:table().netTopY,playerSide:game.playerSide}:null,
     ball:{
       active:ball.active,position:ball.position.toArray().map(value=>+value.toFixed(4)),velocity:ball.velocity.toArray().map(value=>+value.toFixed(4)),radius:game.ballRadius,

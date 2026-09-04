@@ -32,7 +32,8 @@ test('entry links open standalone stories, about and help pages',async({page})=>
 
   await page.goto('/stories/from-memory-to-campus/chapters/28-slingshot/',{waitUntil:'networkidle'})
   await expect(page.getByRole('heading',{name:'二十八、两把旧弹弓怎样变成一处自然游乐角'}).first()).toBeVisible()
-  await expect(page.getByText(/两件合计从约 60.7 MB 降到不足 1 MB/)).toBeVisible()
+  await expect(page.getByRole('heading',{name:'待发布'})).toBeVisible()
+  await expect(page.getByText(/这一章还没有正式发布/).first()).toBeVisible()
   await expect(page.getByRole('link',{name:'English'})).toHaveAttribute('href','/stories/from-memory-to-campus/en/chapters/28-slingshot/')
   expect(await page.locator('canvas').count()).toBe(0)
 
@@ -67,4 +68,43 @@ test('wechat channels footer opens the Mo麥AI QR card',async({page})=>{
   await page.keyboard.press('Escape')
   await expect(trigger).toHaveAttribute('aria-expanded','false')
   await expect(card).toBeHidden()
+})
+
+test('Chinese and English entry routes share the Sì Xiǎo brand while localising navigation',async({page})=>{
+  await page.goto('/',{waitUntil:'domcontentloaded'})
+  await expect(page.locator('html')).toHaveAttribute('lang','zh-CN')
+  await expect(page.locator('.entry-brand-caption strong')).toHaveText('Sì Xiǎo')
+  await expect(page.locator('.entry-brand-caption span')).toHaveText('No. 4 Primary School')
+  await expect(page.getByRole('link',{name:'Switch to English'})).toHaveAttribute('href','/en/')
+
+  await page.goto('/en/',{waitUntil:'domcontentloaded'})
+  await expect(page.locator('html')).toHaveAttribute('lang','en')
+  await expect(page).toHaveTitle('Sì Xiǎo · 4Lite')
+  await expect(page.locator('.entry-logo')).toHaveAttribute('alt','Sì Xiǎo')
+  await expect(page.locator('.entry-brand-caption strong')).toHaveText('Sì Xiǎo')
+  await expect(page.locator('.entry-brand-caption span')).toHaveText('No. 4 Primary School')
+  await expect(page.getByRole('button',{name:'Return to That Summer'})).toBeVisible()
+  await expect(page.getByRole('link',{name:'中文'})).toHaveAttribute('href','/')
+  await expect(page.getByRole('link',{name:'Story'})).toHaveAttribute('href','/stories/from-memory-to-campus/en/')
+  await expect(page.getByRole('link',{name:'About'})).toHaveAttribute('href','/en/about/')
+  await expect(page.getByRole('link',{name:'Guide'})).toHaveAttribute('href','/en/help/')
+  await expect(page.getByRole('navigation',{name:'Social media and project links'}).getByRole('link',{name:'WeChat Channels · Mo麥AI'})).toBeVisible()
+})
+
+test('English about and guide pages expose English metadata and return links',async({page})=>{
+  await page.goto('/en/about/',{waitUntil:'networkidle'})
+  await expect(page.locator('html')).toHaveAttribute('lang','en')
+  await expect(page).toHaveTitle('About · Sì Xiǎo · 4Lite')
+  await expect(page.getByRole('heading',{name:/A school finding its way back from memory/})).toBeVisible()
+  await expect(page.getByRole('link',{name:'中文'})).toHaveAttribute('href','../../about/')
+  await expect(page.getByRole('link',{name:'Story'})).toHaveAttribute('href','../../stories/from-memory-to-campus/en/')
+  expect(await page.locator('canvas').count()).toBe(0)
+
+  await page.goto('/en/help/',{waitUntil:'networkidle'})
+  await expect(page.locator('html')).toHaveAttribute('lang','en')
+  await expect(page).toHaveTitle('Guide · Sì Xiǎo · 4Lite')
+  await expect(page.getByRole('heading',{name:/Walk slowly through corridors and shade/})).toBeVisible()
+  await expect(page.getByRole('link',{name:'中文'})).toHaveAttribute('href','../../help/')
+  await expect(page.getByRole('heading',{name:'Use whichever way feels familiar'})).toBeVisible()
+  expect(await page.locator('canvas').count()).toBe(0)
 })

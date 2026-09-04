@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import {createPixelTextSystem} from './pixel-text.js'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const SMOOTH_ATLAS_URL='/assets/ui/hud-v02/hud-smooth-atlas-v03.png'
 const SMOOTH_ATLAS_SIZE=[2048,1280]
@@ -141,7 +142,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
   let minigamePaused=false
   const arcadeNumberEntries=[]
   const basketballState={visible:false,points:0,hits:0,attempts:0,charging:false,chargeRatio:0,decisionRatio:.62,recommendedRatio:.62,reachable:false,shootButtonVisible:false,shootPressed:false}
-  const pingPongState={visible:false,mode:'练习',playerScore:0,aiScore:0,server:'玩家',phase:'idle',prompt:''}
+  const pingPongState={visible:false,mode:'practice',playerScore:0,aiScore:0,server:'player',phase:'idle',prompt:'',feedbackCode:null,reasonCode:null}
   const bambooClimbState={visible:false,phase:'idle',side:'left',charging:false,chargeRatio:0,aim:[0,-.04],arrowCenter:[-.36,-.04],feedback:'',progress:0,failures:0,complete:false}
   const longJumpState={visible:false,phase:'idle',angleTurns:0,angleError:0,powerRatio:0,overrun:false,distance:0,evaluation:'',result:false}
   const hopscotchState={visible:false,phase:'idle',target:1,currentCell:0,direction:'outbound',feedback:'',faultReason:'',bestProgress:0,aimX:0}
@@ -162,10 +163,13 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const mesh=makeFlatMesh(new THREE.PlaneGeometry(1,1),material,name);mesh.renderOrder=renderOrder
     let currentText=''
     const setText=text=>{
-      const next=String(text??'');if(next===currentText)return
+      const next=String(translateRuntimeText(text)??'');if(next===currentText)return
       currentText=next;context.clearRect(0,0,width,height)
       if(next){
-        context.fillStyle=color;context.font=`${fontWeight} ${fontSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+        let fittedSize=fontSize
+        context.font=`${fontWeight} ${fittedSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+        while(fittedSize>24&&context.measureText(next).width>width-24){fittedSize-=2;context.font=`${fontWeight} ${fittedSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`}
+        context.fillStyle=color
         context.textAlign='center';context.textBaseline='middle';context.lineJoin='round'
         if(strokeColor&&strokeWidth){context.strokeStyle=strokeColor;context.lineWidth=strokeWidth;context.strokeText(next,width/2,height/2)}
         context.fillText(next,width/2,height/2)
@@ -410,7 +414,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       centimetreLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'centimetre','webgl-hud-bamboo-climb-arcade-centimetre'),
     }
     arcadeScore.percent.setText('%');arcadeScore.rise.group.visible=false;arcadeScore.centimetreLabel.visible=false
-    const exitText=pixelText.createLine({maxChars:4,material:metaMaterial,name:'webgl-hud-bamboo-climb-exit-text',renderOrder:8});exitText.userData.pixelText.setText('退出')
+    const exitText=pixelText.createLine({maxChars:6,material:metaMaterial,name:'webgl-hud-bamboo-climb-exit-text',renderOrder:8});exitText.userData.pixelText.setText('退出')
     const exitBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,'webgl-hud-bamboo-climb-exit-back')
     const exitFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),backMaterial,'webgl-hud-bamboo-climb-exit-fill');exitFill.position.z=.001
     const exitRoot=new THREE.Group();exitRoot.name='webgl-hud-bamboo-climb-exit';exitText.position.z=.002;exitRoot.add(exitBack,exitFill,exitText)
@@ -474,7 +478,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const outlineMaterial=new THREE.MeshBasicMaterial({color:0x302c25,transparent:true,opacity:.94,depthTest:false,depthWrite:false,toneMapped:false})
     const warmMaterial=new THREE.MeshBasicMaterial({color:0xfff8dc,transparent:true,opacity:.92,depthTest:false,depthWrite:false,toneMapped:false})
     const instructionMaterial=pixelText.makeMaterial(0xfff1cf,1,'webgl-hud-jacks-instruction-material')
-    const instruction=pixelText.createLine({maxChars:14,material:instructionMaterial,name:'webgl-hud-jacks-instruction',renderOrder:10});instruction.userData.pixelText.setText('点击石子 再接子王')
+    const instruction=pixelText.createLine({maxChars:32,material:instructionMaterial,name:'webgl-hud-jacks-instruction',renderOrder:10});instruction.userData.pixelText.setText('点击石子 再接子王')
     const arcadeScore={
       grabLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'grab','webgl-hud-jacks-grab-label'),stage:makeArcadeNumber(scoreAtlasMaterial,1,'webgl-hud-jacks-stage'),
       remainingLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'remaining','webgl-hud-jacks-remaining-label'),remaining:makeArcadeNumber(scoreAtlasMaterial,2,'webgl-hud-jacks-remaining'),
@@ -485,7 +489,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       const buttonRoot=new THREE.Group();buttonRoot.name=`webgl-hud-jacks-${id}`
       const back=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,`${buttonRoot.name}-back`)
       const buttonFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warmMaterial,`${buttonRoot.name}-fill`);buttonFill.position.z=.001
-      const text=pixelText.createLine({maxChars:2,material:pixelText.makeMaterial(0x302c25,1,`${buttonRoot.name}-text-material`),name:`${buttonRoot.name}-text`,renderOrder:10});text.userData.pixelText.setText(label);text.position.z=.002
+      const text=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,`${buttonRoot.name}-text-material`),name:`${buttonRoot.name}-text`,renderOrder:10});text.userData.pixelText.setText(label);text.position.z=.002
       buttonRoot.add(back,buttonFill,text);root.add(buttonRoot);return {root:buttonRoot,back,fill:buttonFill,text,bounds:null}
     }
     const exit=makeButton('exit','退出')
@@ -507,7 +511,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const exitRoot=new THREE.Group();exitRoot.name='webgl-hud-flag-raising-exit'
     const exitBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),outline,'webgl-hud-flag-raising-exit-back')
     const exitFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warm,'webgl-hud-flag-raising-exit-fill');exitFill.position.z=.001
-    const exitText=pixelText.createLine({maxChars:2,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-flag-raising-exit-text-material'),name:'webgl-hud-flag-raising-exit-text',renderOrder:10})
+    const exitText=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-flag-raising-exit-text-material'),name:'webgl-hud-flag-raising-exit-text',renderOrder:10})
     exitText.userData.pixelText.setText('退出');exitText.position.z=.002
     exitRoot.add(exitBack,exitFill,exitText);root.add(...Object.values(instructions),exitRoot)
     flagRaisingHud={root,instructions,instruction,instructionText:FLAG_RAISING_HUD_TEXT.desktop,exitRoot,exitBack,exitFill,exitText,exitBounds:null,lastKey:null,instructionBaseScale:[1,1],instructionPixelSize:[0,0],completeStartedAt:0}
@@ -521,7 +525,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const arcadeScore={targetLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'target','webgl-hud-hopscotch-target-label'),target:makeArcadeNumber(scoreAtlasMaterial,2,'webgl-hud-hopscotch-target'),bestLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'best','webgl-hud-hopscotch-best-label'),best:makeArcadeNumber(scoreAtlasMaterial,2,'webgl-hud-hopscotch-best')}
     const exitBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),outline,'webgl-hud-hopscotch-exit-back')
     const exitFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warm,'webgl-hud-hopscotch-exit-fill');exitFill.position.z=.001
-    const exitText=pixelText.createLine({maxChars:2,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-hopscotch-exit-text-material'),name:'webgl-hud-hopscotch-exit-text',renderOrder:10});exitText.userData.pixelText.setText('退出');exitText.position.z=.002
+    const exitText=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-hopscotch-exit-text-material'),name:'webgl-hud-hopscotch-exit-text',renderOrder:10});exitText.userData.pixelText.setText('退出');exitText.position.z=.002
     const exitRoot=new THREE.Group();exitRoot.name='webgl-hud-hopscotch-exit';exitRoot.add(exitBack,exitFill,exitText)
     root.add(instruction,...Object.values(arcadeScore).map(value=>value.group??value),exitRoot);hopscotchHud={root,instruction,arcadeScore,exitRoot,exitBack,exitFill,exitText,exitBounds:null,scoreBounds:null}
   }
@@ -536,14 +540,14 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       const footRoot=new THREE.Group();footRoot.name=`webgl-hud-shuttlecock-${side}`
       const back=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,`${footRoot.name}-outline`)
       const fill=makeFlatMesh(new THREE.PlaneGeometry(.92,.84),warmMaterial.clone(),`${footRoot.name}-fill`);fill.position.z=.001
-      const text=pixelText.createLine({maxChars:1,material:pixelText.makeMaterial(0x302c25,1,`${footRoot.name}-text-material`),name:`${footRoot.name}-text`,renderOrder:10});text.userData.pixelText.setText(label);text.position.z=.002
+      const text=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,`${footRoot.name}-text-material`),name:`${footRoot.name}-text`,renderOrder:10});text.userData.pixelText.setText(label);text.position.z=.002
       footRoot.add(back,fill,text);root.add(footRoot);return {root:footRoot,fill,text,bounds:null}
     }
     const left=makeFoot('left','左'),right=makeFoot('right','右')
     const exitRoot=new THREE.Group();exitRoot.name='webgl-hud-shuttlecock-exit'
     const exitBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,'webgl-hud-shuttlecock-exit-back')
     const exitFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warmMaterial,'webgl-hud-shuttlecock-exit-fill');exitFill.position.z=.001
-    const exitText=pixelText.createLine({maxChars:2,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-shuttlecock-exit-text-material'),name:'webgl-hud-shuttlecock-exit-text',renderOrder:10});exitText.userData.pixelText.setText('退出');exitText.position.z=.002
+    const exitText=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,'webgl-hud-shuttlecock-exit-text-material'),name:'webgl-hud-shuttlecock-exit-text',renderOrder:10});exitText.userData.pixelText.setText('退出');exitText.position.z=.002
     exitRoot.add(exitBack,exitFill,exitText);root.add(prompt,...Object.values(arcadeScore).map(value=>value.group??value),exitRoot)
     shuttlecockHud={root,prompt,arcadeScore,left,right,exitRoot,exitBack,exitFill,exitText,exitBounds:null,scoreBounds:null,warmColor:0xfff8dc}
   }
@@ -568,8 +572,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const feedbackBackMaterial=new THREE.MeshBasicMaterial({color:0x10150f,transparent:true,opacity:.90,depthTest:false,depthWrite:false,toneMapped:false})
     const feedbackBorder=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,'webgl-hud-basketball-score-feedback-border')
     const feedbackBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),feedbackBackMaterial,'webgl-hud-basketball-score-feedback-background');feedbackBack.position.z=.001
-    const feedbackTitle=pixelText.createLine({maxChars:4,material:feedbackTextMaterial,name:'webgl-hud-basketball-score-feedback-title',renderOrder:8});feedbackTitle.position.z=.002
-    const feedbackLine=pixelText.createLine({maxChars:9,material:feedbackTextMaterial,name:'webgl-hud-basketball-score-feedback-text',renderOrder:8});feedbackLine.position.z=.002
+    const feedbackTitle=pixelText.createLine({maxChars:8,material:feedbackTextMaterial,name:'webgl-hud-basketball-score-feedback-title',renderOrder:8});feedbackTitle.position.z=.002
+    const feedbackLine=pixelText.createLine({maxChars:20,material:feedbackTextMaterial,name:'webgl-hud-basketball-score-feedback-text',renderOrder:8});feedbackLine.position.z=.002
     feedbackTitle.userData.pixelText.setText('命中');feedbackRoot.add(feedbackBorder,feedbackBack,feedbackTitle,feedbackLine)
 
     const chargeRoot=new THREE.Group();chargeRoot.name='webgl-hud-basketball-charge';chargeRoot.visible=false;scene.add(chargeRoot)
@@ -684,8 +688,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const feedbackMaterial=pixelText.makeMaterial(0xffaa39,1,'webgl-hud-ping-pong-feedback-text')
     const feedbackBorder=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,'webgl-hud-ping-pong-feedback-border')
     const feedbackBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),feedbackBackMaterial,'webgl-hud-ping-pong-feedback-background');feedbackBack.position.z=.001
-    const feedbackTitle=pixelText.createLine({maxChars:6,material:feedbackMaterial,name:'webgl-hud-ping-pong-feedback-title',renderOrder:8});feedbackTitle.position.z=.002
-    const feedbackDetail=pixelText.createLine({maxChars:12,material:feedbackMaterial,name:'webgl-hud-ping-pong-feedback-detail',renderOrder:8});feedbackDetail.position.z=.002
+    const feedbackTitle=pixelText.createLine({maxChars:16,material:feedbackMaterial,name:'webgl-hud-ping-pong-feedback-title',renderOrder:8});feedbackTitle.position.z=.002
+    const feedbackDetail=pixelText.createLine({maxChars:24,material:feedbackMaterial,name:'webgl-hud-ping-pong-feedback-detail',renderOrder:8});feedbackDetail.position.z=.002
     feedbackRoot.add(feedbackBorder,feedbackBack,feedbackTitle,feedbackDetail)
     pingPongHud={root,arcadeScore,serveMarker,scoreBounds:null,feedbackRoot,feedbackBorder,feedbackBack,feedbackTitle,feedbackDetail,lastScore:null}
   }
@@ -699,9 +703,9 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     pingPongHud.lastScore=key
     pingPongHud.arcadeScore.player.setText(String(player))
     pingPongHud.arcadeScore.ai.setText(String(ai))
-    const isMatch=pingPongState.mode==='7分比赛'
+    const isMatch=pingPongState.mode==='match'
     pingPongHud.arcadeScore.practiceLabel.visible=!isMatch;pingPongHud.arcadeScore.matchLabel.visible=isMatch
-    const playerServes=pingPongState.server==='玩家'
+    const playerServes=pingPongState.server==='player'
     pingPongHud.arcadeScore.serverPlayerLabel.visible=playerServes;pingPongHud.arcadeScore.serverComputerLabel.visible=!playerServes
     const markerX=playerServes?pingPongHud.serveMarker.userData.playerX:pingPongHud.serveMarker.userData.aiX
     if(Number.isFinite(markerX))pingPongHud.serveMarker.position.x=markerX
@@ -731,8 +735,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
         ctx.fillStyle='rgba(49,55,47,.72)';ctx.font='600 25px system-ui, sans-serif';ctx.fillText(detail,offset+230,105)
       }
     }
-    drawButton(0,{label:viewMode==='walk'?'鸟瞰':'第一人称',detail:'快捷键 V',icon:'view'})
-    drawButton(384,{label:'个人记录',detail:'查看校园足迹',icon:'record'})
+    drawButton(0,{label:translateRuntimeText(viewMode==='walk'?'鸟瞰':'第一人称'),detail:translateRuntimeText('快捷键 V'),icon:'view'})
+    drawButton(384,{label:translateRuntimeText('个人记录'),detail:translateRuntimeText('查看校园足迹'),icon:'record'})
     texture.needsUpdate=true
   }
 
@@ -759,7 +763,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     context.shadowColor='rgba(76,255,125,.88)';context.shadowBlur=10;context.strokeStyle='#48e978';context.lineWidth=6
     context.beginPath();context.arc(43,40,11,0,Math.PI*2);context.stroke();context.shadowBlur=0
     context.fillStyle='#30352f';context.font='600 25px system-ui, sans-serif';context.textAlign='center';context.textBaseline='middle'
-    context.fillText(isTouchMode()?'轻触前往 · 再次停止':'点击前往 · 再次停止',181,41)
+    context.fillText(translateRuntimeText(isTouchMode()?'轻触前往 · 再次停止':'点击前往 · 再次停止'),181,41)
     const texture=configureTexture(new THREE.CanvasTexture(canvas),renderer,false)
     const material=new THREE.MeshBasicMaterial({name:'webgl-hud-point-walk-status-material',map:texture,transparent:true,depthTest:false,depthWrite:false,toneMapped:false})
     const statusMesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material)
@@ -779,14 +783,14 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     context.textAlign='center';context.textBaseline='middle';context.lineJoin='round'
     context.fillStyle='#302c25';context.beginPath();context.roundRect(0,cardY,cardWidth,cardHeight,13);context.fill()
     context.fillStyle='rgba(255,246,217,.98)';context.beginPath();context.roundRect(6,cardY+6,cardWidth-12,cardHeight-12,9);context.fill()
-    context.fillStyle='#302820';context.font='800 56px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText('暂停',320,cardY+100)
-    context.fillStyle='#5b5144';context.font='600 25px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText('选择继续游戏或返回校园',320,cardY+171)
+    context.fillStyle='#302820';context.font='800 56px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText(translateRuntimeText('暂停'),320,cardY+100)
+    context.fillStyle='#5b5144';context.font='600 25px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText(translateRuntimeText('选择继续游戏或返回校园'),320,cardY+171)
     const drawButton=(x,label,primary=false)=>{
       context.fillStyle='#302c25';context.beginPath();context.roundRect(x-4,cardY+259,247,86,9);context.fill()
       context.fillStyle=primary?'#f0c760':'#fff6d9';context.beginPath();context.roundRect(x,cardY+263,239,78,6);context.fill()
       context.fillStyle='#302820';context.font='750 34px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText(label,x+119.5,cardY+302)
     }
-    drawButton(68,'继续游戏',true);drawButton(333,'返回校园');texture.needsUpdate=true
+    drawButton(68,translateRuntimeText('继续游戏'),true);drawButton(333,translateRuntimeText('返回校园'));texture.needsUpdate=true
     const cardGeometry=new THREE.PlaneGeometry(1,1);setAtlasUv(cardGeometry,[0,cardY,cardWidth,cardHeight],[canvas.width,canvas.height])
     const card=makeFlatMesh(cardGeometry,material,'webgl-hud-minigame-pause-card');card.position.z=.001;card.renderOrder=41
     const resume={bounds:null},exit={bounds:null}
@@ -806,12 +810,15 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
 
   const makeMovementTutorials=()=>{
     const {context,texture,material}=ensureGeneratedTextAtlas()
-    for(const [name,lines] of Object.entries(MOVEMENT_TUTORIAL_COPY)){
+    for(const [name,sourceLines] of Object.entries(MOVEMENT_TUTORIAL_COPY)){
+      const lines=sourceLines.map(translateRuntimeText)
       const mobile=name==='mobile',[offsetX,offsetY,width,height]=MOVEMENT_TUTORIAL_RECTS[name]
       context.save();context.translate(offsetX,offsetY)
       context.textAlign='center';context.textBaseline='middle';context.lineJoin='round';context.lineCap='round'
       const drawText=(text,y,size,{marker=false,muted=false}={})=>{
-        context.font=`600 ${size}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+        let fittedSize=size
+        context.font=`600 ${fittedSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+        while(fittedSize>24&&context.measureText(text).width>width-96){fittedSize-=2;context.font=`600 ${fittedSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`}
         const markerSpace=marker?48:0,textWidth=context.measureText(text).width,totalWidth=textWidth+markerSpace
         const textCenter=width/2+(marker?markerSpace/2:0)
         context.lineWidth=8;context.strokeStyle='rgba(35,40,35,.94)';context.strokeText(text,textCenter,y)
@@ -851,17 +858,23 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
 
   const makeInteractionHintAtlas=()=>{
     const {context:ctx,texture,material}=ensureGeneratedTextAtlas(),rects={}
-    ctx.textAlign='left';ctx.textBaseline='middle';ctx.lineJoin='round';ctx.font='600 38px system-ui, sans-serif'
-    Object.entries(INTERACTION_HINTS).forEach(([name,label],index)=>{
+    ctx.textAlign='left';ctx.textBaseline='middle';ctx.lineJoin='round'
+    Object.entries(INTERACTION_HINTS).forEach(([name,sourceLabel],index)=>{
+      const label=translateRuntimeText(sourceLabel)
       const column=index%2,row=Math.floor(index/2),sourceX=column*HINT_CELL_SIZE[0],sourceY=row*HINT_CELL_SIZE[1]
       const [x,y]=generatedHintRect([sourceX,sourceY,...HINT_CELL_SIZE])
       rects[name]=[x,y,...HINT_CELL_SIZE]
+      let size=38;ctx.font=`600 ${size}px system-ui, sans-serif`
+      while(size>23&&ctx.measureText(label).width>HINT_CELL_SIZE[0]-24){size-=1;ctx.font=`600 ${size}px system-ui, sans-serif`}
       ctx.lineWidth=7;ctx.strokeStyle='rgba(39,44,38,.92)';ctx.strokeText(label,x+12,y+HINT_CELL_SIZE[1]/2)
       ctx.fillStyle='#fff8dc';ctx.fillText(label,x+12,y+HINT_CELL_SIZE[1]/2)
     })
-    ctx.textAlign='center';ctx.font='650 46px "PingFang SC","Microsoft YaHei",system-ui,sans-serif'
-    Object.entries(FLAG_RAISING_HUD_TEXT).forEach(([name,label])=>{
+    ctx.textAlign='center'
+    Object.entries(FLAG_RAISING_HUD_TEXT).forEach(([name,sourceLabel])=>{
+      const label=translateRuntimeText(sourceLabel)
       const [x,y,width,height]=GENERATED_FLAG_RAISING_TEXT_RECTS[name]
+      let size=46;ctx.font=`650 ${size}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+      while(size>28&&ctx.measureText(label).width>width-36){size-=2;ctx.font=`650 ${size}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`}
       ctx.lineWidth=12;ctx.strokeStyle='rgba(48,44,37,.96)';ctx.strokeText(label,x+width/2,y+height/2)
       ctx.fillStyle='#fff8dc';ctx.fillText(label,x+width/2,y+height/2)
     })
@@ -873,14 +886,18 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
   const makeMinigameInstructionAtlas=()=>{
     const cellSize=[1024,256],{context:ctx,texture,material}=ensureGeneratedTextAtlas(),rects={}
     ctx.textAlign='left';ctx.textBaseline='middle';ctx.lineJoin='round'
-    Object.entries(MINIGAME_INSTRUCTIONS).forEach(([name,[title,...lines]],index)=>{
+    Object.entries(MINIGAME_INSTRUCTIONS).forEach(([name,[sourceTitle,...sourceLines]],index)=>{
+      const title=translateRuntimeText(sourceTitle),lines=sourceLines.map(translateRuntimeText)
       const x=index%2*cellSize[0],y=Math.floor(index/2)*cellSize[1]
       rects[name]=[x,y,...cellSize]
       ctx.fillStyle='rgba(255,248,220,.94)';ctx.strokeStyle='rgba(39,44,38,.9)';ctx.lineWidth=7
       ctx.beginPath();ctx.roundRect(x+10,y+10,cellSize[0]-20,cellSize[1]-20,28);ctx.fill();ctx.stroke()
       ctx.fillStyle='#30372f';ctx.font='700 48px system-ui, sans-serif';ctx.fillText(title,x+42,y+48)
-      ctx.font='600 34px system-ui, sans-serif'
-      lines.forEach((line,lineIndex)=>ctx.fillText(line,x+42,y+104+lineIndex*54))
+      lines.forEach((line,lineIndex)=>{
+        let size=34;ctx.font=`600 ${size}px system-ui, sans-serif`
+        while(size>22&&ctx.measureText(line).width>cellSize[0]-84){size-=1;ctx.font=`600 ${size}px system-ui, sans-serif`}
+        ctx.fillText(line,x+42,y+104+lineIndex*54)
+      })
     })
     texture.needsUpdate=true
     addGroup(rects,minigameInstructionMeshes,material,GENERATED_TEXT_ATLAS_SIZE,'minigame-instruction')
@@ -1045,7 +1062,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       }
       layoutArcadeLabel(p.serveLabel,portrait?80:compactLandscape?88:108,portrait?40:compactLandscape?42:48,viewportWidth,viewportHeight);p.serveLabel.position.set(toX(centerX+(portrait?102:compactLandscape?112:142)),toY(metaY),.004)
       pingPongHud.serveMarker.userData.playerX=toX(playerX);pingPongHud.serveMarker.userData.aiX=toX(aiX)
-      pingPongHud.serveMarker.position.set(pingPongState.server==='玩家'?toX(playerX):toX(aiX),toY(rowY+scoreHeight*.54),.005)
+      pingPongHud.serveMarker.position.set(pingPongState.server==='player'?toX(playerX):toX(aiX),toY(rowY+scoreHeight*.54),.005)
       pingPongHud.serveMarker.scale.set(14/viewportWidth*2,10/viewportHeight*2,1)
     }
     if(bambooClimbHud){
@@ -1489,22 +1506,26 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     playArcadeComicCelebration('basketball',value===2?'two':value===3?'three':'four','major',Math.min(1100,Math.max(900,duration)))
   }
 
-  const flashPingPongFeedback=(title,detail='',duration=900)=>{
+  const flashPingPongFeedback=(feedbackCode,duration=900)=>{
     if(!pingPongHud||!pingPongState.visible)return
-    pingPongHud.feedbackTitle.userData.pixelText.setText(title)
-    pingPongHud.feedbackDetail.userData.pixelText.setText(detail)
-    if(title==='好球'||title==='扣杀'){
+    const display={
+      'good-shot':['好球',''],'smash':['扣杀',''],'point-player':['得分','玩家 +1'],'point-computer':['得分','电脑 +1'],
+      'match-won':['比赛结束','玩家胜'],'match-lost':['比赛结束','电脑胜'],
+    }[feedbackCode]??['','']
+    pingPongHud.feedbackTitle.userData.pixelText.setText(display[0])
+    pingPongHud.feedbackDetail.userData.pixelText.setText(display[1])
+    if(feedbackCode==='good-shot'||feedbackCode==='smash'){
       pingPongHud.feedbackRoot.visible=false;pingPongFeedbackTimer=0
-      playArcadeComicCelebration('pingPong',title==='扣杀'?'smash':'good','hit',Math.min(1000,Math.max(820,duration)))
+      playArcadeComicCelebration('pingPong',feedbackCode==='smash'?'smash':'good','hit',Math.min(1000,Math.max(820,duration)))
       return
     }
-    if(title==='得分'){
+    if(feedbackCode==='point-player'||feedbackCode==='point-computer'){
       pingPongHud.feedbackRoot.visible=false;pingPongFeedbackTimer=0
-      if(detail.startsWith('玩家'))playArcadeComicCelebration('pingPong','point','hit',Math.min(1000,Math.max(820,duration)))
+      if(feedbackCode==='point-player')playArcadeComicCelebration('pingPong','point','hit',Math.min(1000,Math.max(820,duration)))
       return
     }
-    if(title==='比赛结束'){
-      if(detail==='玩家胜'){
+    if(feedbackCode==='match-won'||feedbackCode==='match-lost'){
+      if(feedbackCode==='match-won'){
         pingPongHud.feedbackRoot.visible=false;pingPongFeedbackTimer=0
         playArcadeComicCelebration('pingPong','win','major',Math.min(1100,Math.max(900,duration)))
         return
@@ -1562,8 +1583,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
   const snapshot=()=>({
     loaded,warmed,enabled,interaction,interactionRect:INTERACTION_RECTS[interaction]?[...INTERACTION_RECTS[interaction]]:null,posture,
     interactionHint:[...interactionHintMeshes].find(([,entry])=>entry.mesh.visible)?.[0]??null,
-    interactionHintText:INTERACTION_HINTS[interaction]??null,
-    viewMode,viewToggleVisible,viewToggleBounds,personalRecordVisible,personalRecordBounds,personalRecordLabel:'个人记录',
+    interactionHintText:translateRuntimeText(INTERACTION_HINTS[interaction]??null),
+    viewMode,viewToggleVisible,viewToggleBounds,personalRecordVisible,personalRecordBounds,personalRecordLabel:translateRuntimeText('个人记录'),
     pointTargetVisible,pointWalking,
     tutorialVisible:[...tutorialMeshes].find(([,entry])=>entry.mesh.visible)?.[0]??null,
     movementTutorial:(()=>{const visible=[...tutorialMeshes].find(([,entry])=>entry.mesh.visible);if(!visible)return null;const [variant,entry]=visible;return{variant,lines:[...entry.lines],panel:entry.panel,bounds:entry.bounds?{...entry.bounds}:null}})(),
@@ -1574,7 +1595,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     slingshot:{
       ...slingshotState,distanceButtonBounds:slingshotHud?.bounds?{...slingshotHud.bounds}:null,
       helpBounds:slingshotHud?.help.bounds?{...slingshotHud.help.bounds}:null,exitBounds:slingshotHud?.exit.bounds?{...slingshotHud.exit.bounds}:null,
-      helpLabel:slingshotHud?.help.label??'',exitLabel:slingshotHud?.exit.label??'',mobileInstructions:[...MINIGAME_INSTRUCTIONS['slingshot-mobile']],loaded:Boolean(slingshotHud),
+      helpLabel:translateRuntimeText(slingshotHud?.help.label??''),exitLabel:translateRuntimeText(slingshotHud?.exit.label??''),mobileInstructions:MINIGAME_INSTRUCTIONS['slingshot-mobile'].map(translateRuntimeText),loaded:Boolean(slingshotHud),
       arcadeScore:slingshotHud?{hits:slingshotHud.arcadeScore.hits.text,shots:slingshotHud.arcadeScore.shots.text,distance:slingshotHud.arcadeScore.distance.text}:null,
       selectedLabel:slingshotHud?.wire.visible?'wire':'wood',instruction:slingshotHud?.instruction.userData.smoothText.text??'',
     },

@@ -35,7 +35,9 @@ import { createFireHandheldGame } from './interactions/fire-handheld-game.js'
 import { createRubiksCubeGame } from './interactions/rubiks-cube-game.js'
 import { createFlagRaisingController } from './interactions/flag-raising-controller.js'
 import { createPassageMediaLinks } from './interactions/passage-media-links.js'
-import { bindSiteFooterQrCards, renderSiteFooterLinks, SITE_LINKS } from './site-links.js'
+import { bindSiteFooterQrCards, SITE_LINKS } from './site-links.js'
+import {getMessages,t,translateRuntimeText} from './i18n/index.js'
+import {renderEntryShell} from './ui/entry-shell.js'
 const {entranceBackgroundUrl,entranceMobileBackgroundUrl,approvedLogoUrl}=window.__4LITE_ENTRY_ASSETS__
 const entryMusic=window.__4LITE_ENTRY_MUSIC__
 
@@ -94,50 +96,14 @@ const runtimeLoadTracker=(()=>{
 })()
 
 const app = document.querySelector('#app')
-app.innerHTML = `
-  <div class="experience-gate" id="experience-gate">
-    <section class="entry-screen" id="entry-screen" aria-label="四小">
-      <div class="entry-wash"></div>
-      <div class="entry-content">
-        <img class="entry-logo" src="${approvedLogoUrl}" alt="四小" width="1774" height="887" />
-        <p class="entry-copy" id="entry-copy">风从走廊那边吹过来。<br>回去看看，那年的校园。</p>
-        <button class="entry-primary" id="enter-campus" type="button">
-          <span>回到那年夏天</span><i aria-hidden="true">→</i>
-        </button>
-        <div class="entry-secondary-actions">
-          <button class="entry-music-toggle" id="entry-music-toggle" type="button" aria-pressed="false">
-            <i aria-hidden="true">♪</i><span>开启音乐</span>
-          </button>
-          <span class="entry-secondary-rule" aria-hidden="true"></span>
-          <nav class="entry-links" aria-label="项目说明">
-            <a href="./stories/">故事</a><a href="./about/">关于</a><a href="./help/">帮助</a>
-          </nav>
-        </div>
-        <p class="entry-footnote">建议佩戴耳机 · 点击后载入校园</p>
-      </div>
-      <footer class="entry-media-footer">${renderSiteFooterLinks()}</footer>
-    </section>
-    <section class="loading-screen" id="loading-screen" aria-live="polite" aria-hidden="true">
-      <div class="loading-card">
-        <p class="loading-eyebrow">进入校园以前</p>
-        <h1 id="loading-tip-title">在校园里慢慢走</h1>
-        <p class="loading-tip-text" id="loading-tip-text">从校门进入，以第一人称探索走廊、教室、操场和树荫，也可以随时切换鸟瞰。</p>
-        <p class="loading-message" id="loading-message">正在整理旧课桌和走廊……</p>
-        <div class="loading-rule" aria-hidden="true"><i id="loading-bar"></i></div>
-        <div class="loading-meta">
-          <span id="loading-count">准备资源 0 / …</span>
-          <strong id="loading-percent">0%</strong>
-        </div>
-        <button class="loading-retry" id="loading-retry" type="button" hidden>重新加载</button>
-      </div>
-    </section>
-  </div>
+app.dataset.loadingLabel=t('loading.visual')
+app.innerHTML = `${renderEntryShell({approvedLogoUrl,includeLoading:true})}
   <div class="hud">
     <div class="crosshair"></div>
     <div class="toast" id="toast"></div>
     <div class="touch-controls" id="touch-controls" aria-hidden="true">
-      <div class="touch-look-zone" id="touch-look-zone" aria-label="拖动观察方向；绿色定位标记出现时轻触前往，自动行走中轻触停止；对准物件时轻触互动"></div>
-      <div class="touch-joystick" id="touch-joystick" aria-label="移动摇杆">
+      <div class="touch-look-zone" id="touch-look-zone" aria-label="${t('accessibility.touchLook')}"></div>
+      <div class="touch-joystick" id="touch-joystick" aria-label="${t('accessibility.joystick')}">
         <div class="touch-joystick-base"><i id="touch-joystick-knob"></i></div>
       </div>
     </div>
@@ -161,22 +127,7 @@ const touchControls=document.querySelector('#touch-controls')
 const touchLookZone=document.querySelector('#touch-look-zone')
 const touchJoystick=document.querySelector('#touch-joystick')
 const touchJoystickKnob=document.querySelector('#touch-joystick-knob')
-const loadingMessages=[
-  '正在整理旧课桌和走廊……',
-  '正在让阳光落进教室……',
-  '正在叫醒操场边的树影……',
-  '正在把风送回校园……',
-]
-const loadingTips=[
-  ['在校园里慢慢走','从校门进入，以第一人称探索走廊、教室、操场和树荫，也可以随时切换鸟瞰。'],
-  ['推开门，坐回课桌旁','靠近教室里的门窗和课桌，用准星寻找互动提示；坐下以后还可以翻看旧课本和作业本。'],
-  ['在黑板上留下几笔','22块教学黑板都可以书写、擦除和撤销，画下的内容会保存在当前浏览器里。'],
-  ['捡起一支粉笔','讲台和教室里散落着粉笔。拾起后可以蓄力抛出，落地的粉笔还能再次捡起。'],
-  ['去操场投几个球','校园里的篮球可以拾取、投掷、推动和踢动；从不同距离命中会得到2分、3分或4分。'],
-  ['打一局旧球桌乒乓球','西侧六张乒乓球桌都能游玩，可以自由练习，也可以和电脑进行先得7分的比赛。'],
-  ['看见绿色标记就能前往','稍微看向地面，出现绿色定位标记时点击或轻触即可自动走过去；途中仍可环视，再次点击或使用移动键即可停止。'],
-  ['手机也可以走进校园','左侧摇杆负责移动，拖动画面观察方向；绿色标记出现时轻触前往，对准物件时轻触互动。'],
-]
+const {loading:{messages:loadingMessages,tips:loadingTips}}=getMessages()
 let loadingTipIndex=0
 let loadingTipTimer=null
 const showLoadingTip=index=>{
@@ -210,10 +161,10 @@ const updateLoadingUi=()=>{
   const ratio=sceneIsReady?1:Math.min(.92,loadingTaskCompleted/loadingTaskTotal*.9)
   const percent=Math.round(ratio*100)
   loadingBar.style.transform=`scaleX(${ratio})`
-  loadingCount.textContent=sceneIsReady?'校园已经准备好':`准备资源 ${loadingTaskCompleted} / ${loadingTaskTotal}`
+  loadingCount.textContent=sceneIsReady?t('loading.readyCount'):t('loading.preparing',{completed:loadingTaskCompleted,total:loadingTaskTotal})
   loadingPercent.textContent=`${percent}%`
   loadingMessage.textContent=sceneIsReady
-    ?'放学以前，再去校园里走一走吧。'
+    ?t('loading.readyMessage')
     :loadingMessages[Math.min(loadingMessages.length-1,Math.floor(loadingTaskCompleted/loadingTaskTotal*loadingMessages.length))]
 }
 const revealCampus=()=>{
@@ -256,7 +207,7 @@ const showLoadingScreen=()=>{
   startLoadingTips()
   updateLoadingUi()
   if(loadingFailure) {
-    loadingMessage.textContent='有一部分校园资源没有准备好。'
+    loadingMessage.textContent=t('loading.failure')
     loadingRetry.hidden=false
   } else revealCampus()
 }
@@ -486,12 +437,12 @@ composer.addPass(smaaPass)
 composer.addPass(new OutputPass())
 const webglHud=createWebglHud({renderer,isTouchMode:()=>touchModePreferred})
 const personalRecordBook=createPersonalRecordBook({renderer,isTouchMode:()=>touchModePreferred})
-const wechatChannelsLink=SITE_LINKS.find(link=>link.label==='视频号')
+const wechatChannelsLink=SITE_LINKS.find(link=>link.id==='wechat-channels')
 if(!wechatChannelsLink?.qrImageUrl)throw new Error('Missing configured WeChat Channels QR image')
 const siteQrOverlay=createSiteQrOverlay({
   renderer,assetLoader,imageUrl:wechatChannelsLink.qrImageUrl,
   sourceImage:document.querySelector('[data-site-qr-trigger] img'),
-  label:wechatChannelsLink.compactLabel??wechatChannelsLink.label,
+  label:translateRuntimeText(wechatChannelsLink.compactLabel??wechatChannelsLink.label),
 })
 let documentViewer=null,snackModelViewer=null,snackModelViewerPromise=null,overlayViewerSession=null
 const overlayViewerOpen=()=>Boolean(documentViewer?.isOpen()||snackModelViewer?.isOpen())
@@ -7953,8 +7904,10 @@ function announceHopscotchEvent(event) {
   }
   else if(event.type==='hopscotch-fault'){
     gameAudio.play('uiClick',{volume:.28,rate:.72})
-    const reason=String(event.reason??'')
-    const phrase=reason.includes('踩线')||reason.includes('压线')?'line':reason.includes('投错格')?'wrong-tile':reason.includes('双格')||reason.includes('单脚')||reason.includes('跳错格')||reason.includes('踩进')?'wrong-feet':'throw-wide'
+    const phrase={
+      'line-fault':'line','tile-line':'line','wrong-tile':'wrong-tile','wrong-cell':'wrong-feet','stepped-in-tile':'wrong-feet',
+      'double-feet-required':'wrong-feet','single-foot-required':'wrong-feet','throw-short':'throw-wide','throw-long':'throw-wide','throw-missed':'throw-wide',
+    }[event.reasonCode]??'throw-wide'
     webglHud.playArcadeComicCelebration('hopscotch',phrase,'plain',950)
   }else if(event.type==='hopscotch-exit')webglHud.stopArcadeComicCelebration('hopscotch')
 }
@@ -8298,7 +8251,7 @@ function leaveClassroomSeat() {
   return true
 }
 
-function showToast(text) { toast.textContent=text; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>toast.classList.remove('show'),1700) }
+function showToast(text) { toast.textContent=translateRuntimeText(text); toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>toast.classList.remove('show'),1700) }
 
 function trackPersonalGameEvent(event) {
   const type=event?.type
@@ -8388,8 +8341,8 @@ const announcePingPongEvent=event=>{
     gameAudio.play('uiConfirm',{volume:.34,rate:1.05})
   } else if(event.type==='ping-pong-paddle-hit') {
     if(event.side==='player'&&!event.serve){
-      if(event.smash)webglHud.flashPingPongFeedback('扣杀','',720)
-      else if(shouldShowPingPongGoodFeedback())webglHud.flashPingPongFeedback('好球','',720)
+      if(event.smash)webglHud.flashPingPongFeedback('smash',720)
+      else if(shouldShowPingPongGoodFeedback())webglHud.flashPingPongFeedback('good-shot',720)
     }
     gameAudio.playThrottled('pingPongPaddle',35,{volume:.42,rate:.96+Math.random()*.09})
   } else if(event.type==='ping-pong-table-bounce') {
@@ -8397,10 +8350,10 @@ const announcePingPongEvent=event=>{
   } else if(event.type==='ping-pong-net') {
     gameAudio.playThrottled('pingPongNet',70,{volume:.28,rate:1.04+Math.random()*.08})
   } else if(event.type==='ping-pong-point') {
-    webglHud.flashPingPongFeedback('得分',`${event.winner==='player'?'玩家':'电脑'} +1`)
+    webglHud.flashPingPongFeedback(event.winner==='player'?'point-player':'point-computer')
     gameAudio.play('uiClick',{volume:.30,rate:event.winner==='player'?1.18:.82})
   } else if(event.type==='ping-pong-match-end') {
-    webglHud.flashPingPongFeedback('比赛结束',event.winner==='player'?'玩家胜':'电脑胜',1500)
+    webglHud.flashPingPongFeedback(event.winner==='player'?'match-won':'match-lost',1500)
     gameAudio.play('uiConfirm',{volume:.54,rate:event.winner==='player'?1.12:.78})
   }
 }
@@ -8733,11 +8686,12 @@ touchLookZone.addEventListener('pointercancel',event=>{
 
 const announceB1Interaction=interaction=>{
   if(!interaction)return false
-  const part=interaction.type.startsWith('door')?'门':interaction.pivot.includes('_Middle_')?'中窗':'气窗'
-  showToast(`${part}已${interaction.open?'打开':'关闭'}`)
+  const partCode=interaction.type.startsWith('door')?'door':interaction.pivot.includes('_Middle_')?'middle-window':'transom'
+  const partLabel={door:'门','middle-window':'中窗',transom:'气窗'}[partCode]
+  showToast(`${partLabel}已${interaction.open?'打开':'关闭'}`)
   gameAudio.play(interaction.open?'doorOpen':'doorClose',{
-    volume:part==='门'?.72:.52,
-    rate:part==='门'?.92+Math.random()*.14:1.12+Math.random()*.14,
+    volume:partCode==='door'?.72:.52,
+    rate:partCode==='door'?.92+Math.random()*.14:1.12+Math.random()*.14,
   })
   return true
 }
@@ -9412,12 +9366,12 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
   setHudInteraction:name=>{webglHud.setInteraction(name);return webglHud.snapshot()},
   prepareArcadeComicHud:(game='basketball')=>webglHud.prepareArcadeComicGame(game),
   playArcadeComicCelebration:(game='basketball',phrase=null,kind='major',duration=1050,secondaryPhrase=null)=>{webglHud.playArcadeComicCelebration(game,phrase,kind,duration,secondaryPhrase);return webglHud.snapshot().arcadeComic},
-  flashPingPongFeedback:(title,detail='',duration=900)=>{webglHud.flashPingPongFeedback(title,detail,duration);return webglHud.snapshot().arcadeComic},
+  flashPingPongFeedback:(feedbackCode,duration=900)=>{webglHud.flashPingPongFeedback(feedbackCode,duration);return webglHud.snapshot().arcadeComic},
   resetPingPongGoodFeedback:()=>{lastPingPongGoodFeedbackAt=-Infinity;return true},
   probePingPongGoodFeedback:(now,sample)=>shouldShowPingPongGoodFeedback(now,sample),
   setArcadeHudSample:(game,values={})=>{
     if(game==='basketball')webglHud.setBasketballHud({visible:true,points:values.points??0,hits:values.hits??0,attempts:values.attempts??0})
-    else if(game==='pingPong')webglHud.setPingPongHud({visible:true,mode:values.mode??'练习',playerScore:values.playerScore??0,aiScore:values.aiScore??0,server:values.server??'玩家',phase:'ready',prompt:''})
+    else if(game==='pingPong')webglHud.setPingPongHud({visible:true,mode:values.mode??'practice',playerScore:values.playerScore??0,aiScore:values.aiScore??0,server:values.server??'player',phase:'ready',prompt:''})
     else if(game==='longJump')webglHud.setLongJumpHud({visible:true,phase:'result',distance:values.distance??0,evaluation:'',result:true})
     else if(game==='bambooClimb')webglHud.setBambooClimbHud({visible:true,phase:'rising',side:'left',progress:values.progress??0,feedback:values.rise==null?'':`抓稳 +${values.rise}厘米`})
     else if(game==='hopscotch')webglHud.setHopscotchHud({visible:true,target:values.target??1,bestProgress:values.bestProgress??0})
@@ -10190,7 +10144,7 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
   endPingPongAction:()=>pingPongGame?.endPlayerAction()??false,
   advancePingPong:(seconds=1)=>pingPongGame?.advance(seconds)??null,
   setPingPongBall:state=>pingPongGame?.setBallState(state)??null,
-  awardPingPongPoint:(winner='player',reason='测试判定')=>pingPongGame?.awardPoint(winner,reason)??null,
+  awardPingPongPoint:(winner='player',reasonCode='test-award')=>pingPongGame?.awardPoint(winner,reasonCode)??null,
   setPingPongScore:(player,ai)=>pingPongGame?.setScore(player,ai)??null,
   exitPingPong:()=>pingPongGame?.exit()??null,
   basketballAsset:()=>({

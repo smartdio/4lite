@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import segmentManifest from './data/fire-lcd-segments-v01.json'
 import semanticLayout from './data/fire-lcd-semantic-layout-v02.json'
 import {getUserDataStore} from '../state/user-data-store.js'
+import {translateRuntimeText} from '../i18n/index.js'
 
 const STORAGE_NAMESPACE='handheldFire'
 const DEVICE={width:.124,height:.070,depth:.010,imageAspect:1672/941}
@@ -20,10 +21,10 @@ function makeTextControl(kind,inputMode='desktop'){
   const context=canvas.getContext('2d');context.strokeStyle='rgba(210,198,171,.45)';context.fillStyle='rgba(18,17,15,.56)';context.lineWidth=exit?5:3
   context.beginPath();context.roundRect(exit?5:3,exit?5:3,canvas.width-(exit?10:6),canvas.height-(exit?10:6),exit?22:15);context.fill();context.stroke()
   context.textBaseline='middle';context.fillStyle='rgba(218,207,181,.76)'
-  if(exit){context.font='500 38px sans-serif';context.textAlign='center';context.fillText('退出',192,64)}
+  if(exit){context.font='500 38px sans-serif';context.textAlign='center';context.fillText(translateRuntimeText('退出'),192,64)}
   else{
     context.textAlign='left'
-    const row=(label,body,y,size=25)=>{context.font=`600 ${touch?26:22}px sans-serif`;context.fillStyle='rgba(202,184,146,.72)';context.fillText(label,24,y);context.font=`400 ${size}px sans-serif`;context.fillStyle='rgba(210,204,187,.66)';context.fillText(body,112,y)}
+    const row=(label,body,y,size=25)=>{const displayLabel=translateRuntimeText(label),displayBody=translateRuntimeText(body);context.font=`600 ${touch?26:22}px sans-serif`;context.fillStyle='rgba(202,184,146,.72)';context.fillText(displayLabel,24,y);context.font=`400 ${size}px sans-serif`;while(size>17&&context.measureText(displayBody).width>860){size--;context.font=`400 ${size}px sans-serif`}context.fillStyle='rgba(210,204,187,.66)';context.fillText(displayBody,112,y)}
     if(touch){row('玩法','左右移动担架，接住跳楼者并送往救护车',34,31);row('操作','点按主机左右红键移动',87,31);row('模式','点按 GAME A / GAME B / TIME · 右上角退出',140,29)}
     else{row('玩法','左右移动担架，接住跳楼者并送往救护车',37);row('键盘','←/A 左移 · →/D 右移 · 1 游戏A · 2 游戏B · T 时钟 · X 退出 · Esc 暂停',89,22)}
   }
