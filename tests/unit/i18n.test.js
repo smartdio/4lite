@@ -67,6 +67,7 @@ test('compact English action labels fit the WebGL pause and shuttlecock buttons'
 
 test('browser language selection prefers Chinese locales and uses English otherwise',()=>{
   assert.equal(detectBrowserLocale(['zh-HK','en-US']),'zh-CN')
+  assert.equal(detectBrowserLocale(['en-US','zh-CN']),'en')
   assert.equal(detectBrowserLocale(['en-US']),'en')
   assert.equal(detectBrowserLocale(['fr-FR']),'en')
   assert.equal(normalizeLocale('zh-TW'),'zh-CN')

@@ -9,10 +9,10 @@ export const normalizeLocale=value=>{
 }
 
 export const detectBrowserLocale=(languages=globalThis.navigator?.languages)=>{
-  const candidates=Array.isArray(languages)&&languages.length
-    ? languages
-    : [globalThis.navigator?.language].filter(Boolean)
-  return candidates.some(language=>String(language).toLowerCase().split('-')[0]==='zh')?'zh-CN':'en'
+  const preferredLanguage=Array.isArray(languages)&&languages.length
+    ? languages[0]
+    : globalThis.navigator?.language
+  return String(preferredLanguage??'').toLowerCase().split('-')[0]==='zh'?'zh-CN':'en'
 }
 
 export const readLocalePreference=(storage=globalThis.localStorage)=>{
