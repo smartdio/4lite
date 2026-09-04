@@ -17,12 +17,24 @@ test('entry visuals do not wait for music buffering',async({page})=>{
   releaseAudio()
 })
 
-test('entry links open standalone about and help pages',async({page})=>{
+test('entry links open standalone stories, about and help pages',async({page})=>{
   await page.goto('/',{waitUntil:'domcontentloaded'})
+  await expect(page.getByRole('link',{name:'故事'})).toHaveAttribute('href','./stories/')
   await expect(page.getByRole('link',{name:'关于'})).toHaveAttribute('href','./about/')
   await expect(page.getByRole('link',{name:'帮助'})).toHaveAttribute('href','./help/')
   await expect(page.getByRole('navigation',{name:'媒体账号与项目链接'}).getByRole('link',{name:'GitHub'})).toHaveAttribute('href','https://github.com/smartdio/4lite')
   await expect(page.getByRole('navigation',{name:'媒体账号与项目链接'}).getByRole('link',{name:'Vercel'})).toHaveAttribute('href','https://4lite.vercel.app')
+
+  await page.goto('/stories/',{waitUntil:'networkidle'})
+  await expect(page).toHaveTitle('四小故事 · 四小 4Lite')
+  await expect(page.getByRole('heading',{name:'四小故事'})).toBeVisible()
+  await expect(page.getByRole('link',{name:'开始阅读'})).toHaveAttribute('href','/stories/from-memory-to-campus/')
+
+  await page.goto('/stories/from-memory-to-campus/chapters/28-slingshot/',{waitUntil:'networkidle'})
+  await expect(page.getByRole('heading',{name:'二十八、两把旧弹弓怎样变成一处自然游乐角'}).first()).toBeVisible()
+  await expect(page.getByText(/两件合计从约 60.7 MB 降到不足 1 MB/)).toBeVisible()
+  await expect(page.getByRole('link',{name:'English'})).toHaveAttribute('href','/stories/from-memory-to-campus/en/chapters/28-slingshot/')
+  expect(await page.locator('canvas').count()).toBe(0)
 
   await page.goto('/about/',{waitUntil:'networkidle'})
   await expect(page).toHaveTitle('关于 · 四小 4Lite')

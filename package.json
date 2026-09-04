@@ -2,6 +2,7 @@
   "name": "memory-school-3d",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "assets:books": "python3 scripts/image/build_school_books_runtime.py",
@@ -9,8 +10,12 @@
     "assets:compositions": "python3 scripts/image/build_composition_pages_runtime.py",
     "assets:document-viewer": "python3 scripts/image/build_document_viewer_runtime.py",
     "assets:ephemera": "python3 scripts/image/build_school_ephemera_runtime.py",
+    "stories:build": "node scripts/content/build-stories.mjs",
+    "predev": "npm run stories:build",
     "dev": "vite --force",
+    "prebuild": "npm run stories:build",
     "build": "vite build",
+    "prebuild:test": "npm run stories:build",
     "build:test": "VITE_ENABLE_TEST_API=1 vite build",
     "preview": "vite preview",
     "perf:build": "node scripts/performance/check-build.mjs",
@@ -25,6 +30,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
+    "marked": "^16.4.2",
     "vite": "^7.1.1"
   }
 }

@@ -12,9 +12,9 @@
 
 **Live experience:** [4lite.vercel.app](https://4lite.vercel.app)
 
-> **Public repository note**
+> **Open-source repository note**
 >
-> This repository is an installable and buildable public code snapshot, not the complete playable distribution. The full campus models, environment audio, music, textures, and some interaction assets are intentionally excluded. A local build of this repository therefore cannot reproduce every scene or game shown below. The live experience continues to use the complete private asset set.
+> This repository is an installable and buildable MIT-licensed open-source code snapshot, not the complete playable distribution. The full campus models, environment audio, music, textures, and some interaction assets are intentionally excluded. A local build of this repository therefore cannot reproduce every scene or game shown below. The live experience continues to use the complete private asset set.
 
 ![The reconstructed school courtyard in 4Lite](tests/performance/baselines/courtyard.png)
 
@@ -28,7 +28,7 @@ The reconstruction does not present uncertain details as measured fact. Confirme
 
 The campus was built through repeated exchanges between memory and implementation: first-hand recollections, sketches, and historical photographs were organised and assigned confidence levels; spatial relationships were then translated into measured plans and walkable Three.js grayboxes for review. Once the layout was confirmed, the project moved through visual development, asset production, interaction design, mobile adaptation, performance profiling, and regression testing, with uncertain details kept as working values until new evidence or first-hand review resolved them.
 
-Read the full development story: [From Memory to Campus: The Making of *The School I Remember*](docs/project-development-story.en.md).
+Read the chaptered web edition of [From Memory to Campus: The Making of *The School I Remember*](https://4lite.vercel.app/stories/from-memory-to-campus/en/), or read the [source essay](docs/project-development-story.en.md) in the repository. The story now includes the slingshot, later playground games, the *Fire* handheld, flag raising, and the personal record book.
 
 ## Games and interactions
 
@@ -101,9 +101,10 @@ npm run test:performance:full
 
 This command runs the production build, build-performance budgets, the test build, and the complete Playwright suite. Asset-dependent Playwright tests are intentionally not run in public GitHub Actions.
 
-## Public boundary and licensing
+## Open-source boundary and licensing
 
-- See [ASSET_LICENSES.md](ASSET_LICENSES.md) for the source, licence, and exclusion status of public non-code assets.
-- The project code and original project content are **copyrighted, with all rights reserved**. See [LICENSE](LICENSE).
+- Software code is available under the [MIT License](LICENSE).
+- Original articles and written documentation distributed in the public repository use [CC BY 4.0](CONTENT_LICENSE.md).
+- See [ASSET_LICENSES.md](ASSET_LICENSES.md) for the source, licence, and exclusion status of public media assets.
 - Third-party assets retain their own licences and are not covered by the project code licence.
 - Assets without confirmed public redistribution rights are excluded by default and checked by `npm run verify:public`.

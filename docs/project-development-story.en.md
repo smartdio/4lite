@@ -2,9 +2,9 @@
 
 [简体中文](project-development-story.md) · English
 
-Recorded: August 22, 2026  
-Coverage: From the first idea to the version current at the time of writing  
-Format: A browser-based 3D campus experience built with Three.js
+Recorded stage: Roughly two weeks into development  
+Coverage: From the first idea to the milestone reached roughly two weeks into development  
+Format: A browser-based 3D campus experience built with Three.js  
 
 ## Preface
 
@@ -419,7 +419,7 @@ Mobile had ceased to be a reduced version of desktop. It became a primary valida
 
 ## 24. How First-Hand Scene Knowledge Led to Classroom-Level Detail Management
 
-The classroom rendering work of August 20, 2026, is a particularly clear example of human–agent collaboration. It did not begin with the agent selecting a fashionable technique from a generic optimisation checklist. It began with a precise observation from sustained play: when the player stands near Building 1, there is no need for every desk, texture, and object inside Building 2 to participate in rendering, and vice versa. Once a player is inside one classroom, even the simplified furniture in every other room provides no useful image contribution.
+The classroom rendering work undertaken roughly one week into development is a particularly clear example of human–agent collaboration. It did not begin with the agent selecting a fashionable technique from a generic optimisation checklist. It began with a precise observation from sustained play: when the player stands near Building 1, there is no need for every desk, texture, and object inside Building 2 to participate in rendering, and vice versa. Once a player is inside one classroom, even the simplified furniture in every other room provides no useful image contribution.
 
 This contained knowledge that code statistics alone could not provide. The campus is not a gallery in which every interior must remain simultaneously visible. It is a first-person environment whose walls and distances naturally block most rooms. The human first identified what a player could plausibly see; the agent translated that into visibility rules, spatial bounds, and switching conditions.
 
@@ -471,9 +471,9 @@ The final *Octopus* is more than a playable handheld. It produced a reusable met
 
 The work extends the project’s central idea. In the campus, the person remembers and the agent turns memory into a space that can be tested. Inside the old handheld, the person also identifies what the pixels mean, while the agent makes that meaning exact, testable, and repeatable.
 
-## 26. Where the Project Stood
+## 26. Where the Project Stood After Roughly One Week
 
-As of August 22, 2026, the project had reconstructed the main campus layout and five buildings, together with the continuous raised terrace, boundary walls, gate, playground, sandpit, sports fixtures, trees, and slide. Both teaching buildings had enterable classrooms, corridors, steps, and stairs. Major doors, windows, and standalone buildings had been replaced with production GLBs. Walls, ground, trees, and facilities shared one hand-painted watercolour direction.
+After roughly one week of development, the project had reconstructed the main campus layout and five buildings, together with the continuous raised terrace, boundary walls, gate, playground, sandpit, sports fixtures, trees, and slide. Both teaching buildings had enterable classrooms, corridors, steps, and stairs. Major doors, windows, and standalone buildings had been replaced with production GLBs. Walls, ground, trees, and facilities shared one hand-painted watercolour direction.
 
 Classrooms contained desks, stools, blackboards, teacher’s platforms, textbooks, exercise books, posters, certificates, chalk boxes, and chalk. Desktop and mobile players could enter through the gate and walk through the campus. They could open doors and windows, sit down, draw on all 22 teaching blackboards and preserve the drawings, pick up chalk, charge and throw it, recover it after landing, and return it to its box.
 
@@ -484,6 +484,80 @@ A Nintendo Game & Watch *Octopus* OC-22 sat in the desk shelf of a classroom in 
 The runtime continued to preload the complete base campus and use full models at close range. Teaching interiors used classroom-level activation; from outdoors, untextured simplified desks, platforms, blackboards, and Building 2 interior shells preserved visible structure. Once a player entered any room, proxies in other rooms stopped drawing. The project had browser tests, performance budgets, visual baselines, asset archives, a local user-data layer, and unified audio lifecycle management, making it possible to add further stories, period objects, and interactions without sacrificing the confirmed work.
 
 What remained open was mostly refinement rather than missing foundations. Some C-level dimensions could change if new memories surfaced. Sustained mobile frame rate, heat, and portrait and landscape behaviour still needed continuing device observation. More personal stories, period objects, and small games could be added over time.
+
+## 27. How Five Childhood Games Grew Out of the Campus
+
+After basketball and table tennis, later activities were not placed in a menu or moved into a separate minigame lobby. The user remembered not only rules but where each activity belonged. The climbing poles stood north of Building 1. The long jump began beside the sandpit south of the toilet. Hopscotch lived in lines drawn on the ground, while shuttlecock kicking and jacks were break-time games that could begin almost anywhere. An activity first had to belong to the campus; only then should the player encounter its object and enter its rules.
+
+Bamboo climbing turned a simple alternating rhythm into upward movement. Left and right inputs charge successive pulls, and lingering too long on either side breaks the continuity of the action. Long jump concentrated approach, take-off angle, and force into the small space around the sandpit. Its distance is not a predetermined animation but the result of the launch state and actual landing point. Each activity retained its own controller and enter, pause, and exit lifecycle so that new rules could not leak backwards into basketball or table tennis.
+
+Hopscotch, shuttlecock, and jacks presented a different problem. Their remembered actions depend heavily on bodily intuition, yet the browser needed controls understandable on both desktop and phone. Hopscotch tracks whether the tile crosses a line, where each foot lands, and the outward and return route. Shuttlecock asks the player to alternate feet and move beneath the descending object. Jacks requires the correct number of pieces to be gathered before the thrown master piece returns. The agent expressed these actions as states, timing windows, and landing rules; the user then judged through play whether the rhythm still felt like a game rather than a keyboard examination.
+
+As the number of activities grew, the interface developed a shared language. Ordinary campus prompts kept their warm-white fill and black-outline minimal drawing. Only scores, completed stages, new records, and genuinely strong results entered the “1980s pixel arcade × comics” layer. Each of the three games gained a recognisable entrance cursor, fixed digits, phrase atlas, and safe layouts for desktop, landscape phone, and portrait phone. Ordinary actions produce only a light numerical bounce; stage results may use large lettering; full completion or a new record earns the rear-layer burst.
+
+These small games showed that a campus interaction does not need a complex level structure to matter. If its entrance belongs to the right place, its action responds to memory, and its exit returns cleanly to walking, even a compact set of rules can bring break time back into a previously still scene.
+
+## 28. How Two Old Slingshots Became a Natural Play Corner
+
+The slingshot began not from the idea that the project lacked a shooting game, but from two specific old objects: a wooden fork and a wire fork. Each source GLB was about thirty megabytes, carried fifty thousand triangles, and used three 4096-pixel material maps. That was an unreasonable transmission cost for two palm-sized objects. The agent preserved the originals and reduced each runtime candidate to five thousand triangles and three 1024-pixel WebP maps. Together they fell from about 60.7 MB to under 1 MB. Only after side-by-side close views preserved the wood grain, wire, grip, and silhouette were the reduced versions allowed into the scene.
+
+The user’s judgement of place determined the character of the activity. It would have been easy to follow a modern shooting-game convention and add a formal target frame, score signs, and a tidy rack. That would have turned a school corner into a purpose-built range. The approved setting was instead a natural play corner beside the north end of the slide: a short horsetail pine, a long stone slab on uneven supports, three faded wooden blocks hanging from a low branch, and eight more blocks standing casually on the slab. The two slingshots rest at its edge. Old chalk lines mark five and ten metres; there is no modern sign and no power bar.
+
+Scale changed through several reviews in the live scene. Early blocks and slingshots were too large, and their interaction proxies overlapped: a crosshair visibly aimed at the wire fork could select the wooden one first. The user confirmed blocks with a maximum edge of roughly nine to eleven centimetres and working slingshot lengths of about nineteen and eighteen centimetres. Each model then received a proxy fitted to its own outline, the wooden fork’s axes were corrected, and the eight-metre line was returned to ten after the user found the shorter distance insufficiently demanding. These values remain reconstruction and play candidates, not historical measurements.
+
+The GLBs contain only the rigid forks. The moving black inner-tube bands, old cord bindings, and dark leather pouch are generated in code. Short reusable segments fit a soft curve from each fork tip to a single concave pouch. Wooden and wire versions provide their own anchors, rest heights, and pull distances while sharing the same stretch and rebound behaviour. Binding placement and fork width can therefore be adjusted by millimetres in close view without rebuilding model animation.
+
+The user rejected the generic convention of dragging the pouch to charge. On desktop, holding the mouse or space bar now pulls automatically and release fires. Full force arrives after about 1.2 seconds, followed by a 0.7-second stable window; visible shake grows only if the player continues to hold. The rendered fork, pouch, and actual launch direction share the same drift and shake, with no hidden random error. The wooden fork is stronger and flatter but drifts and shakes more. The wire fork is slower and more arced but comparatively stable. The distinction emerges from one control system rather than two duplicated games.
+
+The projectile could not rely on a single point test per frame. A fast pellet can step entirely across a block only nine to eleven centimetres wide, so collision uses the segment between previous and current positions. Hanging blocks carry their ropes through a slowly diminishing swing. Blocks on the slab tip, slide, and settle. A clay pellet may bounce a few irregular times and can still strike a target after touching the ground. Every projectile is confined to a safe south-to-north lane west of the slide and expires after leaving it or exceeding its lifetime; it is never directed towards the main playground, classroom windows, or normal pedestrian routes.
+
+Touch input caused another redesign. Treating most of the screen as a charge zone made an attempt to aim likely to fire by accident. The final rule separates the gestures completely. A drag beginning anywhere except the pouch adjusts aim only. Charging begins only when the finger lands within the ellipse created by projecting the current pouch into screen space; that captured pointer can then move without rotating the camera. Because model, view, and pull state all move the pouch, its hit area is projected again every frame with only a restrained touch allowance.
+
+The final HUD follows the campus hierarchy. Entrance prompts only offer the wooden fork, wire fork, or five- and ten-metre start lines. Persistent information shows the selected slingshot, distance, hits, and shots. Striking a block earns the rear-ray “Hit!” feedback; a miss displays large foreground text without the burst. Phone players receive the full instructions on every entry and retain help, exit, and distance controls. Desktop players switch distance and fork directly from the keyboard.
+
+Slingshot development became a complete chain. Two old objects were first reduced to a browser-appropriate cost. Human scene memory decided what kind of corner they belonged in. Code supplied soft structures that the hard models should not own. Real play continued to correct scale, position, charging, trajectory, and touch. Only then did the activity join the shared HUD, test suite, and performance budget. The project did not install a ready-made shooting mechanic; it restored a way to use two old slingshots in the environment where they made sense.
+
+## 29. Why the Second Handheld Could Not Simply Copy the First
+
+*Octopus* established a production method based on a photorealistic base, manual LCD ownership map, transparent segment atlas, and full-screen controller. A second Game & Watch, *Fire* FR-27, could not be made by replacing one image. It has a different casing, buttons, figure routes, stretcher positions, smoke combinations, collision timing, and one-bit sound rhythm. Display and input infrastructure could be reused, but the meaning of every segment had to be judged again.
+
+Production first froze the exact model and excluded the visually or mechanically different Fire RC-04, Fire Attack, and imitation versions. Once the user approved a photorealistic front view, the agent made the inactive base in one pass from the earliest approved source. The first base incorrectly retained smoke and fire above the building and changed the canvas dimensions, so it was rejected. The second returned to the approved source, removed figures, digits, modes, MISS indicators, and smoke while preserving the building, grass, ambulance, and glass.
+
+Automatic pixel differencing failed again. Small texture drift between generated images joined glass, architecture, and active LCD into shapes that could not reveal electrode ownership. The project redrew a hard-edged monochrome all-on master and used manual colour to represent segments. Four digits share one seven-segment outline, but all twenty-eight digit electrodes remain independent. GAME A, GAME B, MISS, AM, PM, three miss figures, four smoke groups, and the main actions were approved in stages. The final package contains seventy-seven segments with zero overlap, missing pixels, out-of-bounds pixels, or reconstruction difference.
+
+Runtime still loads one shared transparent atlas and switches an attribute in one combined geometry without uploading textures during animation. Semantics and play remain independent. People fall from the building while the player moves a stretcher through three successive catches. A success shows the carried pose and enters the next section; only a miss shows the corresponding ground-impact pose and MISS. The firefighter at the ambulance combines one main-body electrode with local limbs rather than displaying disconnected fragments. Game A, Game B, three misses, high scores, and sound all have their own Fire data and storage.
+
+The second handheld confirmed the rule: reuse the method, not the judgement. *Octopus* left an executable workflow, not a finished product whose image could be swapped. Every old device must pass again through model identification, base approval, physical segmentation, semantic interpretation, timing calibration, and real play.
+
+## 30. Why Flag Raising Did Not Become a Scoring Game
+
+The flag platform began as a campus fixture. The most obvious way to make it interactive might have been a progress bar, button rhythm, and completion score, but the remembered action was not an abstract value. It was standing beside the pole and pulling the rope down repeatedly. The interaction therefore began without scoring, failure, or a modern task interface.
+
+Near the platform, the player enters a close view at its actual height. Desktop and touch players directly grab the full rope on the south side of the pole and drag down. Each pull contributes part of the progress, the upward return does not reverse it, and about seven complete pulls raise the flag. A short rebound does not block the next grip. The camera continues looking upward as the flag rises and gradually narrows its field of view, preserving the sense that the player remains beside the platform rather than flying into the air.
+
+The flag is not a permanently flat image. A lightweight cloth mesh of 247 vertices updates horizontal gathering, crosswise folds, fore-and-aft wind, and increasing free-edge sag in its existing buffers. Its texture is drawn programmatically from the flag’s geometric specification; stains or random deformation never disturb the positions of the five stars. Two rope runs descend from the top pulley and join in a U-shaped curve at the bottom. They move together so the system never resembles two disconnected hanging strings.
+
+Exiting before completion lets the progress fall and hides the flag. Once completed, leaving the interaction keeps it raised and moving in the campus for the rest of the page session. That physical change is a more suitable result than any score: the player’s action alters the school they are currently walking through.
+
+## 31. How an Exercise Book Remembers Activities Scattered Across the Campus
+
+As games, rooms, books, and period objects multiplied, a new problem appeared. The player had no common place to revisit what they had experienced. Turning every activity into a mission system would damage the freedom of wandering, so the project created a personal record book that belongs only to the current browser.
+
+It needs no account, online ranking, or cross-device synchronisation. A record appears only after the player remains inside a room, actually opens a book or object, or performs the first meaningful action in a game. Passing an entrance or viewing instructions is not enough. Scores, distances, heights, and streaks retain their best values; misses and Rubik’s Cube steps retain the lower value; completions accumulate. Storage is written only on first play, a changed record, or another completion, never on every repeated input.
+
+The interface is a warm exercise book drawn in Three.js, with a red binding line, stamps, and Overview, Game Records, and Mysteries pages. An undiscovered handheld remains a mystery object without revealing its name or classroom. Three snack packets combine into one progressive discovery. The book opens from the top-right control during walking and bird’s-eye view, while the desktop pause menu retains another entrance.
+
+The record book does not turn the campus into a checklist. It leaves a light trace of experiences scattered through the space: which rooms the player entered, which books they opened, and which games they played, while preserving the right to continue walking without a goal.
+
+## 32. Where the Project Stood After Roughly Two Weeks
+
+After that earlier milestone, the campus gained a broader set of childhood activities. Bamboo climbing, long jump, hopscotch, shuttlecock, jacks, slingshot practice, and flag raising each have a scene entrance, desktop and touch controls, pause and exit lifecycle, and WebGL guidance. Basketball and table tennis retain free interaction and competition. The shared arcade-comic HUD appears only for meaningful results and scores; ordinary walking keeps its quiet warm-white line work.
+
+Classrooms also contain more period objects. Alongside *Octopus*, *Fire* FR-27 now runs with its own seventy-seven-segment LCD atlas, rules, sound, and storage. Textbooks, exercise books, comic books, pencil boxes, stationery, snack packets, and a Rubik’s Cube create further details to discover and inspect. The personal record book gathers rooms, books, objects, twelve games, and three mystery discoveries in one exercise book, while keeping all data in the current browser.
+
+The public repository now carries code, development documentation, and this chaptered story together. Code uses the MIT License. Original articles and public documentation use Creative Commons Attribution 4.0. Third-party assets, personal historical photographs, old textbook sources, and other media retain their separately stated boundaries. The same Vite project generates the story as static HTML and builds it with the campus, About, and Help pages.
+
+This milestone is still not an endpoint. Some dimensions and object positions remain open to correction when new memories surface. Fire timing, slingshot feel, flag direction, and parts of the phone presentation still require continuing device review. The project labels those items as working values and pending confirmation rather than hiding them to make the “current version” look finished.
 
 ## Conclusion
 

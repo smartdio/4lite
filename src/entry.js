@@ -32,7 +32,7 @@ app.innerHTML = `
           </button>
           <span class="entry-secondary-rule" aria-hidden="true"></span>
           <nav class="entry-links" aria-label="项目说明">
-            <a href="./about/">关于</a><a href="./help/">帮助</a>
+            <a href="./stories/">故事</a><a href="./about/">关于</a><a href="./help/">帮助</a>
           </nav>
         </div>
         <p class="entry-footnote">建议佩戴耳机 · 点击后载入校园</p>

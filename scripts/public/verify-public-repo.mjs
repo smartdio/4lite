@@ -11,7 +11,7 @@ const errors=[]
 
 const requiredFiles=[
   '.gitattributes','.gitignore','.github/workflows/public-build.yml',
-  'README.md','README.zh-CN.md','LICENSE','ASSET_LICENSES.md','package.json','package-lock.json',
+  'README.md','README.zh-CN.md','LICENSE','CONTENT_LICENSE.md','ASSET_LICENSES.md','package.json','package-lock.json',
   'scripts/public/verify-public-repo.mjs',
   'docs/screenshots/readme/old-textbook-viewer.png',
   'docs/screenshots/readme/comic-book-viewer.png',

@@ -12,9 +12,9 @@
 
 **在线体验：** [4lite.vercel.app](https://4lite.vercel.app)
 
-> **公开仓库说明**
+> **开源仓库说明**
 >
-> 这是一份可安装、可构建的公开代码骨架，不是完整可运行发行包。完整校园模型、环境音、音乐、贴图和部分互动素材未放入 GitHub，因此本仓库的本地构建无法复现下方展示的全部场景和玩法。线上体验继续使用完整的私有素材集。
+> 这是一份采用 MIT License、可安装和构建的开源代码骨架，不是完整可运行发行包。完整校园模型、环境音、音乐、贴图和部分互动素材未放入 GitHub，因此本仓库的本地构建无法复现下方展示的全部场景和玩法。线上体验继续使用完整的私有素材集。
 
 ![4Lite 中复原的校园庭院](tests/performance/baselines/courtyard.png)
 
@@ -28,7 +28,7 @@
 
 校园的制作是在记忆与实现之间反复往返完成的：先整理亲历者口述、手绘草图和历史照片，为资料标注可信度；再把空间关系转化为米制平面和可步行的 Three.js 灰盒，交由亲历者进入场景复核。布局确认后，项目继续推进美术方向、模型与材质、互动玩法、移动端适配、性能分析和回归测试；仍无定论的细节始终保留为工作值，等待新资料或实机体验进一步校正。
 
-完整文章见：[《从记忆到校园：〈记忆中的学校〉开发纪实》](docs/project-development-story.md)。
+网页章节版见：[《从记忆到校园：〈记忆中的学校〉开发纪实》](https://4lite.vercel.app/stories/from-memory-to-campus/)，也可直接阅读仓库中的[纪实主文](docs/project-development-story.md)。纪实现已加入弹弓、后续校园游戏、Fire 掌机、升旗与个人纪录册的开发过程。
 
 ## 游戏与互动功能
 
@@ -101,9 +101,10 @@ npm run test:performance:full
 
 该命令会执行生产构建、构建性能预算、测试构建和完整 Playwright 套件。依赖完整素材的 Playwright 测试不会在公开 GitHub Actions 中运行。
 
-## 公开边界与许可
+## 开源边界与许可
 
-- 公开非代码资产的来源、许可和排除范围见 [ASSET_LICENSES.md](ASSET_LICENSES.md)。
-- 项目代码与项目自有内容为“版权所有，保留全部权利”，详见 [LICENSE](LICENSE)。
+- 项目软件代码采用 [MIT License](LICENSE)。
+- 随公开仓库分发的原创文章和文字文档采用 [CC BY 4.0](CONTENT_LICENSE.md)。
+- 公开媒体资产的来源、许可和排除范围见 [ASSET_LICENSES.md](ASSET_LICENSES.md)。
 - 第三方素材继续适用各自许可，不受项目代码许可覆盖。
 - 无法确认公开再分发权利的素材默认排除，并由 `npm run verify:public` 自动检查。
