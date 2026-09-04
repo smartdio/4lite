@@ -56,3 +56,10 @@ test('all twelve minigame families have representative English runtime copy',()=
     assert.equal(translateRuntimeTextForLocale(source,'zh-CN'),source)
   }
 })
+
+test('compact English action labels fit the WebGL pause and shuttlecock buttons',()=>{
+  assert.equal(translateRuntimeTextForLocale('选择继续游戏或返回校园','en'),'Resume or exit')
+  assert.equal(translateRuntimeTextForLocale('返回校园','en'),'Exit')
+  assert.equal(translateRuntimeTextForLocale('左','en'),'LEFT')
+  assert.equal(translateRuntimeTextForLocale('右','en'),'RIGHT')
+})

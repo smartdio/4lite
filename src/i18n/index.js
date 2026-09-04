@@ -30,7 +30,7 @@ export const alternateLocalePath=()=>{
 const ENGLISH_RUNTIME_TEXT=new Map(Object.entries({
   '鸟瞰':'Aerial View','第一人称':'First Person','快捷键 V':'Shortcut V','个人记录':'My Record','查看校园足迹':'View your campus trail',
   '点击前往 · 再次停止':'Click to walk · Click again to stop','轻触前往 · 再次停止':'Tap to walk · Tap again to stop',
-  '暂停':'Paused','选择继续游戏或返回校园':'Resume the game or return to the campus','继续游戏':'Resume','返回校园':'Exit to Campus',
+  '暂停':'Paused','选择继续游戏或返回校园':'Resume or exit','继续游戏':'Resume','返回校园':'Exit',
   '退出':'EXIT','玩法':'HOW TO PLAY','比赛':'MATCH','练习':'PRACTICE','7分比赛':'7-POINT MATCH','玩家':'PLAYER','电脑':'COMPUTER','对手':'OPPONENT',
   '玩家 +1':'PLAYER +1','电脑 +1':'COMPUTER +1','对手 +1':'OPPONENT +1',
   '点击查看':'Click to view','点击打开网页':'Click to open the website','点击查看二维码':'Click to view the QR code',

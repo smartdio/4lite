@@ -540,14 +540,17 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const warmMaterial=new THREE.MeshBasicMaterial({color:0xfff8dc,transparent:true,opacity:.95,depthTest:false,depthWrite:false,toneMapped:false})
     const prompt=pixelText.createLine({maxChars:10,material:pixelText.makeMaterial(0xfff1cf,1,'webgl-hud-shuttlecock-prompt-material'),name:'webgl-hud-shuttlecock-prompt',renderOrder:10});prompt.userData.pixelText.setText('看准时机')
     const arcadeScore={streakLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'streak','webgl-hud-shuttlecock-streak-label'),streak:makeArcadeNumber(scoreAtlasMaterial,2,'webgl-hud-shuttlecock-streak'),bestLabel:makeArcadeScoreLabel(scoreAtlasMaterial,'best','webgl-hud-shuttlecock-best-label'),best:makeArcadeNumber(scoreAtlasMaterial,2,'webgl-hud-shuttlecock-best')}
-    const makeFoot=(side,label)=>{
+    const makeFoot=(side,label,key)=>{
       const footRoot=new THREE.Group();footRoot.name=`webgl-hud-shuttlecock-${side}`
       const back=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,`${footRoot.name}-outline`)
       const fill=makeFlatMesh(new THREE.PlaneGeometry(.92,.84),warmMaterial.clone(),`${footRoot.name}-fill`);fill.position.z=.001
-      const text=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,`${footRoot.name}-text-material`),name:`${footRoot.name}-text`,renderOrder:10});text.userData.pixelText.setText(label);text.position.z=.002
-      footRoot.add(back,fill,text);root.add(footRoot);return {root:footRoot,fill,text,bounds:null}
+      const labelText=pixelText.createLine({maxChars:6,material:pixelText.makeMaterial(0x302c25,1,`${footRoot.name}-label-material`),name:`${footRoot.name}-label`,renderOrder:10})
+      labelText.userData.pixelText.setText(label);labelText.position.set(0,.19,.002)
+      const keyText=pixelText.createLine({maxChars:1,material:pixelText.makeMaterial(0x302c25,1,`${footRoot.name}-key-material`),name:`${footRoot.name}-key`,renderOrder:10})
+      keyText.userData.pixelText.setText(key);keyText.position.set(0,-.19,.002)
+      footRoot.add(back,fill,labelText,keyText);root.add(footRoot);return {root:footRoot,fill,labelText,keyText,bounds:null}
     }
-    const left=makeFoot('left','左'),right=makeFoot('right','右')
+    const left=makeFoot('left','左','Q'),right=makeFoot('right','右','E')
     const exitRoot=new THREE.Group();exitRoot.name='webgl-hud-shuttlecock-exit'
     const exitBack=makeFlatMesh(new THREE.PlaneGeometry(1,1),outlineMaterial,'webgl-hud-shuttlecock-exit-back')
     const exitFill=makeFlatMesh(new THREE.PlaneGeometry(1,1),warmMaterial,'webgl-hud-shuttlecock-exit-fill');exitFill.position.z=.001
@@ -792,7 +795,10 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     const drawButton=(x,label,primary=false)=>{
       context.fillStyle='#302c25';context.beginPath();context.roundRect(x-4,cardY+259,247,86,9);context.fill()
       context.fillStyle=primary?'#f0c760':'#fff6d9';context.beginPath();context.roundRect(x,cardY+263,239,78,6);context.fill()
-      context.fillStyle='#302820';context.font='750 34px "PingFang SC","Microsoft YaHei",system-ui,sans-serif';context.fillText(label,x+119.5,cardY+302)
+      let fontSize=34
+      context.font=`750 ${fontSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`
+      while(fontSize>22&&context.measureText(label).width>207){fontSize-=2;context.font=`750 ${fontSize}px "PingFang SC","Microsoft YaHei",system-ui,sans-serif`}
+      context.fillStyle='#302820';context.fillText(label,x+119.5,cardY+302)
     }
     drawButton(68,translateRuntimeText('继续游戏'),true);drawButton(333,translateRuntimeText('返回校园'));texture.needsUpdate=true
     const cardGeometry=new THREE.PlaneGeometry(1,1);setAtlasUv(cardGeometry,[0,cardY,cardWidth,cardHeight],[canvas.width,canvas.height])
@@ -1188,7 +1194,8 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       for(const [entry,x] of [[shuttlecockHud.left,viewportWidth*.5-footSize-18],[shuttlecockHud.right,viewportWidth*.5+18]]){
         const top=viewportHeight-footBottom-footSize;entry.bounds={left:x,right:x+footSize,top,bottom:top+footSize}
         entry.root.position.set((x+footSize/2)/viewportWidth*2-1,1-(top+footSize/2)/viewportHeight*2,0)
-        entry.root.scale.set(footSize/viewportWidth*2,footSize/viewportHeight*2,1);pixelText.setLinePixels(entry.text,34,footSize,footSize)
+        entry.root.scale.set(footSize/viewportWidth*2,footSize/viewportHeight*2,1)
+        pixelText.setLinePixels(entry.labelText,currentLocale==='en'?14:18,footSize,footSize);pixelText.setLinePixels(entry.keyText,30,footSize,footSize)
       }
       const exitWidth=86,exitHeight=42,exitLeft=viewportWidth-104,exitTop=portrait?92:16
       shuttlecockHud.exitBounds={left:exitLeft,right:exitLeft+exitWidth,top:exitTop,bottom:exitTop+exitHeight}
@@ -1594,7 +1601,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
     movementTutorial:(()=>{const visible=[...tutorialMeshes].find(([,entry])=>entry.mesh.visible);if(!visible)return null;const [variant,entry]=visible;return{variant,lines:[...entry.lines],panel:entry.panel,bounds:entry.bounds?{...entry.bounds}:null}})(),
     minigameTutorialVisible:[...minigameTutorialMeshes].find(([,entry])=>entry.mesh.visible)?.[0]??null,
     minigameInstructionVisible:[...minigameInstructionMeshes].find(([,entry])=>entry.mesh.visible)?.[0]??null,
-    minigamePause:{visible:minigamePaused,resumeBounds:minigamePauseHud?.resume.bounds?{...minigamePauseHud.resume.bounds}:null,exitBounds:minigamePauseHud?.exit.bounds?{...minigamePauseHud.exit.bounds}:null},
+    minigamePause:{visible:minigamePaused,prompt:translateRuntimeText('选择继续游戏或返回校园'),resumeLabel:translateRuntimeText('继续游戏'),exitLabel:translateRuntimeText('返回校园'),resumeBounds:minigamePauseHud?.resume.bounds?{...minigamePauseHud.resume.bounds}:null,exitBounds:minigamePauseHud?.exit.bounds?{...minigamePauseHud.exit.bounds}:null},
     basketball:{...basketballState,arcadeScore:basketballHud?{score:basketballHud.arcadeScore.score.text,hits:basketballHud.arcadeScore.hits.text,shots:basketballHud.arcadeScore.shots.text,scorePixelHeight:arcadeNumberPixelHeight(basketballHud.arcadeScore.score),statsPixelHeight:arcadeNumberPixelHeight(basketballHud.arcadeScore.hits)}:null,scoreBounds:basketballHud?.scoreBounds?{...basketballHud.scoreBounds}:null,panelVisible:false,feedbackVisible:Boolean(basketballHud?.feedbackRoot.visible),feedbackTitle:basketballHud?.feedbackTitle.userData.pixelText.text??'',feedbackText:basketballHud?.feedbackLine.userData.pixelText.text??'',shootButtonBounds:basketballHud?.buttonBounds?{...basketballHud.buttonBounds}:null,loaded:Boolean(basketballHud)},
     slingshot:{
       ...slingshotState,distanceButtonBounds:slingshotHud?.bounds?{...slingshotHud.bounds}:null,
@@ -1622,7 +1629,7 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       failScale:[arcadeComicHud.fail.mesh.scale.x,arcadeComicHud.fail.mesh.scale.y],
       textScale:arcadeComicHud.game?[arcadeComicHud.textEntries[arcadeComicHud.game].phrases[arcadeComicHud.phrase].mesh.scale.x,arcadeComicHud.textEntries[arcadeComicHud.game].phrases[arcadeComicHud.phrase].mesh.scale.y]:null,
     }:{loaded:false},
-    shuttlecock:{...shuttlecockState,arcadeScore:shuttlecockHud?{streak:shuttlecockHud.arcadeScore.streak.text,best:shuttlecockHud.arcadeScore.best.text,streakPixelHeight:arcadeNumberPixelHeight(shuttlecockHud.arcadeScore.streak),bestPixelHeight:arcadeNumberPixelHeight(shuttlecockHud.arcadeScore.best)}:null,scoreBounds:shuttlecockHud?.scoreBounds?{...shuttlecockHud.scoreBounds}:null,exitBounds:shuttlecockHud?.exitBounds?{...shuttlecockHud.exitBounds}:null,leftBounds:shuttlecockHud?.left.bounds?{...shuttlecockHud.left.bounds}:null,rightBounds:shuttlecockHud?.right.bounds?{...shuttlecockHud.right.bounds}:null,loaded:Boolean(shuttlecockHud)},
+    shuttlecock:{...shuttlecockState,arcadeScore:shuttlecockHud?{streak:shuttlecockHud.arcadeScore.streak.text,best:shuttlecockHud.arcadeScore.best.text,streakPixelHeight:arcadeNumberPixelHeight(shuttlecockHud.arcadeScore.streak),bestPixelHeight:arcadeNumberPixelHeight(shuttlecockHud.arcadeScore.best)}:null,footButtons:shuttlecockHud?{left:{label:shuttlecockHud.left.labelText.userData.pixelText.text,key:shuttlecockHud.left.keyText.userData.pixelText.text},right:{label:shuttlecockHud.right.labelText.userData.pixelText.text,key:shuttlecockHud.right.keyText.userData.pixelText.text}}:null,scoreBounds:shuttlecockHud?.scoreBounds?{...shuttlecockHud.scoreBounds}:null,exitBounds:shuttlecockHud?.exitBounds?{...shuttlecockHud.exitBounds}:null,leftBounds:shuttlecockHud?.left.bounds?{...shuttlecockHud.left.bounds}:null,rightBounds:shuttlecockHud?.right.bounds?{...shuttlecockHud.right.bounds}:null,loaded:Boolean(shuttlecockHud)},
     pixelText:pixelText.snapshot(),
     atlases:loaded?6:0,
   })

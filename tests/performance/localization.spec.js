@@ -20,6 +20,8 @@ test('English URL localises loading, interaction HUD and semantic minigame feedb
 
   let hud=await page.evaluate(()=>window.__CAMPUS_TEST__.setHudInteraction('open-xiaohongshu'))
   expect(hud).toMatchObject({interactionHintText:'Open Xiaohongshu',personalRecordLabel:'My Record'})
+  const shuttlecockHud=await page.evaluate(()=>window.__CAMPUS_TEST__.setArcadeHudSample('shuttlecock',{streak:0,best:0}))
+  expect(shuttlecockHud.footButtons).toEqual({left:{label:'LEFT',key:'Q'},right:{label:'RIGHT',key:'E'}})
 
   await page.evaluate(()=>{
     window.__CAMPUS_TEST__.enterPingPongTable(0)
@@ -29,7 +31,9 @@ test('English URL localises loading, interaction HUD and semantic minigame feedb
   const ping=await page.evaluate(()=>window.__CAMPUS_TEST__.awardPingPongPoint('player','test-award'))
   expect(ping).toMatchObject({mode:'match',feedbackCode:'point-player',reasonCode:'test-award',feedback:'Point over',ui:{prompt:'Point over'}})
   await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().pingPong)).toMatchObject({feedbackTitle:'POINT',feedbackDetail:'PLAYER +1'})
-  await page.evaluate(()=>window.__CAMPUS_TEST__.exitPingPong())
+  const pause=await page.evaluate(()=>window.__CAMPUS_TEST__.pauseMinigame())
+  expect(pause.hud).toMatchObject({visible:true,prompt:'Resume or exit',resumeLabel:'Resume',exitLabel:'Exit'})
+  await page.evaluate(()=>window.__CAMPUS_TEST__.exitPausedMinigame())
 
   const hopscotch=await page.evaluate(()=>{
     window.__CAMPUS_TEST__.enterHopscotch()
@@ -84,6 +88,8 @@ test('each locale loads only its own HUD text and functional blackboards',async(
   ].map(name=>`/assets/ui/arcade-comic-v01/en/arcade-comic-${name}-v01.png`).sort())
 
   await enterCampus(page,'/')
+  const chineseButtons=await page.evaluate(()=>window.__CAMPUS_TEST__.setArcadeHudSample('shuttlecock',{streak:0,best:0}))
+  expect(chineseButtons.footButtons).toEqual({left:{label:'左',key:'Q'},right:{label:'右',key:'E'}})
   await page.evaluate(()=>window.__CAMPUS_TEST__.playArcadeComicCelebration('pingPong','smash','hit',900))
   await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().arcadeComic.ready.pingPong)).toBe(true)
   const chinese=await page.evaluate(()=>({
