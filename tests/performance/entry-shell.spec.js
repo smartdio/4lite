@@ -17,9 +17,9 @@ test('entry visuals do not wait for music buffering',async({page})=>{
   releaseAudio()
 })
 
-test('entry links open standalone stories, about and help pages',async({page})=>{
+test('entry omits the story link while about, help and standalone story pages remain available',async({page})=>{
   await page.goto('/',{waitUntil:'domcontentloaded'})
-  await expect(page.getByRole('link',{name:'故事'})).toHaveAttribute('href','./stories/')
+  await expect(page.getByRole('link',{name:'故事'})).toHaveCount(0)
   await expect(page.getByRole('link',{name:'关于'})).toHaveAttribute('href','./about/')
   await expect(page.getByRole('link',{name:'帮助'})).toHaveAttribute('href','./help/')
   await expect(page.getByRole('navigation',{name:'媒体账号与项目链接'}).getByRole('link',{name:'GitHub'})).toHaveAttribute('href','https://github.com/smartdio/4lite')
@@ -92,7 +92,7 @@ test('Chinese and English entry routes share the Sì Xiǎo brand while localisin
   await expect(page.locator('.entry-brand-caption span')).toHaveText('No. 4 Primary School')
   await expect(page.getByRole('button',{name:'Return to That Summer'})).toBeVisible()
   await expect(page.getByRole('link',{name:'切换到中文'})).toHaveAttribute('href','/')
-  await expect(page.getByRole('link',{name:'Story'})).toHaveAttribute('href','/stories/from-memory-to-campus/en/')
+  await expect(page.getByRole('link',{name:'Story'})).toHaveCount(0)
   await expect(page.getByRole('link',{name:'About'})).toHaveAttribute('href','/en/about/')
   await expect(page.getByRole('link',{name:'Guide'})).toHaveAttribute('href','/en/help/')
   await expect(page.getByRole('navigation',{name:'Social media and project links'}).getByRole('link',{name:'WeChat Channels · Mo麥AI'})).toBeVisible()

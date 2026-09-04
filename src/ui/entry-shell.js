@@ -28,7 +28,7 @@ export function renderEntryShell({approvedLogoUrl,includeLoading=false}={}){
           </button>
           <span class="entry-secondary-rule" aria-hidden="true"></span>
           <nav class="entry-links" aria-label="${t('entry.linksAria')}">
-            <a href="${localizedPath('story')}">${t('entry.story')}</a><a href="${localizedPath('about')}">${t('entry.about')}</a><a href="${localizedPath('help')}">${t('entry.help')}</a>
+            <a href="${localizedPath('about')}">${t('entry.about')}</a><a href="${localizedPath('help')}">${t('entry.help')}</a>
           </nav>
         </div>
         <p class="entry-footnote">${t('entry.footnote')}</p>
