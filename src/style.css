@@ -50,20 +50,12 @@ html.entry-visual-ready .experience-gate { opacity: 1; }
   display: block; width: clamp(230px, 23.5vw, 340px); height: auto; margin: -64px 0 0;
   overflow: visible; transform: translateX(-13.1%);
 }
-.entry-brand-row { display:flex; align-items:center; gap:13px; margin:-4px 0 15px; }
-.entry-brand-caption { display:flex; flex-direction:column; gap:2px; color:#514438; font-family:system-ui,sans-serif; letter-spacing:.08em; }
-.entry-brand-caption strong { font-size:14px; font-weight:650; }
-.entry-brand-caption span { color:rgba(70,64,52,.66); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
-.entry-language {
-  display:inline-flex; flex:0 0 auto; align-items:baseline; gap:7px; min-height:36px; padding:7px 11px 6px;
-  border:1.5px solid rgba(151,48,41,.82); border-radius:2px; color:#7f2f29; background:rgba(255,250,232,.96);
-  box-shadow:0 5px 16px rgba(92,47,35,.14); font-family:system-ui,sans-serif; text-align:center; text-decoration:none;
-  transition:color .18s ease,background .18s ease,box-shadow .18s ease,transform .18s ease;
+.entry-romanization {
+  position:absolute; top:max(0px,calc(clamp(64px,11vh,118px) - 85px)); left:0; margin:0;
+  color:#514438; font:700 16px/17px system-ui,sans-serif; letter-spacing:.12em;
 }
-.entry-language span { font:600 9px/1.2 system-ui,sans-serif; letter-spacing:.12em; text-transform:uppercase; opacity:.72; }
-.entry-language strong { font:750 14px/1.2 system-ui,sans-serif; letter-spacing:.08em; }
-.entry-language:hover { color:#8f2f28; background:#fff5cc; box-shadow:0 7px 20px rgba(92,47,35,.2); transform:translateY(-1px); }
-.entry-language:focus-visible { outline:2px solid #8f2f28; outline-offset:3px; }
+.entry-brand-caption { margin:-4px 0 15px; color:#514438; font-family:system-ui,sans-serif; letter-spacing:.08em; }
+.entry-brand-caption span { color:rgba(70,64,52,.66); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
 .entry-copy { margin: 0 0 31px; color: #54483b; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.8; letter-spacing: .06em; }
 button.entry-primary {
   display: inline-flex; align-items: center; gap: 34px; min-width: 230px; padding: 13px 17px 12px 22px;
@@ -95,6 +87,7 @@ button.entry-music-toggle[data-state="playing"] i { animation: entry-music-pulse
 .entry-links a { min-width: 52px; padding: 7px 9px; color: #574b3f; text-align: center; text-decoration: none; }
 .entry-links a:hover { color: #93352f; background: rgba(184,58,50,.07); }
 .entry-links a:focus-visible { outline: 2px solid #9d352e; outline-offset: 4px; border-radius: 2px; }
+.entry-links a.entry-language { margin-left:3px; border-left:1px solid rgba(96,79,54,.2); color:#93352f; font-weight:700; }
 .entry-media-footer {
   position: absolute; z-index: 3; left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
   width: min(760px, calc(100vw - 32px)); transform: translateX(-50%);
@@ -308,8 +301,6 @@ body.touch-input .experience-gate {
 @media (max-width: 760px) {
   .entry-screen, .loading-screen { background-image: var(--entrance-mobile-image); }
   .entry-logo { width: 250px; }
-  .entry-brand-row { gap:10px; }
-  .entry-language { min-height:34px; padding:6px 9px 5px; }
   .entry-secondary-actions { min-height: 42px; }
   button.entry-music-toggle,.entry-links a { min-height: 34px; }
   .entry-media-footer { bottom: max(10px, env(safe-area-inset-bottom)); width: calc(100vw - 24px); }

@@ -9,14 +9,10 @@ export function renderEntryShell({approvedLogoUrl,includeLoading=false}={}){
     <section class="entry-screen" id="entry-screen" aria-label="${t('entry.aria')}">
       <div class="entry-wash"></div>
       <div class="entry-content">
+        <p class="entry-romanization">${t('brand.romanization')}</p>
         <img class="entry-logo" src="${approvedLogoUrl}" alt="${t('entry.aria')}" width="1774" height="887" />
-        <div class="entry-brand-row">
-          <div class="entry-brand-caption" aria-label="${t('brand.romanization')}, ${t('brand.translation')}">
-            <strong>${t('brand.romanization')}</strong><span>${t('brand.translation')}</span>
-          </div>
-          <a class="entry-language" href="${alternateLocalePath()}" data-locale-choice="${alternateLocale}" aria-label="${t('language.switchAria')}">
-            <span aria-hidden="true">${t('language.switchLabel')}</span><strong aria-hidden="true">${t('language.switchText')}</strong>
-          </a>
+        <div class="entry-brand-caption" aria-label="${t('brand.translation')}">
+          <span>${t('brand.translation')}</span>
         </div>
         <p class="entry-copy" id="entry-copy">${t('entry.copy')}</p>
         <button class="entry-primary" id="enter-campus" type="button">
@@ -28,7 +24,7 @@ export function renderEntryShell({approvedLogoUrl,includeLoading=false}={}){
           </button>
           <span class="entry-secondary-rule" aria-hidden="true"></span>
           <nav class="entry-links" aria-label="${t('entry.linksAria')}">
-            <a href="${localizedPath('about')}">${t('entry.about')}</a><a href="${localizedPath('help')}">${t('entry.help')}</a>
+            <a href="${localizedPath('about')}">${t('entry.about')}</a><a href="${localizedPath('help')}">${t('entry.help')}</a><a class="entry-language" href="${alternateLocalePath()}" data-locale-choice="${alternateLocale}" aria-label="${t('language.switchAria')}">${t('language.switchText')}</a>
           </nav>
         </div>
         <p class="entry-footnote">${t('entry.footnote')}</p>
