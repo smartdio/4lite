@@ -54,3 +54,47 @@ test('English view reads the same persistent record IDs and numeric values as Ch
   expect(english.view.games.find(game=>game.id==='basketball')).toMatchObject({label:'Basketball',record:'4 points'})
   expect(english.view.counts.objectTypes).toBe(1)
 })
+
+test('each locale loads only its own HUD text and functional blackboards',async({page})=>{
+  await page.addInitScript(()=>performance.setResourceTimingBufferSize(2000))
+  await enterCampus(page,'/en/')
+  const englishGames=[
+    ['basketball','two'],['pingPong','smash'],['longJump','far'],['bambooClimb','top'],
+    ['hopscotch','complete'],['shuttlecock','record'],['jacks','complete'],['slingshot','hit'],
+  ]
+  for(const [game,phrase] of englishGames){
+    await page.evaluate(nextGame=>window.__CAMPUS_TEST__.prepareArcadeComicHud(nextGame),game)
+    await page.evaluate(([nextGame,nextPhrase])=>window.__CAMPUS_TEST__.playArcadeComicCelebration(nextGame,nextPhrase,'plain',900),[game,phrase])
+    await expect.poll(()=>page.evaluate(nextGame=>window.__CAMPUS_TEST__.hud().arcadeComic.ready[nextGame],game)).toBe(true)
+  }
+  const english=await page.evaluate(()=>({
+    ephemera:window.__CAMPUS_TEST__.schoolEphemera(),
+    resources:performance.getEntriesByType('resource').map(entry=>new URL(entry.name).pathname),
+  }))
+  expect(english.ephemera).toMatchObject({locale:'en',uniqueTextures:30})
+  expect(english.resources).toContain('/assets/ui/arcade-comic-v01/en/arcade-comic-score-v01.png')
+  expect(english.resources).toContain('/assets/ui/arcade-comic-v01/en/arcade-comic-ping-pong-v01.png')
+  expect(english.resources).toContain('/assets/textures/school-ephemera-runtime/blackboards/blackboard-newspaper-campus-guide-en-v01.webp')
+  expect(english.resources).toContain('/assets/textures/school-ephemera-runtime/blackboards/blackboard-newspaper-development-process-en-v01.webp')
+  expect(english.resources.some(path=>path==='/assets/ui/arcade-comic-v01/arcade-comic-score-v01.png')).toBe(false)
+  expect(english.resources.some(path=>path.startsWith('/assets/ui/arcade-comic-v01/')&&!path.includes('/en/')&&!path.endsWith('/arcade-comic-bursts-v01.png'))).toBe(false)
+  expect(english.resources.some(path=>path.endsWith('/blackboard-newspaper-campus-guide-v02.webp'))).toBe(false)
+  expect(english.resources.filter(path=>path.startsWith('/assets/ui/arcade-comic-v01/en/')).sort()).toEqual([
+    'bamboo-climb','basketball','hopscotch','jacks','long-jump','ping-pong','score','shuttlecock','slingshot',
+  ].map(name=>`/assets/ui/arcade-comic-v01/en/arcade-comic-${name}-v01.png`).sort())
+
+  await enterCampus(page,'/')
+  await page.evaluate(()=>window.__CAMPUS_TEST__.playArcadeComicCelebration('pingPong','smash','hit',900))
+  await expect.poll(()=>page.evaluate(()=>window.__CAMPUS_TEST__.hud().arcadeComic.ready.pingPong)).toBe(true)
+  const chinese=await page.evaluate(()=>({
+    ephemera:window.__CAMPUS_TEST__.schoolEphemera(),
+    resources:performance.getEntriesByType('resource').map(entry=>new URL(entry.name).pathname),
+  }))
+  expect(chinese.ephemera).toMatchObject({locale:'zh-CN',uniqueTextures:30})
+  expect(chinese.resources).toContain('/assets/ui/arcade-comic-v01/arcade-comic-score-v01.png')
+  expect(chinese.resources).toContain('/assets/ui/arcade-comic-v01/arcade-comic-ping-pong-v01.png')
+  expect(chinese.resources).toContain('/assets/textures/school-ephemera-runtime/blackboards/blackboard-newspaper-campus-guide-v02.webp')
+  expect(chinese.resources).toContain('/assets/textures/school-ephemera-runtime/blackboards/blackboard-newspaper-development-process-v02.webp')
+  expect(chinese.resources.some(path=>path.includes('/arcade-comic-v01/en/'))).toBe(false)
+  expect(chinese.resources.some(path=>path.endsWith('-en-v01.webp'))).toBe(false)
+})

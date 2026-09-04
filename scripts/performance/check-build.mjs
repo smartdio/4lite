@@ -29,8 +29,10 @@ const ephemeraTextures=ephemeraRuntime.filter(item=>item.file.endsWith('.webp'))
 const ephemeraTextureBytes=ephemeraTextures.reduce((sum,item)=>sum+item.size,0)
 const legacyEphemera=runtimeSizes.filter(item=>runtimeRelative(item.file).startsWith('public/assets/textures/school-ephemera/'))
 if(legacyEphemera.length)throw new Error(`Legacy school ephemera leaked into public: ${legacyEphemera.map(item=>runtimeRelative(item.file)).join(', ')}`)
-if(ephemeraTextures.length!==30)throw new Error(`Expected 30 production school ephemera textures, found ${ephemeraTextures.length}`)
-if(ephemeraRuntime.length!==30)throw new Error(`Production school ephemera directory must contain only 30 WebP textures, found ${ephemeraRuntime.length} files`)
+// Two English functional-board alternatives are published, while each locale
+// still references and decodes only the same 30-texture working set.
+if(ephemeraTextures.length!==32)throw new Error(`Expected 32 published school ephemera textures, found ${ephemeraTextures.length}`)
+if(ephemeraRuntime.length!==32)throw new Error(`Production school ephemera directory must contain only 32 WebP textures, found ${ephemeraRuntime.length} files`)
 if(ephemeraTextureBytes>3_500_000)throw new Error(`Production school ephemera ${ephemeraTextureBytes} B exceeds 3,500,000 B`)
 const schoolBooksRuntime=runtimeSizes.filter(item=>runtimeRelative(item.file).startsWith('public/assets/textures/school-books-runtime/'))
 const schoolBookTextures=schoolBooksRuntime.filter(item=>item.file.endsWith('.webp'))

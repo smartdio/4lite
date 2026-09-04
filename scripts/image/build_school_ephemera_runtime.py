@@ -44,6 +44,14 @@ def jobs():
         SOURCE / "blackboard-newspapers/blackboard-newspaper-development-process-v02-master.png",
         Path("blackboards/blackboard-newspaper-development-process-v02.webp"), (1920, 512), 80, False,
     )
+    yield (
+        SOURCE / "blackboard-newspapers/blackboard-newspaper-campus-guide-en-v01-master.png",
+        Path("blackboards/blackboard-newspaper-campus-guide-en-v01.webp"), (1920, 512), 80, False,
+    )
+    yield (
+        SOURCE / "blackboard-newspapers/blackboard-newspaper-development-process-en-v01-master.png",
+        Path("blackboards/blackboard-newspaper-development-process-en-v01.webp"), (1920, 512), 80, False,
+    )
 
     for stem in [
         "classroom-award-red-drapery-v01",

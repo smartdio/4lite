@@ -1,7 +1,9 @@
 import * as THREE from 'three'
+import {currentLocale} from './i18n/index.js'
 
 const BASE='/assets/textures/school-ephemera-runtime'
 const CULTURE_SEED=1982
+const FUNCTIONAL_BOARD_LANGUAGE_SUFFIX=currentLocale==='en'?'-en-v01':'-v02'
 
 const corridorNames=[
   'corridor-poster-campus-labor-v01','corridor-poster-study-discipline-v01','corridor-poster-civility-v01',
@@ -28,8 +30,8 @@ const officePortraitNames=[
 const assets=[
   ...corridorNames.map(id=>({id,type:'corridor',url:`${BASE}/corridor/${id}.webp`,size:[256,640]})),
   ...blackboardNames.map(id=>({id,type:'chalk',url:`${BASE}/blackboards/${id}.webp`,size:[768,288],transparent:true})),
-  {id:'campus-guide',type:'chalk',url:`${BASE}/blackboards/blackboard-newspaper-campus-guide-v02.webp`,size:[1920,512]},
-  {id:'development-process',type:'chalk',url:`${BASE}/blackboards/blackboard-newspaper-development-process-v02.webp`,size:[1920,512]},
+  {id:'campus-guide',type:'chalk',url:`${BASE}/blackboards/blackboard-newspaper-campus-guide${FUNCTIONAL_BOARD_LANGUAGE_SUFFIX}.webp`,size:[1920,512]},
+  {id:'development-process',type:'chalk',url:`${BASE}/blackboards/blackboard-newspaper-development-process${FUNCTIONAL_BOARD_LANGUAGE_SUFFIX}.webp`,size:[1920,512]},
   ...awardNames.map(id=>({id,type:'paper',url:`${BASE}/awards/${id}.webp`,size:[384,288]})),
   ...officePortraitNames.map(id=>({id,type:'paper',url:`${BASE}/office/${id}.webp`,size:[384,576]})),
   {id:'classroom-slogan',type:'cutout',url:`${BASE}/classroom/classroom-slogan-study-upward-combined-v01.webp`,size:[1024,131],transparent:true},
@@ -249,7 +251,7 @@ export function createSchoolEphemera({root,renderer,assetLoader,anchors}) {
       const developmentProcessPlacement=placements.find(placement=>placement.category==='developmentProcess')
       const decodedBytesWithMipmaps=Math.ceil(assets.reduce((sum,asset)=>sum+asset.size[0]*asset.size[1]*4,0)*4/3)
       snapshot={
-        status:'loaded',seed:CULTURE_SEED,uniqueTextures:textures.size,drawObjects:group.children.length,
+        status:'loaded',seed:CULTURE_SEED,locale:currentLocale,uniqueTextures:textures.size,drawObjects:group.children.length,
         instances:placements.length,decodedBytesWithMipmaps,placements:counts,
         campusGuide:campusGuidePlacement?{
           textureSize:[...assetById.get('campus-guide').size],placementSize:[...campusGuidePlacement.size],

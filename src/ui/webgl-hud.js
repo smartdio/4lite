@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import {createPixelTextSystem} from './pixel-text.js'
-import {translateRuntimeText} from '../i18n/index.js'
+import {currentLocale,translateRuntimeText} from '../i18n/index.js'
 
 const SMOOTH_ATLAS_URL='/assets/ui/hud-v02/hud-smooth-atlas-v03.png'
 const SMOOTH_ATLAS_SIZE=[2048,1280]
@@ -8,17 +8,18 @@ const MINIGAME_TUTORIAL_ATLAS_URL='/assets/ui/hud-v02/hud-minigame-tutorial-atla
 const MINIGAME_TUTORIAL_ATLAS_SIZE=[2048,1024]
 const ARCADE_COMIC_BURST_ATLAS_URL='/assets/ui/arcade-comic-v01/arcade-comic-bursts-v01.png'
 const ARCADE_COMIC_BURST_ATLAS_SIZE=[2048,2048]
-const ARCADE_COMIC_SCORE_ATLAS_URL='/assets/ui/arcade-comic-v01/arcade-comic-score-v01.png'
+const ARCADE_COMIC_TEXT_ROOT=currentLocale==='en'?'/assets/ui/arcade-comic-v01/en':'/assets/ui/arcade-comic-v01'
+const ARCADE_COMIC_SCORE_ATLAS_URL=`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-score-v01.png`
 const ARCADE_COMIC_SCORE_ATLAS_SIZE=[2048,1792]
 const ARCADE_COMIC_TEXT_CONFIG={
-  basketball:{url:'/assets/ui/arcade-comic-v01/arcade-comic-basketball-v01.png',size:[2048,1024],defaultPhrase:'two',phrases:{two:[0,0,1024,512],three:[1024,0,1024,512],four:[0,512,1024,512]}},
-  pingPong:{url:'/assets/ui/arcade-comic-v01/arcade-comic-ping-pong-v01.png',size:[2048,1536],defaultPhrase:'good',phrases:{good:[0,0,1024,512],smash:[1024,0,1024,512],point:[0,512,1024,512],win:[1024,512,1024,512],again:[0,1024,1024,512]}},
-  longJump:{url:'/assets/ui/arcade-comic-v01/arcade-comic-long-jump-v01.png',size:[2048,1536],defaultPhrase:'jump',phrases:{jump:[0,0,1024,512],far:[1024,0,1024,512],good:[0,512,1024,512],again:[1024,512,1024,512],more:[0,1024,1024,512],overrun:[1024,1024,1024,512]}},
-  bambooClimb:{url:'/assets/ui/arcade-comic-v01/arcade-comic-bamboo-climb-v01.png',size:[2048,1536],defaultPhrase:'steady',phrases:{steady:[0,0,1024,512],power:[1024,0,1024,512],slip:[0,512,1024,512],again:[1024,512,1024,512],top:[0,1024,1024,512]}},
-  hopscotch:{url:'/assets/ui/arcade-comic-v01/arcade-comic-hopscotch-v01.png',size:[1024,1024],defaultPhrase:'throw-good',phrases:{'throw-good':[0,0,512,256],line:[512,0,512,256],'throw-wide':[0,256,512,256],'wrong-tile':[512,256,512,256],'wrong-feet':[0,512,512,256],round:[512,512,512,256],complete:[0,768,512,256]}},
-  shuttlecock:{url:'/assets/ui/arcade-comic-v01/arcade-comic-shuttlecock-v01.png',size:[1024,768],defaultPhrase:'switch-foot',phrases:{'switch-foot':[0,0,512,256],watch:[512,0,512,256],miss:[0,256,512,256],again:[512,256,512,256],ten:[0,512,512,256],record:[512,512,512,256]}},
-  jacks:{url:'/assets/ui/arcade-comic-v01/arcade-comic-jacks-v01.png',size:[1024,1024],defaultPhrase:'disturbed',phrases:{disturbed:[0,0,512,256],miss:[512,0,512,256],hurry:[0,256,512,256],again:[512,256,512,256],'stage-one':[0,512,512,256],'stage-two':[512,512,512,256],'stage-three':[0,768,512,256],complete:[512,768,512,256]}},
-  slingshot:{url:'/assets/ui/arcade-comic-v01/arcade-comic-slingshot-v01.png',size:[2048,1024],defaultPhrase:'hit',phrases:{hit:[0,0,1024,512],miss:[1024,0,1024,512],wood:[0,512,1024,512],wire:[1024,512,1024,512]}},
+  basketball:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-basketball-v01.png`,size:[2048,1024],defaultPhrase:'two',phrases:{two:[0,0,1024,512],three:[1024,0,1024,512],four:[0,512,1024,512]}},
+  pingPong:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-ping-pong-v01.png`,size:[2048,1536],defaultPhrase:'good',phrases:{good:[0,0,1024,512],smash:[1024,0,1024,512],point:[0,512,1024,512],win:[1024,512,1024,512],again:[0,1024,1024,512]}},
+  longJump:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-long-jump-v01.png`,size:[2048,1536],defaultPhrase:'jump',phrases:{jump:[0,0,1024,512],far:[1024,0,1024,512],good:[0,512,1024,512],again:[1024,512,1024,512],more:[0,1024,1024,512],overrun:[1024,1024,1024,512]}},
+  bambooClimb:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-bamboo-climb-v01.png`,size:[2048,1536],defaultPhrase:'steady',phrases:{steady:[0,0,1024,512],power:[1024,0,1024,512],slip:[0,512,1024,512],again:[1024,512,1024,512],top:[0,1024,1024,512]}},
+  hopscotch:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-hopscotch-v01.png`,size:[1024,1024],defaultPhrase:'throw-good',phrases:{'throw-good':[0,0,512,256],line:[512,0,512,256],'throw-wide':[0,256,512,256],'wrong-tile':[512,256,512,256],'wrong-feet':[0,512,512,256],round:[512,512,512,256],complete:[0,768,512,256]}},
+  shuttlecock:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-shuttlecock-v01.png`,size:[1024,768],defaultPhrase:'switch-foot',phrases:{'switch-foot':[0,0,512,256],watch:[512,0,512,256],miss:[0,256,512,256],again:[512,256,512,256],ten:[0,512,512,256],record:[512,512,512,256]}},
+  jacks:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-jacks-v01.png`,size:[1024,1024],defaultPhrase:'disturbed',phrases:{disturbed:[0,0,512,256],miss:[512,0,512,256],hurry:[0,256,512,256],again:[512,256,512,256],'stage-one':[0,512,512,256],'stage-two':[512,512,512,256],'stage-three':[0,768,512,256],complete:[512,768,512,256]}},
+  slingshot:{url:`${ARCADE_COMIC_TEXT_ROOT}/arcade-comic-slingshot-v01.png`,size:[2048,1024],defaultPhrase:'hit',phrases:{hit:[0,0,1024,512],miss:[1024,0,1024,512],wood:[0,512,1024,512],wire:[1024,512,1024,512]}},
 }
 
 const INTERACTION_RECTS={
@@ -245,7 +246,10 @@ export function createWebglHud({renderer,isTouchMode=()=>false}) {
       arcadeComicHud.baseBurstScale=[burstSizePx/viewportWidth*2,burstSizePx/viewportHeight*2]
       arcadeComicHud.root.position.set(0,1-centerYPx/viewportHeight*2,0)
     }else{
-      const textWidthPx=viewportWidth*(portrait?.90:.76),textHeightPx=textWidthPx*.5
+      // English feedback phrases are wider than the Chinese compositions.
+      // Leave room for the 1.19x elastic peak so long titles remain on-screen.
+      const textWidthRatio=currentLocale==='en'?(portrait?.80:.68):(portrait?.90:.76)
+      const textWidthPx=viewportWidth*textWidthRatio,textHeightPx=textWidthPx*.5
       const burstWidthPx=viewportWidth*(portrait?1.02:.90),burstHeightPx=burstWidthPx
       arcadeComicHud.baseTextScale=[textWidthPx/viewportWidth*2,textHeightPx/viewportHeight*2]
       arcadeComicHud.baseBurstScale=[burstWidthPx/viewportWidth*2,burstHeightPx/viewportHeight*2]

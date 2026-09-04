@@ -1,9 +1,10 @@
 import * as THREE from 'three'
-import {translateRuntimeText} from '../i18n/index.js'
+import {currentLocale,translateRuntimeText} from '../i18n/index.js'
 
 const clamp=THREE.MathUtils.clamp
 const rounded=(value,digits=3)=>+value.toFixed(digits)
-const GROUND_TITLE_ATLAS_URL='/assets/ui/arcade-comic-v01/arcade-comic-shuttlecock-v01.png'
+const GROUND_TITLE_ATLAS_ROOT=currentLocale==='en'?'/assets/ui/arcade-comic-v01/en':'/assets/ui/arcade-comic-v01'
+const GROUND_TITLE_ATLAS_URL=`${GROUND_TITLE_ATLAS_ROOT}/arcade-comic-shuttlecock-v01.png`
 const GROUND_TITLE_ATLAS_SIZE=[1024,768]
 const GROUND_TITLE_RECTS={'switch-foot':[0,0,512,256],watch:[512,0,512,256],miss:[0,256,512,256],again:[512,256,512,256],ten:[0,512,512,256],record:[512,512,512,256]}
 const GROUND_BURST_ATLAS_URL='/assets/ui/arcade-comic-v01/arcade-comic-bursts-v01.png'

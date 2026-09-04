@@ -10,6 +10,7 @@
     "assets:compositions": "python3 scripts/image/build_composition_pages_runtime.py",
     "assets:document-viewer": "python3 scripts/image/build_document_viewer_runtime.py",
     "assets:ephemera": "python3 scripts/image/build_school_ephemera_runtime.py",
+    "assets:hud:english": "python3 scripts/image/build_english_arcade_comic_hud_runtime.py",
     "stories:build": "node scripts/content/build-stories.mjs",
     "predev": "npm run stories:build",
     "dev": "vite --force",
