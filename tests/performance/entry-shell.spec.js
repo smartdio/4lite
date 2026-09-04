@@ -76,6 +76,13 @@ test('Chinese and English entry routes share the Sì Xiǎo brand while localisin
   await expect(page.locator('.entry-brand-caption strong')).toHaveText('Sì Xiǎo')
   await expect(page.locator('.entry-brand-caption span')).toHaveText('No. 4 Primary School')
   await expect(page.getByRole('link',{name:'Switch to English'})).toHaveAttribute('href','/en/')
+  await expect(page.locator('.entry-brand-row')).toContainText('语言EN')
+  const captionBox=await page.locator('.entry-brand-caption').boundingBox()
+  const languageBox=await page.locator('.entry-language').boundingBox()
+  expect(captionBox).toBeTruthy()
+  expect(languageBox).toBeTruthy()
+  expect(languageBox.x).toBeGreaterThan(captionBox.x+captionBox.width)
+  expect(Math.abs(languageBox.y-captionBox.y)).toBeLessThan(12)
 
   await page.goto('/en/',{waitUntil:'domcontentloaded'})
   await expect(page.locator('html')).toHaveAttribute('lang','en')
@@ -84,11 +91,28 @@ test('Chinese and English entry routes share the Sì Xiǎo brand while localisin
   await expect(page.locator('.entry-brand-caption strong')).toHaveText('Sì Xiǎo')
   await expect(page.locator('.entry-brand-caption span')).toHaveText('No. 4 Primary School')
   await expect(page.getByRole('button',{name:'Return to That Summer'})).toBeVisible()
-  await expect(page.getByRole('link',{name:'中文'})).toHaveAttribute('href','/')
+  await expect(page.getByRole('link',{name:'切换到中文'})).toHaveAttribute('href','/')
   await expect(page.getByRole('link',{name:'Story'})).toHaveAttribute('href','/stories/from-memory-to-campus/en/')
   await expect(page.getByRole('link',{name:'About'})).toHaveAttribute('href','/en/about/')
   await expect(page.getByRole('link',{name:'Guide'})).toHaveAttribute('href','/en/help/')
   await expect(page.getByRole('navigation',{name:'Social media and project links'}).getByRole('link',{name:'WeChat Channels · Mo麥AI'})).toBeVisible()
+})
+
+test('root entry detects browser language once and remembers a manual override',async({browser})=>{
+  const context=await browser.newContext({locale:'en-US'})
+  const page=await context.newPage()
+  await page.goto('/',{waitUntil:'domcontentloaded'})
+  await expect(page).toHaveURL(/\/en\/$/)
+  await expect(page.locator('html')).toHaveAttribute('lang','en')
+
+  await page.getByRole('link',{name:'切换到中文'}).click()
+  await expect.poll(()=>new URL(page.url()).pathname).toBe('/')
+  await expect(page.locator('html')).toHaveAttribute('lang','zh-CN')
+  await page.reload({waitUntil:'domcontentloaded'})
+  await expect.poll(()=>new URL(page.url()).pathname).toBe('/')
+  await expect(page.locator('html')).toHaveAttribute('lang','zh-CN')
+  expect(await page.evaluate(()=>localStorage.getItem('4lite.locale.v1'))).toBe('zh-CN')
+  await context.close()
 })
 
 test('English about and guide pages expose English metadata and return links',async({page})=>{

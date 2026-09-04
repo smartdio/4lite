@@ -87,6 +87,7 @@ test('each locale loads only its own HUD text and functional blackboards',async(
     'bamboo-climb','basketball','hopscotch','jacks','long-jump','ping-pong','score','shuttlecock','slingshot',
   ].map(name=>`/assets/ui/arcade-comic-v01/en/arcade-comic-${name}-v01.png`).sort())
 
+  await page.evaluate(()=>localStorage.setItem('4lite.locale.v1','zh-CN'))
   await enterCampus(page,'/')
   const chineseButtons=await page.evaluate(()=>window.__CAMPUS_TEST__.setArcadeHudSample('shuttlecock',{streak:0,best:0}))
   expect(chineseButtons.footButtons).toEqual({left:{label:'左',key:'Q'},right:{label:'右',key:'E'}})

@@ -1,17 +1,22 @@
-import {alternateLocalePath,getMessages,localizedPath,t} from '../i18n/index.js'
+import {alternateLocalePath,currentLocale,getMessages,localizedPath,t} from '../i18n/index.js'
 import {renderSiteFooterLinks} from '../site-links.js'
 
 export function renderEntryShell({approvedLogoUrl,includeLoading=false}={}){
   const copy=getMessages(),[tipTitle,tipText]=copy.loading.tips[0]
+  const alternateLocale=currentLocale==='en'?'zh-CN':'en'
   return `
   <div class="experience-gate" id="experience-gate">
     <section class="entry-screen" id="entry-screen" aria-label="${t('entry.aria')}">
       <div class="entry-wash"></div>
-      <a class="entry-language" href="${alternateLocalePath()}" aria-label="${t('language.switchAria')}">${t('language.switchText')}</a>
       <div class="entry-content">
         <img class="entry-logo" src="${approvedLogoUrl}" alt="${t('entry.aria')}" width="1774" height="887" />
-        <div class="entry-brand-caption" aria-label="${t('brand.romanization')}, ${t('brand.translation')}">
-          <strong>${t('brand.romanization')}</strong><span>${t('brand.translation')}</span>
+        <div class="entry-brand-row">
+          <div class="entry-brand-caption" aria-label="${t('brand.romanization')}, ${t('brand.translation')}">
+            <strong>${t('brand.romanization')}</strong><span>${t('brand.translation')}</span>
+          </div>
+          <a class="entry-language" href="${alternateLocalePath()}" data-locale-choice="${alternateLocale}" aria-label="${t('language.switchAria')}">
+            <span aria-hidden="true">${t('language.switchLabel')}</span><strong aria-hidden="true">${t('language.switchText')}</strong>
+          </a>
         </div>
         <p class="entry-copy" id="entry-copy">${t('entry.copy')}</p>
         <button class="entry-primary" id="enter-campus" type="button">

@@ -16,6 +16,7 @@ export default defineConfig({
     baseURL,
     browserName:'chromium',channel:process.env.CI?undefined:'chrome',headless:true,
     viewport:{width:1280,height:720},deviceScaleFactor:1,
+    locale:'zh-CN',
     colorScheme:'light',reducedMotion:'reduce',
     screenshot:'only-on-failure',trace:'retain-on-failure',
   },

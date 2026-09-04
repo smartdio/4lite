@@ -2,7 +2,11 @@ import approvedLogoUrl from '../assets/branding/4lite-logo-approved.svg'
 import entranceBackgroundUrl from '../assets/ui/entrance-campus-watercolor-v01.webp'
 import entranceMobileBackgroundUrl from '../assets/ui/entrance-campus-watercolor-mobile-v01.webp'
 import {hydrateSiteLinks} from './site-links.js'
+import {bindLocalePreferenceLinks,rememberDocumentLocale} from './i18n/locale-preference.js'
 import './story-page.css'
+
+rememberDocumentLocale()
+bindLocalePreferenceLinks()
 
 document.documentElement.style.setProperty('--story-hero-image',`url('${entranceBackgroundUrl}')`)
 document.documentElement.style.setProperty('--story-hero-mobile-image',`url('${entranceMobileBackgroundUrl}')`)

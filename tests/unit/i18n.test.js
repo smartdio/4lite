@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {createTranslator,localeMessages,translateRuntimeTextForLocale} from '../../src/i18n/index.js'
+import {detectBrowserLocale,initialLocaleRedirect,LOCALE_PREFERENCE_KEY,normalizeLocale,readLocalePreference,rememberLocalePreference} from '../../src/i18n/locale-preference.js'
 
 const leafKeys=(value,prefix='')=>Object.entries(value).flatMap(([key,item])=>{
   const path=prefix?`${prefix}.${key}`:key
@@ -62,4 +63,23 @@ test('compact English action labels fit the WebGL pause and shuttlecock buttons'
   assert.equal(translateRuntimeTextForLocale('返回校园','en'),'Exit')
   assert.equal(translateRuntimeTextForLocale('左','en'),'LEFT')
   assert.equal(translateRuntimeTextForLocale('右','en'),'RIGHT')
+})
+
+test('browser language selection prefers Chinese locales and uses English otherwise',()=>{
+  assert.equal(detectBrowserLocale(['zh-HK','en-US']),'zh-CN')
+  assert.equal(detectBrowserLocale(['en-US']),'en')
+  assert.equal(detectBrowserLocale(['fr-FR']),'en')
+  assert.equal(normalizeLocale('zh-TW'),'zh-CN')
+  assert.equal(normalizeLocale('en-GB'),'en')
+})
+
+test('entry locale redirect respects saved choices and preserves URL details',()=>{
+  const data=new Map()
+  const storage={getItem:key=>data.get(key)??null,setItem:(key,value)=>data.set(key,value)}
+  assert.equal(initialLocaleRedirect({pathname:'/',search:'?from=test',hash:'#gate',storage,languages:['en-US']}),'/en/?from=test#gate')
+  rememberLocalePreference('zh-CN',storage)
+  assert.equal(readLocalePreference(storage),'zh-CN')
+  assert.equal(data.get(LOCALE_PREFERENCE_KEY),'zh-CN')
+  assert.equal(initialLocaleRedirect({pathname:'/',storage,languages:['en-US']}),null)
+  assert.equal(initialLocaleRedirect({pathname:'/en/',storage,languages:['zh-CN']}),null)
 })
