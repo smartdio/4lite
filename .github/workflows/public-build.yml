@@ -29,7 +29,7 @@ jobs:
     needs: verify
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     environment:
       name: production
       url: ${{ vars.VERCEL_PUBLIC_URL }}
@@ -40,7 +40,8 @@ jobs:
       DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       DEPLOY_USER: ${{ vars.DEPLOY_USER }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
-      RUNTIME_ASSETS_PATH: ${{ vars.RUNTIME_ASSETS_PATH }}
+      RUNTIME_ASSETS_URL: ${{ vars.RUNTIME_ASSETS_URL }}
+      RUNTIME_ASSETS_SHA256: ${{ vars.RUNTIME_ASSETS_SHA256 }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -48,6 +49,28 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Restore cached runtime assets
+        id: runtime-assets-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: public/assets
+          key: runtime-assets-${{ vars.RUNTIME_ASSETS_SHA256 }}
+      - name: Download private runtime assets
+        if: steps.runtime-assets-cache.outputs.cache-hit != 'true'
+        run: |
+          archive="$RUNNER_TEMP/runtime-assets.tar.gz"
+          test -n "$RUNTIME_ASSETS_URL"
+          test -n "$RUNTIME_ASSETS_SHA256"
+          curl --fail --location --retry 5 --retry-all-errors --connect-timeout 15 --output "$archive" "$RUNTIME_ASSETS_URL"
+          printf '%s  %s\n' "$RUNTIME_ASSETS_SHA256" "$archive" | sha256sum --check -
+          mkdir -p public/assets
+          tar -xzf "$archive" -C public/assets
+      - name: Save runtime assets cache
+        if: steps.runtime-assets-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: public/assets
+          key: runtime-assets-${{ vars.RUNTIME_ASSETS_SHA256 }}
       - name: Configure production SSH key
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -57,11 +80,6 @@ jobs:
           install -m 600 /dev/null "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
-      - name: Restore private runtime assets
-        run: |
-          test -n "$RUNTIME_ASSETS_PATH"
-          mkdir -p public/assets
-          rsync -az "$DEPLOY_USER@$DEPLOY_HOST:$RUNTIME_ASSETS_PATH/" public/assets/
       - name: Link Vercel production project
         run: |
           mkdir -p .vercel
@@ -75,7 +93,8 @@ jobs:
       - name: Deploy to the self-hosted server
         run: |
           ssh -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" "test -d '$DEPLOY_PATH'"
-          rsync -az --delete dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+          archive_name="${RUNTIME_ASSETS_URL##*/}"
+          rsync -az --delete --exclude "/$archive_name" dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
       - name: Verify both production targets
         env:
           VERCEL_PUBLIC_URL: ${{ vars.VERCEL_PUBLIC_URL }}
