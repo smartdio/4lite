@@ -18,6 +18,7 @@ import { ACTIVE_PERFORMANCE_PROFILE } from './config/performance-profiles.js'
 import { BANYAN_FOLIAGE_LIGHTING } from './config/banyan-foliage-lighting.js'
 import { createMaterialLibrary } from './materials/material-library.js'
 import { createAssetLoader } from './assets/asset-loader.js'
+import { createWoodenSpaceShuttle } from './wooden-space-shuttle.js'
 import { createGameAudio } from './audio/game-audio.js'
 import { createWebglHud } from './ui/webgl-hud.js'
 import { createPersonalRecordBook } from './ui/personal-record-book.js'
@@ -7136,7 +7137,11 @@ const loadSlingshotPlayCorner=async()=>{
   }
   return result
 }
+const woodenSpaceShuttle=createWoodenSpaceShuttle({
+  root,assetLoader,teacherAnchors:classroomTeacherDeskAnchors,config:CAMPUS.woodenSpaceShuttle,
+})
 const completeSceneAssetTasks=[
+  ['wooden-space-shuttle',woodenSpaceShuttle.load],
   ['perimeter-environment',perimeterEnvironment.load],
   ['building-1-openings',loadB1Assets],['banyan-tree',loadBanyanAsset],['ground-detail-decals',loadGroundDetailDecals],
   ['toilet',loadToiletAsset],['teacher-dormitory',loadDormitoryAsset],['playground-trees',loadPlaygroundTreeAssets],['old-classroom',loadOldClassroomAsset],
@@ -9641,6 +9646,18 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
     camera.lookAt(x,y+1.2,z)
     syncBuildingInteriorStreaming(true);renderFrame()
     return {classroom,distance,camera:camera.position.toArray(),streaming:[...activeClassroomDetailRooms].sort()}
+  },
+  woodenSpaceShuttle:()=>woodenSpaceShuttle.snapshot(),
+  focusWoodenSpaceShuttle:(view='student')=>{
+    const state=woodenSpaceShuttle.snapshot()
+    if(state.status!=='loaded')return null
+    const offsets={student:[0,.45,1.25],close:[.22,.30,.55],rear:[-.28,.38,-.50]}
+    const [right,height,front]=offsets[view]??offsets.student
+    const [x,y,z]=state.position,angle=state.rotationY
+    mode='review';pointer.unlock();orbit.enabled=false;classroomDetailInteractionPin=null
+    camera.position.set(x+Math.cos(angle)*right+Math.sin(angle)*front,y+height,z-Math.sin(angle)*right+Math.cos(angle)*front)
+    camera.lookAt(x,y+.20,z);syncBuildingInteriorStreaming(true);renderFrame()
+    return {camera:camera.position.toArray(),target:[x,y+.20,z]}
   },
   classroomFixtures:()=>({...classroomFixtureStats}),
   schoolEphemera:()=>schoolEphemeraSnapshot(),

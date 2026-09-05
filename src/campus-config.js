@@ -1,6 +1,12 @@
 // 校园灰盒的唯一空间数据源。单位均为米。
 // confidence: A=确认，A-=亲历估算，B=资料推导，C=工作候选。
 export const CAMPUS = {
+  woodenSpaceShuttle: {
+    url: '/assets/models/wooden-space-shuttle/wooden-space-shuttle-v01.glb',
+    classroom: 'b2-room-2-floor-1',
+    height: .40, deskOffset: [0, 0], confidence: 'C',
+    // User-confirmed white gloss paint and iron-wire stand; dimensions are working values.
+  },
   meta: {
     version: 'macro-graybox-v0.1',
     orientation: '校门方向暂记为南，真实方位待确认',
