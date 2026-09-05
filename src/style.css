@@ -186,6 +186,8 @@ body.shuttlecock-mode canvas { cursor: none; }
 body.handheld-octopus-mode .crosshair,body.handheld-octopus-mode .touch-controls,body.handheld-octopus-mode .toast,
 body.handheld-fire-mode .crosshair,body.handheld-fire-mode .touch-controls,body.handheld-fire-mode .toast { opacity: 0; pointer-events: none; }
 body.handheld-octopus-mode canvas,body.handheld-fire-mode canvas { cursor: default; }
+body.dodgeball-mode .crosshair,body.dodgeball-mode .touch-controls,body.dodgeball-mode .toast { opacity: 0; pointer-events: none; }
+body.dodgeball-mode canvas { cursor: default; touch-action: none; }
 body.minigame-paused canvas { cursor: default !important; }
 body.viewer-open canvas { cursor: default !important; }
 .crosshair, .touch-controls { transition: opacity .45s ease; }

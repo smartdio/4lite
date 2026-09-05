@@ -36,6 +36,8 @@ const INTERACTION_RECTS={
   'start-shuttlecock':[512,1024,256,256],
   'start-jacks':[768,1024,256,256],
   'start-flag-raising':[256,0,256,256],
+  'start-dodgeball':[256,0,256,256],
+  'dodgeball-hands-full':[256,0,256,256],
   // 弹弓选择沿用普通查看光标，只替换旁边的动作说明文字。
   'select-slingshot-wood':[256,0,256,256],
   'select-slingshot-wire':[256,0,256,256],
@@ -70,6 +72,8 @@ const INTERACTION_HINTS={
   'start-shuttlecock':'点击开始踢毽子',
   'start-jacks':'点击玩抓石子',
   'start-flag-raising':'点击升旗',
+  'start-dodgeball':'点击进入热血躲避',
+  'dodgeball-hands-full':'请先放下手里的物品',
   'select-slingshot-wood':'点击选择木弹弓',
   'select-slingshot-wire':'点击选择铁弹弓',
   'select-slingshot-5m':'点击从5米开始',

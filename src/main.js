@@ -372,7 +372,7 @@ const syncVisualViewport=()=>{
 syncTouchModeClass();syncVisualViewport();syncCameraProjection()
 for(const query of [coarsePointerQuery,hoverlessQuery])query.addEventListener?.('change',()=>{
   touchModePreferred=(coarsePointerQuery.matches||hoverlessQuery.matches)&&navigator.maxTouchPoints>0
-  syncTouchModeClass();syncCameraProjection();octopusHandheldGame?.resize();fireHandheldGame?.resize();rubiksCubeGame?.resize()
+  syncTouchModeClass();syncCameraProjection();octopusHandheldGame?.resize();fireHandheldGame?.resize();rubiksCubeGame?.resize();dodgeballGame?.resize()
 })
 visualViewport?.addEventListener('resize',syncVisualViewport)
 visualViewport?.addEventListener('scroll',syncVisualViewport)
@@ -476,7 +476,8 @@ const closePersonalRecordBook=()=>{
 let lastRendererInfo={render:{calls:0,triangles:0,lines:0,points:0,frame:0},memory:{geometries:0,textures:0}}
 const renderFrame=()=>{
   renderer.info.reset()
-  if(octopusHandheldGame?.snapshot().status==='active')octopusHandheldGame.render()
+  if(dodgeballGame?.isActive())dodgeballGame.render()
+  else if(octopusHandheldGame?.snapshot().status==='active')octopusHandheldGame.render()
   else if(fireHandheldGame?.snapshot().status==='active')fireHandheldGame.render()
   else {
     sunGlare.update()
@@ -1206,6 +1207,7 @@ let activitySandAssetLoadState = { status: 'pending', assets: [] }
 let pingPongAssetLoadState = { status: 'pending', url: CAMPUS.facilities.pingPong.assetUrl }
 let pingPongPaddleAssetLoadState = { status: 'pending', url: CAMPUS.facilities.pingPong.game.paddleAssetUrl }
 let pingPongGame=null
+let dodgeballGame=null
 let basketballAssetLoadState = { status: 'pending', url: CAMPUS.facilities.basketballs.assetUrl }
 const basketballItems=[]
 let basketballHoopAssetLoadState = { status: 'pending', url: CAMPUS.facilities.basketballHoop.assetUrl }
@@ -7141,6 +7143,16 @@ const woodenSpaceShuttle=createWoodenSpaceShuttle({
   root,assetLoader,teacherAnchors:classroomTeacherDeskAnchors,config:CAMPUS.woodenSpaceShuttle,
 })
 const completeSceneAssetTasks=[
+  ['dodgeball',async()=>{
+    const {createDodgeballGame}=await import('./interactions/dodgeball-game.js')
+    dodgeballGame?.dispose()
+    dodgeballGame=createDodgeballGame({renderer,campusRoot:scene,campusCamera:camera,config:CAMPUS.facilities.dodgeball,
+      isTouchMode:()=>touchModePreferred,isActiveMode:()=>mode==='dodgeball',
+      onEnter:beginDodgeballMode,onExit:finishDodgeballMode,onEvent:announceDodgeballEvent,
+      onPause:reason=>pauseActiveMinigame(reason),onResume:()=>resumePausedMinigame(),
+    })
+    return dodgeballGame.load()
+  }],
   ['wooden-space-shuttle',woodenSpaceShuttle.load],
   ['perimeter-environment',perimeterEnvironment.load],
   ['building-1-openings',loadB1Assets],['banyan-tree',loadBanyanAsset],['ground-detail-decals',loadGroundDetailDecals],
@@ -7214,18 +7226,19 @@ const handleSceneLoadFailure=error=>{
 
 // 第一人称运动与碰撞 -------------------------------------------------------
 let mode='aerial',seatedState=null,aerialReturnState=null,last=performance.now(),artisticOutlinesEnabled=performanceProfile.artisticOutlines.enabled,onboardingShown=false
-const PAUSABLE_MINIGAME_MODES=new Set(['slingshot','pingPong','bambooClimb','longJump','hopscotch','shuttlecock','jacks','handheldOctopus','handheldFire','rubiksCube','flagRaising'])
+const PAUSABLE_MINIGAME_MODES=new Set(['slingshot','pingPong','bambooClimb','longJump','hopscotch','shuttlecock','jacks','handheldOctopus','handheldFire','rubiksCube','flagRaising','dodgeball'])
 const POINTER_LOCK_MINIGAME_MODES=new Set(['slingshot','pingPong','bambooClimb','longJump','hopscotch','shuttlecock'])
 const minigamePause={active:false,mode:null,startedAt:0,reason:null,resumePending:false}
 
 const minigameControllerFor=selectedMode=>({
+  dodgeball:dodgeballGame,
   slingshot:slingshotGame,pingPong:pingPongGame,bambooClimb:bambooClimbGame,longJump:longJumpGame,
   hopscotch:hopscotchGame,shuttlecock:shuttlecockGame,jacks:jacksGame,
   handheldOctopus:octopusHandheldGame,handheldFire:fireHandheldGame,rubiksCube:rubiksCubeGame,flagRaising:flagRaisingGame,
 })[selectedMode]??null
 
 const pauseActiveMinigame=(reason='escape')=>{
-  if(touchModePreferred||!PAUSABLE_MINIGAME_MODES.has(mode))return false
+  if((touchModePreferred&&mode!=='dodgeball')||!PAUSABLE_MINIGAME_MODES.has(mode))return false
   if(minigamePause.active)return true
   minigamePause.active=true;minigamePause.mode=mode;minigamePause.startedAt=performance.now();minigamePause.reason=reason;minigamePause.resumePending=false
   keys.clear();velocity.set(0,0,0);minigameControllerFor(mode)?.pauseInput?.()
@@ -7245,7 +7258,7 @@ const clearMinigamePause=()=>{
 const completePausedMinigameResume=()=>{
   if(!minigamePause.active)return false
   const pausedMode=minigamePause.mode,duration=performance.now()-minigamePause.startedAt
-  minigameControllerFor(pausedMode)?.resumeAfterPause?.(duration)
+  if(minigameControllerFor(pausedMode)?.resumeAfterPause?.(duration)===false)return false
   webglHud.resumeAfterMinigamePause(duration)
   clearMinigamePause()
   return true
@@ -7696,6 +7709,7 @@ function enterWalk(reset=true,requestPointerLock=true) {
   const previousMode=mode
   const returningFromAerial=!reset&&previousMode==='aerial'&&aerialReturnState
   if(pingPongGame?.snapshot().status==='active')pingPongGame.exit()
+  if(dodgeballGame?.isActive())dodgeballGame.exit()
   if(bambooClimbGame?.snapshot().status==='active')bambooClimbGame.exit()
   if(longJumpGame?.snapshot().status==='active')longJumpGame.exit()
   if(hopscotchGame?.snapshot().status==='active')hopscotchGame.exit()
@@ -7979,6 +7993,56 @@ function finishBambooClimbMode() {
   touchControls.setAttribute('aria-hidden',touchModePreferred?'false':'true')
   if(previous.wasPointerLocked&&!touchModePreferred&&!pointer.isLocked)requestGamePointerLock()
   showToast('已离开爬竹竿模式')
+}
+
+let dodgeballReturnState=null
+function beginDodgeballMode() {
+  if(mode!=='walk'||sceneOverlayOpen())return false
+  if(chalkThrowing?.hasHeld()||basketballGame?.hasHeld()){showToast('请先放下手里的物品');return false}
+  dodgeballReturnState={position:camera.position.clone(),quaternion:camera.quaternion.clone(),fov:camera.fov,aspect:camera.aspect,wasPointerLocked:pointer.isLocked,
+    pointerEnabled:pointer.enabled,orbitEnabled:orbit.enabled,pointWalkEnabled:pointWalkController.snapshot().enabled,
+    fallbackControls:document.body.classList.contains('fallback-controls')}
+  mode='dodgeball';orbit.enabled=false;pointer.enabled=false;pointerLockRequestPending=false
+  pointWalkController.cancel('dodgeball-enter');pointWalkController.setEnabled(false);keys.clear();velocity.set(0,0,0);resetTouchControls()
+  if(pointer.isLocked)pointer.unlock()
+  fallbackLookDragging=false
+  document.body.classList.remove('walking','fallback-controls','fallback-dragging');document.body.classList.add('dodgeball-mode')
+  touchControls.setAttribute('aria-hidden','true');webglHud.setEnabled(false)
+  updateCicadaAmbient(performance.now(),true);updateFrogAmbient(performance.now(),true)
+  return true
+}
+function finishDodgeballMode() {
+  if(!dodgeballReturnState)return
+  const previous=dodgeballReturnState;dodgeballReturnState=null
+  if(minigamePause.active)clearMinigamePause()
+  mode='walk';pointer.enabled=previous.pointerEnabled;orbit.enabled=previous.orbitEnabled;keys.clear();velocity.set(0,0,0);resetTouchControls()
+  camera.position.copy(previous.position);camera.quaternion.copy(previous.quaternion)
+  if(Math.abs(camera.aspect-previous.aspect)<.0001){camera.fov=previous.fov;camera.updateProjectionMatrix()}
+  else syncCameraProjection()
+  document.body.classList.remove('dodgeball-mode');document.body.classList.add('walking')
+  document.body.classList.toggle('fallback-controls',previous.fallbackControls&&!touchModePreferred)
+  touchControls.setAttribute('aria-hidden',touchModePreferred?'false':'true');pointWalkController.setEnabled(previous.pointWalkEnabled)
+  renderer.shadowMap.needsUpdate=true
+  updateCicadaAmbient(performance.now(),true);updateFrogAmbient(performance.now(),true)
+  if(previous.wasPointerLocked&&!touchModePreferred&&!pointer.isLocked)requestGamePointerLock()
+  showToast('已离开热血躲避')
+}
+function announceDodgeballEvent(event) {
+  if(event.type==='dodgeball-start')personalRecords.recordGame('dodgeball',{touchPlayedAt:true,increment:{played:1}})
+  if(event.type==='dodgeball-finish'){
+    const result=dodgeballGame?.snapshot()??event
+    personalRecords.recordGame('dodgeball',{played:false,max:{[result.ballMode==='beanbag'?'beanbagBest':'pingpongBest']:result.scores?.blue??0},
+      increment:{completed:1,wins:result.winner==='blue'?1:0}})
+    gameAudio.playTone(result.winner==='blue'?'bonus':'gameOver',{volume:.38})
+  }else if(event.type==='dodgeball-throw'){
+    // Match the existing slingshot release sample and tuning.
+    gameAudio.play('basketballBounce',{volume:.52,rate:1.2+(event.ratio??0)*.08})
+  }
+  else if(event.type==='dodgeball-bounce')gameAudio.play(event.ballMode==='beanbag'?'chalkImpact':'pingPongTable',{volume:.25,rate:1.08})
+  else if(event.type==='dodgeball-catch')gameAudio.play('chalkPickup',{volume:.22,rate:1.05})
+  else if(event.type==='dodgeball-hit')gameAudio.play('chalkImpact',{volume:.30,rate:.78})
+  else if(event.type==='dodgeball-step')gameAudio.play('footsteps',{volume:.12,rate:1.1,pan:event.pan??0})
+  else if(event.type==='dodgeball-clear')gameAudio.playTone('bonus',{volume:.32})
 }
 
 let octopusHandheldReturnState=null
@@ -8717,6 +8781,11 @@ const activateSceneInteraction=(clientX,clientY,useCenter=false)=>{
     return leaveClassroomSeat()?'stand':null
   }
   if(mode!=='walk')return null
+  if(dodgeballGame?.hit(clientX,clientY,useCenter)&&(chalkThrowing?.hasHeld()||basketballGame?.hasHeld())){
+    showToast('请先放下手里的物品');return 'dodgeball-hands-full'
+  }
+  const dodgeballInteraction=dodgeballGame?.interact(clientX,clientY,useCenter)
+  if(dodgeballInteraction)return dodgeballInteraction.type
   const flagRaisingInteraction=flagRaisingGame?.interact(clientX,clientY,useCenter)
   if(flagRaisingInteraction)return flagRaisingInteraction.type
   const rubiksCubeInteraction=rubiksCubeGame?.interact(clientX,clientY,useCenter)
@@ -8768,6 +8837,7 @@ const activateSceneInteraction=(clientX,clientY,useCenter=false)=>{
 }
 
 const consumeMinigamePausePointer=event=>{
+  if(mode==='dodgeball')return
   if(!minigamePause.active)return
   if(event.type==='click'){
     const action=webglHud.hitMinigamePauseAction(event.clientX,event.clientY)
@@ -8777,6 +8847,21 @@ const consumeMinigamePausePointer=event=>{
   event.preventDefault();event.stopImmediatePropagation()
 }
 for(const type of ['pointerdown','pointermove','pointerup','pointercancel','click','wheel'])renderer.domElement.addEventListener(type,consumeMinigamePausePointer,{capture:true,passive:false})
+
+// One input route owns the standalone game, including its paused UI.
+const consumeDodgeballPointer=event=>{
+  if(event.type==='click'&&dodgeballGame?.consumePostExitClick(event)){event.preventDefault();event.stopImmediatePropagation();return}
+  if(mode==='walk'&&event.type==='pointerdown'&&(chalkThrowing?.hasHeld()||basketballGame?.hasHeld())&&dodgeballGame?.hit(event.clientX,event.clientY,pointer.isLocked)){
+    showToast('请先放下手里的物品');event.preventDefault();event.stopImmediatePropagation();return
+  }
+  if(mode!=='dodgeball')return
+  if(event.type==='pointerdown')dodgeballGame.pointerDown(event)
+  else if(event.type==='pointermove')dodgeballGame.pointerMove(event)
+  else if(event.type==='pointerup')dodgeballGame.pointerUp(event)
+  else if(event.type==='pointercancel'||event.type==='lostpointercapture')dodgeballGame.pointerCancel(event)
+  event.preventDefault();event.stopImmediatePropagation()
+}
+for(const type of ['pointerdown','pointermove','pointerup','pointercancel','lostpointercapture','click','wheel'])renderer.domElement.addEventListener(type,consumeDodgeballPointer,{capture:true,passive:false})
 
 const consumePersonalRecordPointer=event=>{
   const action=personalRecordBook.hitAction(event.clientX,event.clientY)
@@ -8881,6 +8966,7 @@ renderer.domElement.addEventListener('click',event=>{
   if(!activated&&mode==='walk')pointWalkController.confirm()
 })
 addEventListener('keydown',e=>{
+  if(mode==='dodgeball'){dodgeballGame.handleKey(e.code,true,e.repeat);e.preventDefault();return}
   if(personalRecordBook.isOpen()){
     if(e.code==='Escape'||e.code==='KeyX')closePersonalRecordBook()
     e.preventDefault();return
@@ -8965,6 +9051,7 @@ addEventListener('keydown',e=>{
   if(e.code==='KeyL'){debugObjects.forEach(o=>o.visible=!o.visible);showToast(debugObjects[0].visible?'建筑标签已打开':'建筑标签已关闭')}
 })
 addEventListener('keyup',e=>{
+  if(mode==='dodgeball'){dodgeballGame.handleKey(e.code,false,e.repeat);e.preventDefault();return}
   if(minigamePause.active){e.preventDefault();return}
   if(mode==='flagRaising'){e.preventDefault();return}
   if(mode==='hopscotch'){if(hopscotchGame?.handleKey(e.code,false,e.repeat))e.preventDefault();return}
@@ -8976,6 +9063,7 @@ addEventListener('keyup',e=>{
   keys.delete(e.code)
 })
 addEventListener('blur',()=>{
+  if(mode==='dodgeball')pauseActiveMinigame('window-blur')
   for(const code of ['ArrowLeft','KeyA','ArrowRight','KeyD','Digit1','Digit2','KeyT'])octopusHandheldGame?.handleKey(code,false,false)
   for(const code of ['ArrowLeft','KeyA','ArrowRight','KeyD','Digit1','Digit2','KeyT'])fireHandheldGame?.handleKey(code,false,false)
   for(const code of ['ArrowLeft','KeyA','ArrowRight','KeyD'])shuttlecockGame?.handleKey(code,false,false)
@@ -9003,6 +9091,7 @@ addEventListener('resize',()=>{
   octopusHandheldGame?.resize()
   fireHandheldGame?.resize()
   rubiksCubeGame?.resize()
+  dodgeballGame?.resize()
   for(const material of Object.values(artisticOutlineMaterials))material.resolution.set(innerWidth,innerHeight)
 })
 
@@ -9018,6 +9107,7 @@ const resolveWebglHudInteraction=()=>{
     return 'stand-up'
   }
   if(mode!=='walk')return 'default'
+  if(dodgeballGame?.hit(innerWidth/2,innerHeight/2,true))return chalkThrowing?.hasHeld()||basketballGame?.hasHeld()?'dodgeball-hands-full':'start-dodgeball'
   if(chalkThrowing?.hasHeld())return 'throw-chalk'
   if(basketballGame?.hasHeld())return 'shoot-basketball'
   if(flagRaisingGame?.hit(innerWidth/2,innerHeight/2,true))return 'start-flag-raising'
@@ -9111,6 +9201,7 @@ const updateMinigameProximityTutorials=()=>{
 
 function animate(now) {
   requestAnimationFrame(animate); const dt=Math.min(.05,(now-last)/1000); last=now
+  if(mode==='dodgeball'){dodgeballGame.update(dt);renderFrame();return}
   snackModelViewer?.update(dt)
   if(sceneReadyAt!=null) {
     frameDurations.push(dt*1000)
@@ -9352,6 +9443,13 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
   recordPersonalMysteryDevice:id=>{personalRecords.recordMysteryDevice(id);return window.__CAMPUS_TEST__.personalRecords()},
   recordPersonalGame:(id,update={})=>{personalRecords.recordGame(id,update);return window.__CAMPUS_TEST__.personalRecords()},
   minigamePause:()=>({...minigamePause}),
+  dodgeball:()=>dodgeballGame?.snapshot()??null,
+  probeDodgeballInteraction:()=>dodgeballGame?.hit(innerWidth/2,innerHeight/2,true)??null,
+  enterDodgeball:()=>{const result=dodgeballGame?.enter();renderFrame();return result},
+  startDodgeball:()=>{dodgeballGame?.start();renderFrame();return dodgeballGame?.snapshot()},
+  setDodgeballState:patch=>{const result=dodgeballGame?.setTestState(patch);renderFrame();return result},
+  advanceDodgeball:seconds=>{const result=dodgeballGame?.stepFor(seconds);renderFrame();return result},
+  exitDodgeball:()=>{dodgeballGame?.exit();renderFrame();return window.__CAMPUS_TEST__.player()},
   flagRaising:()=>flagRaisingGame?.snapshot()??null,
   focusFlagPlatform:(distance=2,level='lower')=>{
     const config=CAMPUS.facilities.flag

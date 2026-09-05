@@ -28,6 +28,7 @@ export const alternateLocalePath=()=>{
 }
 
 const ENGLISH_RUNTIME_TEXT=new Map(Object.entries({
+  '热血躲避':'Hot-Blooded Dodge','点击进入热血躲避':'Play Hot-Blooded Dodge','已离开热血躲避':'Exited Hot-Blooded Dodge',
   '鸟瞰':'Aerial View','第一人称':'First Person','快捷键 V':'Shortcut V','个人记录':'My Record','查看校园足迹':'View your campus trail',
   '点击前往 · 再次停止':'Click to walk · Click again to stop','轻触前往 · 再次停止':'Tap to walk · Tap again to stop',
   '暂停':'Paused','选择继续游戏或返回校园':'Resume or exit','继续游戏':'Resume','返回校园':'Exit',

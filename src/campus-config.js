@@ -165,6 +165,12 @@ export const CAMPUS = {
     },
   },
   facilities: {
+    dodgeball: {
+      // Approved game entrance, not a measurement of the historical playground.
+      confidence: 'gameplay-working-value',
+      entry: {center: [-13.5, -34], size: [10, 6], surfaceY: 0.012, interactionDistance: 2.5, eyeHeight: 1.6, proxyLayer: 12},
+      game: {matchSeconds: 180, holdSeconds: 5, chargeSeconds: 0.65, aiServeSeconds: 3},
+    },
     sandpit: {
       center: [5.18, -51.67], size: [6, 6], rimWidth: 0.2, sandInset: 0.025,
       placementY: 0.01, assetUrl: '/assets/models/sandpit/sandpit-recessed-game-v01.glb?v=7',

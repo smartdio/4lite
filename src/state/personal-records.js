@@ -4,9 +4,10 @@ import {isEnglish,translateRuntimeText} from '../i18n/index.js'
 const STORAGE_NAMESPACE='personalRecords'
 const STORAGE_VERSION=1
 
-export const PERSONAL_RECORD_TOTALS={rooms:24,books:47,games:12,mysteries:3,snackBags:3}
+export const PERSONAL_RECORD_TOTALS={rooms:24,books:47,games:13,mysteries:3,snackBags:3}
 
 export const PERSONAL_GAME_CATALOG=[
+  {id:'dodgeball',label:'热血躲避'},
   {id:'basketball',label:'篮球'},
   {id:'pingPong',label:'乒乓球'},
   {id:'longJump',label:'跳远'},
@@ -71,6 +72,14 @@ const timestamp=now=>new Date(now()).toISOString()
 const changed=(before,after)=>JSON.stringify(before)!==JSON.stringify(after)
 const formatInteger=value=>String(Math.max(0,Math.round(value)))
 const formatRecord=(id,metrics)=>{
+  if(id==='dodgeball'){
+    if(!metrics.completed)return isEnglish?'No completed match yet':'尚未完成比赛'
+    const parts=[]
+    if(metrics.pingpongBest!=null)parts.push(isEnglish?`Ball ${formatInteger(metrics.pingpongBest)}`:`乒乓球 ${formatInteger(metrics.pingpongBest)} 分`)
+    if(metrics.beanbagBest!=null)parts.push(isEnglish?`Beanbag ${formatInteger(metrics.beanbagBest)}`:`沙包 ${formatInteger(metrics.beanbagBest)} 分`)
+    if(metrics.wins>0)parts.push(isEnglish?`${formatInteger(metrics.wins)} wins`:`${formatInteger(metrics.wins)} 胜`)
+    return parts.join(' · ')
+  }
   if(isEnglish){
     if(id==='basketball'&&metrics.bestPoints>0)return `${formatInteger(metrics.bestPoints)} points`
     if(id==='pingPong'){
