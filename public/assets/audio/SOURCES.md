@@ -31,7 +31,7 @@
 
 ## 运行版本与公开边界
 
-- 完整本地版本放行前会预载并解码统一清单中的 37 个声音资源：35 个非环境短音效和 2 个环境循环声。
+- 完整本地版本放行前会预载并解码统一清单中的 40 个声音资源：38 个非环境短音效和 2 个环境循环声。
 - GitHub 公开快照只包含上述 35 个 Kenney CC0 短音效；两个环境声和入口音乐明确排除，因此公开骨架不是完整运行包。
 - 既有短音效统一转为单声道 Opus-in-Ogg；新增脚步与环境声保留选定的 Ogg 源编码，避免无必要的二次有损转码。
 - 原始 Kenney 文件没有覆盖，仍可从源压缩包重新选择或重新编码。
@@ -52,3 +52,11 @@
 - `chalk/tick*.ogg`：近似拾取粉笔。
 - `chalk/drop*.ogg`：近似粉笔撞击、弹跳和停下。
 - `basketball/pickup.ogg`、`throw.ogg`、`bounce.ogg`、`backboard.ogg`、`rim_01/02.ogg`：由 Kenney RPG Audio 与 Impact Sounds CC0 包内的皮革、布料、柔性撞击、重击和金属轻碰原声筛选并统一转码；分别用于拿球、出手、地面弹跳、篮板与篮圈碰撞。弹跳声采用 Impact Sounds 的 `impactSoft_heavy_004.ogg`，保留其接近充气篮球材质的弹跳质感；篮板声采用 `impactPunch_heavy_001.ogg`，收短低频拖尾后用于表现高速撞板。两者仅进行单声道转换、轻量频段整理、限幅和尾音收短；进球篮网声复用已加载的柔和布料声，不增加额外请求。
+
+## 校园鸟类（2026-09-06）
+
+- `birds/sparrow-01.ogg`、`birds/sparrow-02.ogg`：JKata 的 [Sparrows.wav](https://freesound.org/people/JKata/sounds/626174/)，作者页面标示 **CC0 1.0**。公开高质量试听文件留在 `assets/source/audio/birds/sparrows-jkata.mp3`；分别截取 1.45–2.17 s、8.30–8.98 s，去低频、增益 ×8、短淡入淡出、单声道 Opus 48 kbps。没有把录音地点或麻雀亚种作为本校园历史事实。
+- `birds/takeoff.ogg`：mcmikai 的 [Pigeons flying](https://freesound.org/people/mcmikai/sounds/532180/)，作者页面标示 **CC0 1.0**。源试听文件留在 `assets/source/audio/birds/pigeons-flying-mcmikai.mp3`；截取 0.20–1.40 s、去低频并淡出，单声道 Opus 48 kbps。麻雀起飞复用略加速版本。
+- 制作命令：`bash scripts/audio/build_campus_birds.sh`。
+- 许可：[Creative Commons Zero 1.0](https://creativecommons.org/publicdomain/zero/1.0/)。来源页面与制作记录保存在本地源目录。三个短音加入统一完整预载、共享声部上限及距离衰减；不用循环录音，也不会异步补播过期鸟声。
+- 完整版本现在预载 **40** 个声音：38 个短音效＋2 个环境循环；新增三段鸟声暂不加入公开 Git 的素材白名单。

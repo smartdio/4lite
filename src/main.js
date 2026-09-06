@@ -20,6 +20,9 @@ import { createMaterialLibrary } from './materials/material-library.js'
 import { createAssetLoader } from './assets/asset-loader.js'
 import { createWoodenSpaceShuttle } from './wooden-space-shuttle.js'
 import { createGameAudio } from './audio/game-audio.js'
+import {createCampusBirds} from './scenery/campus-birds.js'
+import {captureBirdTree,createBirdSpace} from './scenery/bird-space.js'
+import {BIRD_CONFIG} from './scenery/bird-config.js'
 import { createWebglHud } from './ui/webgl-hud.js'
 import { createPersonalRecordBook } from './ui/personal-record-book.js'
 import { createSiteQrOverlay } from './ui/site-qr-overlay.js'
@@ -333,6 +336,7 @@ const pointer = new PointerLockControls(camera, renderer.domElement)
 let pointerLockAvailable='pointerLockElement' in document&&typeof renderer.domElement.requestPointerLock==='function'
 let pointerLockHasSucceeded=false
 let pointerLockRequestPending=false
+let pointerLockRequestId=0
 const coarsePointerQuery=matchMedia('(pointer: coarse)')
 const hoverlessQuery=matchMedia('(hover: none)')
 let touchModePreferred=(coarsePointerQuery.matches||hoverlessQuery.matches)&&navigator.maxTouchPoints>0
@@ -340,10 +344,16 @@ function requestGamePointerLock() {
   if(automatedTestBuild||touchModePreferred||!pointerLockAvailable||pointer.isLocked)return pointer.isLocked
   if(pointerLockRequestPending)return false
   pointerLockRequestPending=true
+  const requestId=++pointerLockRequestId
   try {
-    const request=pointer.lock()
-    request?.catch?.(()=>{pointerLockRequestPending=false})
-    setTimeout(()=>{if(!pointer.isLocked)pointerLockRequestPending=false},900)
+    // Three.js 的 lock() 不返回浏览器 Promise，直接请求才能接住内嵌浏览器
+    // 的异步拒绝；锁定成功仍由 PointerLockControls 的事件正常接管。
+    const request=renderer.domElement.requestPointerLock({unadjustedMovement:false})
+    request?.catch?.(()=>{if(requestId===pointerLockRequestId&&!pointer.isLocked)handlePointerLockError()})
+    setTimeout(()=>{
+      if(requestId!==pointerLockRequestId||!pointerLockRequestPending||pointer.isLocked)return
+      handlePointerLockError()
+    },1500)
   } catch {
     pointerLockRequestPending=false;enableFallbackControls()
   }
@@ -3159,6 +3169,7 @@ async function loadPlaygroundTreeAssets() {
           if(!instances)throw new Error(`Missing ${species} instance group for ${node.name}`)
           instances.setMatrixAt(instanceIndex,node.matrixWorld)
         })
+        birdTreeSources.push(captureBirdTree(model,{...placement,ground}))
         const finalBounds=new THREE.Box3().setFromObject(model),finalSize=finalBounds.getSize(new THREE.Vector3())
         const soilSize=soilRing?new THREE.Box3().setFromObject(soilRing).getSize(new THREE.Vector3()):new THREE.Vector3()
         placements.push({
@@ -7119,6 +7130,28 @@ function bakeStaticScene() {
   }
   return {sourceMeshes:meshes.length,batches:batch,zoneBatches,outlinedParts}
 }
+// Capture complete roof bounds before static batching discards source names.
+const birdTreeSources=[]
+const birdArchitecture=[]
+const addBirdBounds=(object,name)=>{
+  object.updateWorldMatrix(true,true)
+  if(object.isMesh&&/^b1-u-/.test(name)) {
+    const capture=captureBirdTree(object,{id:name,species:null,center:[0,0],ground:Infinity})
+    for(const box of capture.boxes){box.kind='solid';birdArchitecture.push(box)}
+    return
+  }
+  const b=new THREE.Box3().setFromObject(object)
+  if(!b.isEmpty())birdArchitecture.push({name,kind:'solid',minX:b.min.x,maxX:b.max.x,minY:b.min.y,maxY:b.max.y,minZ:b.min.z,maxZ:b.max.z})
+}
+root.traverse(node=>{if(node.isMesh&&/roof|insulation-plane/.test(node.name))addBirdBounds(node,node.name)})
+// Fill building interiors / doorways for flying birds; navigation still uses its
+// existing detailed walk colliders. Bounds include the confirmed eaves.
+for(const [name,part,y] of [
+  ['b1-main',CAMPUS.buildings.building1.main,7.1],
+  ['b1-west',CAMPUS.buildings.building1.wings.west,7.1],
+  ['b1-east',CAMPUS.buildings.building1.wings.east,7.1],
+  ['b2',CAMPUS.buildings.building2,10.2],
+])birdArchitecture.push({name,kind:'solid',minX:part.center[0]-part.size[0]/2-.62,maxX:part.center[0]+part.size[0]/2+.62,minZ:part.center[1]-part.size[1]/2-.62,maxZ:part.center[1]+part.size[1]/2+.62,minY:-1,maxY:y})
 const batchStats=bakeStaticScene()
 applyCoolShadowTintToScene()
 let slingshotPlayCorner=null
@@ -7142,7 +7175,38 @@ const loadSlingshotPlayCorner=async()=>{
 const woodenSpaceShuttle=createWoodenSpaceShuttle({
   root,assetLoader,teacherAnchors:classroomTeacherDeskAnchors,config:CAMPUS.woodenSpaceShuttle,
 })
+const birdSeed=(import.meta.env.DEV||automatedTestBuild)?new URLSearchParams(location.search).get('birdSeed'):null
+const campusBirds=createCampusBirds({root:scene,assetLoader,audio:gameAudio,config:BIRD_CONFIG,...(birdSeed?{seed:birdSeed}:{})})
+const birdPlayerBody=new THREE.Vector3(...CAMPUS.player.spawn);birdPlayerBody.y-=CAMPUS.player.eyeHeight*.48
+const birdViewDirection=new THREE.Vector3(0,0,-1)
+const birdFrameContext={paused:false,visible:false,roaming:false,playerPosition:birdPlayerBody,listenerPosition:camera.position,viewDirection:birdViewDirection,verticalFov:camera.fov,aspect:camera.aspect,soundsAllowed:false}
+const birdActiveArea=p=>{
+  const near=(center,radius)=>Math.hypot(p.x-center[0],p.z-center[1])<radius
+  if(mode==='hopscotch')return near([-11.8,-8.1],4.6)
+  if(mode==='jacks')return near(CAMPUS.facilities.jacksGame.center,2)
+  if(mode==='shuttlecock')return near(CAMPUS.facilities.shuttlecock.center,4.5)
+  if(mode==='pingPong')return CAMPUS.facilities.pingPong.centers.some(c=>near(c,3))
+  if(mode==='slingshot')return p.x>19&&p.z>-31&&p.z<-11
+  if(mode==='bambooClimb')return p.x>-5&&p.x<4&&p.z>-28&&p.z<-22
+  if(mode==='longJump')return near(CAMPUS.facilities.sandpit.center,4)
+  if(basketballGame?.hasHeld())return p.x>5&&p.x<24&&p.z<-30&&p.z>-47
+  return false
+}
+let birdTestPaused=false,birdTestEnabled=true
+const updateCampusBirds=now=>{
+  if(mode==='walk')birdPlayerBody.set(camera.position.x,camera.position.y-CAMPUS.player.eyeHeight*.48,camera.position.z)
+  birdFrameContext.paused=document.hidden||minigamePause.active||birdTestPaused||!birdTestEnabled
+  birdFrameContext.visible=fullSceneIsReady&&!['dodgeball','handheldOctopus','handheldFire','rubiksCube'].includes(mode)&&!overlayViewerOpen()
+  birdFrameContext.roaming=mode==='walk'&&!sceneOverlayOpen()
+  if(birdFrameContext.roaming)camera.getWorldDirection(birdViewDirection)
+  birdFrameContext.verticalFov=camera.fov;birdFrameContext.aspect=camera.aspect
+  birdFrameContext.soundsAllowed=['walk','aerial','seated'].includes(mode)&&!sceneOverlayOpen()
+  campusBirds.update(now,birdFrameContext)
+}
+document.addEventListener('visibilitychange',()=>campusBirds.update(performance.now(),{paused:true}))
+addEventListener('pagehide',event=>{if(!event.persisted)campusBirds.dispose()})
 const completeSceneAssetTasks=[
+  ['campus-birds',()=>campusBirds.load()],
   ['dodgeball',async()=>{
     const {createDodgeballGame}=await import('./interactions/dodgeball-game.js')
     dodgeballGame?.dispose()
@@ -7172,6 +7236,12 @@ const loadAssetBatch=tasks=>Promise.all(tasks.map(task=>
 ))
 const finalizeCompleteScene=()=>{
   const finalizeStartedAt=performance.now()
+  for(const object of [toiletAssetRoot,dormitoryAssetRoot,oldClassroomAssetRoot,banyanAssetRoot])addBirdBounds(object,object.name)
+  campusBirds.bindWorld(createBirdSpace({
+    boundary:CAMPUS.world.boundary,colliders,trees:birdTreeSources,architecture:birdArchitecture,
+    groundHeightAt:terrainHeightAt,groundSurfaceAt,activeArea:birdActiveArea,
+  }),{playerPosition:birdPlayerBody,viewPosition:new THREE.Vector3(...CAMPUS.player.spawn),viewDirection:birdViewDirection,verticalFov:camera.fov,aspect:camera.aspect})
+  birdTreeSources.length=0
   applyCoolShadowTintToScene()
   // 场景主体静态，只有门窗动画时才刷新阴影贴图。
   renderer.shadowMap.autoUpdate=false
@@ -8479,6 +8549,7 @@ const togglePrimaryView=()=>{
   return true
 }
 function enableFallbackControls() {
+  pointerLockRequestPending=false
   pointerLockAvailable=false
   if(mode!=='walk'||touchModePreferred)return
   document.body.classList.add('fallback-controls')
@@ -8488,8 +8559,9 @@ function enableFallbackControls() {
 function handlePointerLockError() {
   pointerLockRequestPending=false
   if(minigamePause.active&&minigamePause.resumePending){minigamePause.resumePending=false;minigamePause.reason='pointer-lock-error';showToast('未能恢复鼠标控制 · 请再点一次继续游戏');return}
-  // 浏览器可能因时序暂时拒绝本次请求；保留 Pointer Lock 能力，让下一次
-  // 完整点击继续重试，不能因一次失败永久切换到 fallback 模式。
+  // API 存在不等于内嵌页面能锁鼠标。首次就被拒绝时提供可用的拖动视角，
+  // 已经成功锁定过的浏览器则保留 Esc 后因时序暂时失败的重试能力。
+  if(!pointerLockHasSucceeded&&!touchModePreferred){enableFallbackControls();return}
   if(mode==='walk'&&!touchModePreferred) {
     keys.clear();velocity.set(0,0,0)
     showToast('未能重新锁定 · 请再点击一次画面')
@@ -8499,6 +8571,9 @@ function handlePointerLockError() {
 pointer.addEventListener('lock',()=>{
   pointerLockRequestPending=false
   pointerLockHasSucceeded=true
+  pointerLockAvailable=true
+  fallbackLookDragging=false
+  document.body.classList.remove('fallback-controls','fallback-dragging')
   if(sceneOverlayOpen()){pointer.unlock();return}
   if(minigamePause.active){
     if(minigamePause.resumePending&&mode===minigamePause.mode)completePausedMinigameResume()
@@ -9201,7 +9276,7 @@ const updateMinigameProximityTutorials=()=>{
 
 function animate(now) {
   requestAnimationFrame(animate); const dt=Math.min(.05,(now-last)/1000); last=now
-  if(mode==='dodgeball'){dodgeballGame.update(dt);renderFrame();return}
+  if(mode==='dodgeball'){updateCampusBirds(now);dodgeballGame.update(dt);renderFrame();return}
   snackModelViewer?.update(dt)
   if(sceneReadyAt!=null) {
     frameDurations.push(dt*1000)
@@ -9210,9 +9285,9 @@ function animate(now) {
   if(!minigamePause.active&&(activeClassroomDetailRooms.has(octopusHandheldConfig.placement.classroom)||mode==='handheldOctopus'))octopusHandheldGame?.update(now)
   if(!minigamePause.active&&(activeClassroomDetailRooms.has(fireHandheldConfig.placement.classroom)||mode==='handheldFire'))fireHandheldGame?.update(now)
   if(!minigamePause.active&&(activeClassroomDetailRooms.has(rubiksCubePlacement.classroom)||mode==='rubiksCube'))rubiksCubeGame?.update(now)
-  if(mode==='handheldOctopus') { renderFrame();return }
-  if(mode==='handheldFire') { renderFrame();return }
-  if(mode==='rubiksCube') { renderFrame();return }
+  if(mode==='handheldOctopus') { updateCampusBirds(now);renderFrame();return }
+  if(mode==='handheldFire') { updateCampusBirds(now);renderFrame();return }
+  if(mode==='rubiksCube') { updateCampusBirds(now);renderFrame();return }
   updateB1AssetAnimations(dt)
   chalkThrowing?.update(dt)
   basketballGame?.update(dt,camera.position,velocity)
@@ -9268,6 +9343,7 @@ function animate(now) {
     } else if(!movementInputActive||velocity.lengthSq()<.01)footstepCooldown=0
     if(longJumpGame?.proximity(camera.position))showToast('这里可以跳远 · 对准踏板点击开始')
   }
+  updateCampusBirds(now)
   updateWebglHud(now)
   updateCicadaAmbient(now)
   updateFrogAmbient(now)
@@ -9429,6 +9505,13 @@ if(import.meta.env.DEV||import.meta.env.VITE_ENABLE_TEST_API==='1')window.__CAMP
   performanceProfile:()=>structuredClone(performanceProfile),
   sunGlare:()=>sunGlare.snapshot(),
   audio:()=>gameAudio.snapshot(),
+  birds:()=>campusBirds.snapshot(),
+  birdPause:value=>{birdTestPaused=Boolean(value);return birdTestPaused},
+  birdEnabled:value=>{birdTestEnabled=Boolean(value);campusBirds.inspect().group.visible=birdTestEnabled;return birdTestEnabled},
+  birdInspect:()=>campusBirds.inspect(),
+  birdRelocate:(id,zone,habitat)=>campusBirds.requestRelocation(id,zone,habitat),
+  birdReset:seed=>campusBirds.reset(seed),
+  birdStep:(now,context)=>campusBirds.update(now,context),
   hud:()=>webglHud.snapshot(),
   personalRecords:()=>({raw:personalRecords.snapshot(),view:personalRecordViewModel(),book:personalRecordBook.snapshot()}),
   openPersonalRecordMenu:()=>{openPersonalRecordMenu();renderFrame();return personalRecordBook.snapshot()},

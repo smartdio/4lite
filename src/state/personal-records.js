@@ -71,9 +71,11 @@ const validate=value=>{
 const timestamp=now=>new Date(now()).toISOString()
 const changed=(before,after)=>JSON.stringify(before)!==JSON.stringify(after)
 const formatInteger=value=>String(Math.max(0,Math.round(value)))
-const formatRecord=(id,metrics)=>{
+// Null means no achieved record. Keep this separate from the localized
+// placeholder so overview selection never depends on display text.
+const formatBestRecord=(id,metrics)=>{
   if(id==='dodgeball'){
-    if(!metrics.completed)return isEnglish?'No completed match yet':'尚未完成比赛'
+    if(!metrics.completed)return null
     const parts=[]
     if(metrics.pingpongBest!=null)parts.push(isEnglish?`Ball ${formatInteger(metrics.pingpongBest)}`:`乒乓球 ${formatInteger(metrics.pingpongBest)} 分`)
     if(metrics.beanbagBest!=null)parts.push(isEnglish?`Beanbag ${formatInteger(metrics.beanbagBest)}`:`沙包 ${formatInteger(metrics.beanbagBest)} 分`)
@@ -86,7 +88,7 @@ const formatRecord=(id,metrics)=>{
       const parts=[]
       if(metrics.longestRally>0)parts.push(`Longest rally: ${formatInteger(metrics.longestRally)}`)
       if(metrics.wins>0)parts.push(`${formatInteger(metrics.wins)} wins`)
-      return parts.join(' · ')||'No record yet'
+      return parts.join(' · ')||null
     }
     if(id==='longJump'&&metrics.maxDistance>0)return `${metrics.maxDistance.toFixed(2)} m`
     if(id==='bambooClimb'){
@@ -99,7 +101,7 @@ const formatRecord=(id,metrics)=>{
       const parts=[]
       if(metrics.highestStage>0)parts.push(`Highest round: ${formatInteger(metrics.highestStage)}`)
       if(metrics.bestStreak>0)parts.push(`Best catch: ${formatInteger(metrics.bestStreak)}`)
-      return parts.join(' · ')||'No record yet'
+      return parts.join(' · ')||null
     }
     if(id==='slingshot'&&metrics.bestHits>0)return `${formatInteger(metrics.bestHits)} targets hit`
     if(id==='rubiksCube'){
@@ -111,16 +113,16 @@ const formatRecord=(id,metrics)=>{
       const parts=[]
       if(metrics.gameA>0)parts.push(`A ${formatInteger(metrics.gameA)}`)
       if(metrics.gameB>0)parts.push(`B ${formatInteger(metrics.gameB)}`)
-      return parts.join(' · ')||'No record yet'
+      return parts.join(' · ')||null
     }
-    return 'No record yet'
+    return null
   }
   if(id==='basketball'&&metrics.bestPoints>0)return `${formatInteger(metrics.bestPoints)} 分`
   if(id==='pingPong'){
     const parts=[]
     if(metrics.longestRally>0)parts.push(`最长 ${formatInteger(metrics.longestRally)} 拍`)
     if(metrics.wins>0)parts.push(`${formatInteger(metrics.wins)} 胜`)
-    return parts.join(' · ')||'尚无纪录'
+    return parts.join(' · ')||null
   }
   if(id==='longJump'&&metrics.maxDistance>0)return `${metrics.maxDistance.toFixed(2)} 米`
   if(id==='bambooClimb'){
@@ -133,7 +135,7 @@ const formatRecord=(id,metrics)=>{
     const parts=[]
     if(metrics.highestStage>0)parts.push(`最高第 ${formatInteger(metrics.highestStage)} 关`)
     if(metrics.bestStreak>0)parts.push(`连抓 ${formatInteger(metrics.bestStreak)}`)
-    return parts.join(' · ')||'尚无纪录'
+    return parts.join(' · ')||null
   }
   if(id==='slingshot'&&metrics.bestHits>0)return `命中 ${formatInteger(metrics.bestHits)} 个目标`
   if(id==='rubiksCube'){
@@ -145,10 +147,14 @@ const formatRecord=(id,metrics)=>{
     const parts=[]
     if(metrics.gameA>0)parts.push(`A ${formatInteger(metrics.gameA)}`)
     if(metrics.gameB>0)parts.push(`B ${formatInteger(metrics.gameB)}`)
-    return parts.join(' · ')||'尚无纪录'
+    return parts.join(' · ')||null
   }
-  return '尚无纪录'
+  return null
 }
+
+const emptyRecord=id=>id==='dodgeball'
+  ?isEnglish?'No completed match yet':'尚未完成比赛'
+  :isEnglish?'No record yet':'尚无纪录'
 
 export function createPersonalRecords({store=getUserDataStore(),now=Date.now}={}) {
   const storage=store.registerNamespace(STORAGE_NAMESPACE,{version:STORAGE_VERSION,defaultValue:DEFAULT_VALUE,validate})
@@ -245,7 +251,9 @@ export function createPersonalRecords({store=getUserDataStore(),now=Date.now}={}
     const games=PERSONAL_GAME_CATALOG.map(game=>{
       const entry=value.games[game.id]??{firstPlayedAt:null,lastPlayedAt:null,metrics:{}}
       const mystery=mysteries.find(item=>item.id===game.id),hidden=Boolean(mystery&&!mystery.found)
-      return {...game,label:translateRuntimeText(hidden?'神秘掌机':game.label),hidden,played:Boolean(entry.firstPlayedAt),record:formatRecord(game.id,entry.metrics),metrics:{...entry.metrics}}
+      const bestRecord=formatBestRecord(game.id,entry.metrics)
+      return {...game,label:translateRuntimeText(hidden?'神秘掌机':game.label),hidden,played:Boolean(entry.firstPlayedAt),hasRecord:bestRecord!==null,
+        record:bestRecord??emptyRecord(game.id),metrics:{...entry.metrics}}
     })
     return {
       totals:{rooms:roomTotal,books:bookTotal,objectTypes:objectTypeTotal,games:PERSONAL_RECORD_TOTALS.games,mysteries:PERSONAL_RECORD_TOTALS.mysteries},

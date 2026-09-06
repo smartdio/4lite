@@ -18,6 +18,18 @@ const truncate=(context,text,maxWidth)=>{
   return `${value}…`
 }
 
+export function layoutPersonalGameRows(count,width,height) {
+  const portrait=height>width,left=74,top=205,right=width-42,columns=portrait?1:2
+  const rowsPerColumn=Math.max(1,Math.ceil(count/columns)),columnGap=portrait?0:28,rowGap=portrait?14:15
+  const rowWidth=(right-left-columnGap*(columns-1))/columns
+  // Reserve the footer and shrink spacing only when the current catalogue needs it.
+  const rowPitch=Math.min(portrait?82:91,(height-64-top+rowGap)/rowsPerColumn),rowHeight=rowPitch-rowGap
+  return Array.from({length:count},(_,index)=>({
+    left:left+Math.floor(index/rowsPerColumn)*(rowWidth+columnGap),
+    top:top+(index%rowsPerColumn)*rowPitch,width:rowWidth,height:rowHeight,
+  }))
+}
+
 export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   const scene=new THREE.Scene();scene.name='personal-record-book-overlay-scene'
   const camera=new THREE.OrthographicCamera(-1,1,1,-1,0,10);camera.position.z=1
@@ -35,7 +47,7 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   const panel=new THREE.Mesh(new THREE.PlaneGeometry(1,1),material);panel.name='personal-record-book-panel';panel.renderOrder=51;scene.add(panel)
 
   let active=false,page='overview',mode='book',viewModel=null
-  let displayBounds=null,actions=[],canvasTextureUploads=0
+  let displayBounds=null,actions=[],canvasTextureUploads=0,gameRows=[],bestRecordIds=[]
 
   const font=(size,{weight=500,family=FONT}={})=>`${weight} ${size}px ${family}`
   const fillText=(text,x,y,size,{color=COLORS.ink,align='left',weight=500,family=FONT,maxWidth=null}={})=>{
@@ -112,7 +124,8 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   }
   const drawBestRecords=(x,y,width)=>{
     fillText('我的最佳纪录',x,y+18,23,{color:COLORS.red});line(x,y+39,x+width,y+39,2,COLORS.line)
-    const records=viewModel.games.filter(game=>game.record!==translateRuntimeText('尚无纪录')).slice(0,6)
+    const records=viewModel.games.filter(game=>game.hasRecord).slice(0,6)
+    bestRecordIds=records.map(game=>game.id)
     if(!records.length){fillText('玩一次游戏，第一条纪录会留在这里。',x,y+84,19,{color:COLORS.muted,family:SANS});return}
     records.forEach((game,index)=>{
       const rowY=y+66+index*43
@@ -133,13 +146,9 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
     })
   }
   const drawGames=()=>{
-    const {width,height}=canvas,left=74,right=width-42,top=205,portrait=height>width
-    if(portrait){
-      viewModel.games.forEach((game,index)=>drawGameRow(left,top+index*82,right-left,68,game))
-    }else{
-      const gap=28,columnWidth=(right-left-gap)/2
-      viewModel.games.forEach((game,index)=>drawGameRow(left+(index>=6?columnWidth+gap:0),top+(index%6)*91,columnWidth,76,game))
-    }
+    gameRows=layoutPersonalGameRows(viewModel.games.length,canvas.width,canvas.height)
+      .map((bounds,index)=>({id:viewModel.games[index].id,...bounds}))
+    gameRows.forEach(({left,top,width,height},index)=>drawGameRow(left,top,width,height,viewModel.games[index]))
   }
   const drawGameRow=(x,y,width,height,game)=>{
     rect(x,y,width,height,{fill:game.played?'rgba(255,255,255,.11)':'rgba(96,77,47,.05)'})
@@ -195,7 +204,7 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
     fillText('Esc 关闭菜单',width/2,y+363,16,{align:'center',color:COLORS.muted,family:SANS})
   }
   const redraw=()=>{
-    actions=[]
+    actions=[];gameRows=[];bestRecordIds=[]
     if(mode==='menu')drawPauseMenu();else drawBook()
     texture.needsUpdate=true;canvasTextureUploads++
   }
@@ -203,6 +212,9 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
     const portrait=renderer.domElement.clientHeight>renderer.domElement.clientWidth
     const width=portrait?900:1400,height=portrait?1400:900
     if(canvas.width===width&&canvas.height===height)return false
+    // WebGL texture storage is immutable: release the old allocation before
+    // changing canvas dimensions, then reuse the same texture/material objects.
+    texture.dispose()
     canvas.width=width;canvas.height=height;return true
   }
   const resize=()=>{
@@ -240,6 +252,7 @@ export function createPersonalRecordBook({renderer,isTouchMode=()=>false}={}) {
   const snapshot=()=>({
     active,mode,page,displayBounds:displayBounds?{...displayBounds}:null,
     actions:actions.map(item=>({...item})),canvas:[canvas.width,canvas.height],drawObjects:active?2:0,
+    gameRows:gameRows.map(row=>({...row})),bestRecordIds:[...bestRecordIds],
     canvasTextureUploads,viewModel:viewModel?structuredClone(viewModel):null,
   })
 

@@ -1,4 +1,5 @@
 import {expect,test} from '@playwright/test'
+import {EXPECTED_DECODED_AUDIO_URLS} from './expected-runtime-resources.js'
 
 const ready=async page=>{
   await page.goto('/',{waitUntil:'networkidle',timeout:120000})
@@ -6,13 +7,14 @@ const ready=async page=>{
   await page.locator('#enter-campus').click()
   await page.locator('#experience-gate').waitFor({state:'hidden',timeout:30000})
   await page.evaluate(()=>window.__CAMPUS_TEST__.ready())
+  await page.evaluate(()=>window.__CAMPUS_TEST__.birdPause(true))
   await page.waitForTimeout(1000)
 }
 
 test('shared audio lifecycle cleans every interaction group after playback',async({page})=>{
   await ready(page)
   const before=await page.evaluate(()=>window.__CAMPUS_TEST__.audio())
-  expect(before).toMatchObject({decoded:37,loading:0,failures:0,activeVoices:0})
+  expect(before).toMatchObject({decoded:EXPECTED_DECODED_AUDIO_URLS,loading:0,failures:0,activeVoices:0})
   expect(before.groups).toEqual(expect.arrayContaining(['longJumpTakeoff','longJumpAir','longJumpLand']))
 
   await page.evaluate(async groups=>{

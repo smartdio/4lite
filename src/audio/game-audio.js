@@ -1,4 +1,6 @@
 const AUDIO_GROUPS={
+  birdChirp:['/assets/audio/birds/sparrow-01.ogg','/assets/audio/birds/sparrow-02.ogg'],
+  birdFlutter:['/assets/audio/birds/takeoff.ogg'],
   uiClick:['/assets/audio/ui/click_001.ogg','/assets/audio/ui/click_002.ogg'],
   uiConfirm:['/assets/audio/ui/confirmation_001.ogg','/assets/audio/ui/confirmation_002.ogg'],
   viewSwitch:['/assets/audio/ui/switch_001.ogg','/assets/audio/ui/switch_002.ogg'],
@@ -131,6 +133,17 @@ export function createGameAudio() {
     return true
   }
 
+  // Ambient wildlife must never resume the context or queue a stale sound.
+  const playReady=(group,options)=>{
+    if(!enabled||context?.state!=='running')return false
+    const choices=AUDIO_GROUPS[group]
+    if(!choices)return false
+    const buffer=buffers.get(randomItem(choices))
+    return buffer?startVoice(group,buffer,options):false
+  }
+  const stopGroup=group=>{
+    for(const voice of activeVoices)if(voice.group===group&&!voice.finished)try{voice.source.stop()}catch{}
+  }
   const playThrottled=(group,minimumIntervalMs,options)=>{
     const now=performance.now(),previous=lastPlayed.get(group)??-Infinity
     if(now-previous<minimumIntervalMs)return false
@@ -238,7 +251,7 @@ export function createGameAudio() {
   })
 
   return {
-    unlock,preload,play,playThrottled,playTone,startAmbient,updateAmbient,
+    unlock,preload,play,playReady,stopGroup,playThrottled,playTone,startAmbient,updateAmbient,
     snapshot:()=>({
       supported:Boolean(context),enabled,state:context?.state??'unsupported',plays,failures,
       decoded:buffers.size,expectedDecoded:PRELOAD_URLS.length,preloadUrls:[...PRELOAD_URLS],loading:loading.size,groups:Object.keys(AUDIO_GROUPS),

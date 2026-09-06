@@ -21,6 +21,7 @@
     "preview": "vite preview",
     "perf:build": "node scripts/performance/check-build.mjs",
     "test:unit": "node --test tests/unit/*.test.js",
+    "test:birds-preview": "playwright test --config playwright.birds.config.js",
     "verify:public": "node scripts/public/verify-public-repo.mjs",
     "test:performance": "npm run test:performance:full",
     "test:performance:full": "npm run build && npm run perf:build && npm run build:test && playwright test",
