@@ -3,7 +3,7 @@
 export const CAMPUS = {
   woodenSpaceShuttle: {
     url: '/assets/models/wooden-space-shuttle/wooden-space-shuttle-v01.glb',
-    classroom: 'b2-room-2-floor-1',
+    classroom: 'b2-room-1-floor-1',
     height: .40, deskOffset: [0, 0], confidence: 'C',
     // User-confirmed white gloss paint and iron-wire stand; dimensions are working values.
   },
