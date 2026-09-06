@@ -3,8 +3,8 @@ import assert from 'node:assert/strict'
 import * as THREE from 'three'
 import {createWoodenSpaceShuttle} from '../../src/wooden-space-shuttle.js'
 
-const config={url:'/shuttle.glb',classroom:'b2-room-1-floor-1',height:.4,deskOffset:[0,0]}
-const anchor={name:'b2-room-1-floor-1-east-teacher-desk',position:[3,1.46,-5],rotationY:-Math.PI/2}
+const config={url:'/shuttle.glb',classroom:'b2-room-3-floor-1',height:.4,deskOffset:[0,0]}
+const anchor={name:'b2-room-3-floor-1-east-teacher-desk',position:[3,1.46,-5],rotationY:-Math.PI/2}
 function asset(){const scene=new THREE.Group();const mesh=new THREE.Mesh(new THREE.BoxGeometry(.22,.4,.18),new THREE.MeshStandardMaterial());mesh.position.y=.2;scene.add(mesh);return {scene}}
 
 test('loads one full model, rotates to student side, and sits exactly on desktop',async()=>{
