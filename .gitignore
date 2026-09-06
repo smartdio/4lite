@@ -69,6 +69,8 @@ playwright-report/
 !/public/assets/models/basketball/
 !/public/assets/models/basketball/basketball-game-optimized-v01.glb
 !/public/assets/models/basketball/README.md
+!/public/assets/models/campus-birds/
+!/public/assets/models/campus-birds/campus-birds-v03.glb
 !/public/assets/audio/
 !/public/assets/audio/SOURCES.md
 !/public/assets/audio/ui/
@@ -90,6 +92,8 @@ playwright-report/
 !/public/assets/audio/ping-pong/*.ogg
 !/public/assets/audio/long-jump/
 !/public/assets/audio/long-jump/*.ogg
+!/public/assets/audio/birds/
+!/public/assets/audio/birds/*.ogg
 
 # Local ad-hoc review captures
 /b2-*.png
